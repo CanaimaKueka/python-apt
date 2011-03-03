@@ -1,3 +1,9 @@
+python-apt (0.7.100.2+canaima0) testing; urgency=low
+
+  * Versión inicial para Canaima GNU/Linux
+
+ -- Luis Alejandro Martínez Faneyth <martinez.faneyth@gmail.com>  Thu, 03 Mar 2011 15:45:23 -0430
+
 python-apt (0.7.100.1) unstable; urgency=low
 
   [ Julian Andres Klode ]
@@ -14,7 +20,7 @@ python-apt (0.7.100.1) unstable; urgency=low
   * tests/test_apt_cache.py:
     - fix tests to work if apt compressed indexes are enabled
 
- -- Julian Andres Klode <jak@debian.org>  Sun, 12 Dec 2010 14:30:33 +0100
+ -- Luis Alejandro Martínez Faneyth <martinez.faneyth@gmail.com>  Thu, 03 Mar 2011 15:45:23 -0430
 
 python-apt (0.7.100) unstable; urgency=low
 
