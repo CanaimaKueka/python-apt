@@ -3,8 +3,9 @@ python-apt (0.7.100.2-1canaima1) testing; urgency=low
   * Versión inicial para Canaima GNU/Linux
   * [8e05698] Debugging
   * [951929c] Corrigiendo patches
+  * [da22265] Agregando formato 3.0 (quilt)
 
- -- Luis Alejandro Martínez Faneyth <martinez.faneyth@gmail.com>  Fri, 23 Dec 2011 12:49:16 -0430
+ -- Luis Alejandro Martínez Faneyth <martinez.faneyth@gmail.com>  Fri, 23 Dec 2011 12:57:01 -0430
 
 python-apt (0.7.100.1) unstable; urgency=low
 
