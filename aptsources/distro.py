@@ -81,9 +81,9 @@ class Distribution(object):
         for template in self.sourceslist.matcher.templates:
             if (self.is_codename(template.name) and
                 template.distribution == self.id):
-                #print "yeah! found a template for %s" % self.description
-                #print template.description, template.base_uri, \
-                #    template.components
+                print "yeah! found a template for %s" % self.description
+                print template.description, template.base_uri, \
+                    template.components
                 self.source_template = template
                 break
         if self.source_template is None:
