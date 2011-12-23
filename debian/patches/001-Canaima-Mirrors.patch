@@ -1,0 +1,7 @@
+Index: python-apt-0.7.100.2+canaima0/data/templates/Canaima.mirrors
+===================================================================
+--- /dev/null	1970-01-01 00:00:00.000000000 +0000
++++ python-apt-0.7.100.2+canaima0/data/templates/Canaima.mirrors	2011-12-23 10:00:47.350635964 -0430
+@@ -0,0 +1,2 @@
++#LOC:VE
++http://repositorio.canaima.softwarelibre.gob.ve/
