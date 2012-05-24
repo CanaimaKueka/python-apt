@@ -1,4 +1,4 @@
-python-apt (0.7.100.2-1canaima1) testing; urgency=low
+python-apt (0.7.100.3-1canaima1) testing; urgency=low
 
   * Versión inicial para Canaima GNU/Linux
   * [8e05698] Debugging
