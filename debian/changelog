@@ -3,8 +3,9 @@ python-apt (0.7.100.3-1canaima2) testing; urgency=low
   * [b832e46] Agregando traducciones
   * [bc574d2] guardando modificaciones en series
   * [f3a6c5b] traduccion
+  * [0a37265] traduccion
 
- -- Sasha Veronica Solano Grosjean <sashasolano@gmail.com>  Wed, 13 Jun 2012 18:36:11 -0430
+ -- Sasha Veronica Solano Grosjean <sashasolano@gmail.com>  Wed, 13 Jun 2012 18:36:49 -0430
 
 python-apt (0.7.100.3-1canaima1) testing; urgency=low
 
