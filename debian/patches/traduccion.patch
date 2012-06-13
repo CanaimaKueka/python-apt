@@ -1,0 +1,194 @@
+Index: python-apt/po/es.po
+===================================================================
+--- python-apt.orig/po/es.po	2012-06-13 16:54:10.000000000 -0430
++++ python-apt/po/es.po	2012-06-13 18:30:39.000000000 -0430
+@@ -10,8 +10,8 @@
+ "Project-Id-Version: es\n"
+ "Report-Msgid-Bugs-To: \n"
+ "POT-Creation-Date: 2009-07-19 15:59+0200\n"
+-"PO-Revision-Date: 2006-10-16 04:15+0000\n"
+-"Last-Translator: Ricardo Pérez López <ricardo@iesdonana.org>\n"
++"PO-Revision-Date: 2012-06-13 18:30-0400\n"
++"Last-Translator: Sasha Solano <sashasolano@gmail.com>\n"
+ "Language-Team: Spanish <traductores@gnome.org>\n"
+ "MIME-Version: 1.0\n"
+ "Content-Type: text/plain; charset=UTF-8\n"
+@@ -224,7 +224,8 @@
+ msgstr "CD-ROM con Ubuntu 5.04 «Hoary Hedgehog»"
+ 
+ #. CompDescription
+-#: ../data/templates/Ubuntu.info.in:521 ../data/templates/Debian.info.in:148
++#: ../data/templates/Ubuntu.info.in:521
++#: ../data/templates/Debian.info.in:148
+ msgid "Officially supported"
+ msgstr "Soportado oficialmente"
+ 
+@@ -333,7 +334,7 @@
+ #. Description
+ #: ../data/templates/Debian.info.in:108
+ msgid "Debian current stable release"
+-msgstr ""
++msgstr "Canaima  versión estable actual"
+ 
+ #. Description
+ #: ../data/templates/Debian.info.in:121
+@@ -358,7 +359,8 @@
+ msgstr "Software no compatible con la DFSG"
+ 
+ #. TRANSLATORS: %s is a country
+-#: ../aptsources/distro.py:208 ../aptsources/distro.py:423
++#: ../aptsources/distro.py:208
++#: ../aptsources/distro.py:423
+ #, python-format
+ msgid "Server for %s"
+ msgstr "Servidor para %s"
+@@ -366,7 +368,8 @@
+ #. More than one server is used. Since we don't handle this case
+ #. in the user interface we set "custom servers" to true and
+ #. append a list of all used servers
+-#: ../aptsources/distro.py:226 ../aptsources/distro.py:232
++#: ../aptsources/distro.py:226
++#: ../aptsources/distro.py:232
+ #: ../aptsources/distro.py:248
+ msgid "Main server"
+ msgstr "Servidor principal"
+@@ -397,14 +400,15 @@
+ 
+ #: ../apt/progress/gtk2.py:373
+ msgid "Complete"
+-msgstr ""
++msgstr "Completo"
+ 
+ #: ../apt/package.py:301
+ #, python-format
+ msgid "Invalid unicode in description for '%s' (%s). Please report."
+-msgstr ""
++msgstr "No válido unicode en la descripción para '%s' (%s). Por favor reportar"
+ 
+-#: ../apt/package.py:937 ../apt/package.py:1043
++#: ../apt/package.py:937
++#: ../apt/package.py:1043
+ msgid "The list of changes is not available"
+ msgstr "La lista de cambios no se encuentra disponible."
+ 
+@@ -416,6 +420,10 @@
+ "Please use http://launchpad.net/ubuntu/+source/%s/%s/+changelog\n"
+ "until the changes become available or try again later."
+ msgstr ""
++"La Lista de cambios no esta disponible todavía.\n"
++"\n"
++"Por favor use http://launchpad.net/ubuntu/+source/%s/%s/+changelog\n"
++"hasta que los cambios estén disponibles o inténtelo de nuevo más tarde."
+ 
+ #: ../apt/package.py:1053
+ msgid ""
+@@ -428,36 +436,36 @@
+ #: ../apt/debfile.py:56
+ #, python-format
+ msgid "This is not a valid DEB archive, missing '%s' member"
+-msgstr ""
++msgstr "Esto no es un archivo DEB válido,  falta '%s' miembro"
+ 
+ #: ../apt/debfile.py:81
+ #, python-format
+ msgid "List of files for '%s'could not be read"
+-msgstr ""
++msgstr "Lista de archivos de '%s' no puede ser leida"
+ 
+ #: ../apt/debfile.py:149
+ #, python-format
+ msgid "Dependency is not satisfiable: %s\n"
+-msgstr ""
++msgstr "La dependencia no es satisfacible: %s\n"
+ 
+ #: ../apt/debfile.py:173
+ #, python-format
+ msgid "Conflicts with the installed package '%s'"
+-msgstr ""
++msgstr "Conflictos con el paquete instalado '%s'"
+ 
+ #: ../apt/debfile.py:319
+ #, python-format
+ msgid "Wrong architecture '%s'"
+-msgstr ""
++msgstr "Arquitectura incorrecta '%s'"
+ 
+ #. the deb is older than the installed
+ #: ../apt/debfile.py:325
+ msgid "A later version is already installed"
+-msgstr ""
++msgstr "Una versión posterior ya ha sido instalada"
+ 
+ #: ../apt/debfile.py:345
+ msgid "Failed to satisfy all dependencies (broken cache)"
+-msgstr ""
++msgstr "No se pudo satisfacer todas las dependencias (caché no funciona)"
+ 
+ #: ../apt/debfile.py:376
+ #, fuzzy, python-format
+@@ -467,7 +475,7 @@
+ #: ../apt/debfile.py:484
+ #, python-format
+ msgid "Install Build-Dependencies for source package '%s' that builds %s\n"
+-msgstr ""
++msgstr "Instalar dependencias de construcción para la fuente del paquete  '%s' que construye %s\n"
+ 
+ #: ../apt/debfile.py:494
+ #, fuzzy
+@@ -477,7 +485,7 @@
+ #: ../apt/progress/text.py:81
+ #, python-format
+ msgid "%c%s... Done"
+-msgstr ""
++msgstr "%c%s... Hecho"
+ 
+ #: ../apt/progress/text.py:118
+ msgid "Hit "
+@@ -489,15 +497,15 @@
+ 
+ #: ../apt/progress/text.py:128
+ msgid "Err "
+-msgstr ""
++msgstr "Error"
+ 
+ #: ../apt/progress/text.py:138
+ msgid "Get:"
+-msgstr ""
++msgstr "Obtener:"
+ 
+ #: ../apt/progress/text.py:198
+ msgid " [Working]"
+-msgstr ""
++msgstr " [Trabajando]"
+ 
+ #: ../apt/progress/text.py:208
+ #, python-format
+@@ -505,22 +513,23 @@
+ "Media change: please insert the disc labeled\n"
+ " '%s'\n"
+ "in the drive '%s' and press enter\n"
+-msgstr ""
++msgstr " Cambio de medio: por favor, inserte el disco etiquetado\n"
+ 
+ #. Trick for getting a translation from apt
+ #: ../apt/progress/text.py:216
+ #, python-format
+ msgid "Fetched %sB in %s (%sB/s)\n"
+-msgstr ""
++msgstr "Recuperados de %sB en %s (%sB/s)\n"
+ 
+ #: ../apt/progress/text.py:229
+ msgid "Please provide a name for this Disc, such as 'Debian 2.1r1 Disk 1'"
+-msgstr ""
++msgstr "Por favor, proporcione un nombre para este disco, tales como 'Canaima 2.1r1 Disco 1'"
+ 
+ #: ../apt/progress/text.py:241
+ msgid "Please insert a Disc in the drive and press enter"
+-msgstr ""
++msgstr "Por favor Inserte un disco en la unidad y presione enter "
+ 
+ #: ../apt/cache.py:96
+ msgid "Building data structures"
+-msgstr ""
++msgstr "Construyendo la estructuras de los datos"
++
