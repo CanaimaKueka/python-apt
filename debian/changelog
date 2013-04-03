@@ -1,3 +1,9 @@
+python-apt (0.8.8.2Canaima2) unstable; urgency=low
+
+  * [a771f90] Borrando residuos de compilación.
+
+ -- Sasha Verónica Solano Grosjean <sashasolano@gmail.com>  Wed, 03 Apr 2013 21:14:16 +0000
+
 python-apt (0.8.8.2Canaima1) unstable; urgency=low
 
   [ David Prévot ]
