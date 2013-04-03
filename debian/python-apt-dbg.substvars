@@ -1,0 +1,5 @@
+misc:Depends=python-apt
+python:Versions=2.6, 2.7
+python:Provides=python2.6-apt-dbg, python2.7-apt-dbg
+python:Depends=python-dbg (>= 2.6), python-dbg (<< 2.8)
+shlibs:Depends=libapt-inst1.5 (>= 0.8.11), libapt-pkg4.12 (>= 0.8.16~exp9), libc6 (>= 2.2), libc6 (>= 2.3.6-6~), libgcc1 (>= 1:4.1.1), libstdc++6 (>= 4.1.1)

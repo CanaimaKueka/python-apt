@@ -1,7 +1,93 @@
-Index: python-apt-0.7.100.2+canaima0/data/templates/Canaima.mirrors
+Index: python-apt/data/templates/Canaima.mirrors
 ===================================================================
 --- /dev/null	1970-01-01 00:00:00.000000000 +0000
-+++ python-apt-0.7.100.2+canaima0/data/templates/Canaima.mirrors	2011-12-23 10:00:47.350635964 -0430
++++ python-apt/data/templates/Canaima.mirrors	2013-04-03 14:45:09.528607242 -0430
 @@ -0,0 +1,2 @@
 +#LOC:VE
-+http://repositorio.canaima.softwarelibre.gob.ve/
++http://paquetes.canaima.softwarelibre.gob.ve/
+Index: python-apt/data/templates/Canaima.info.in
+===================================================================
+--- python-apt.orig/data/templates/Canaima.info.in	2013-04-03 14:38:19.124587380 -0430
++++ python-apt/data/templates/Canaima.info.in	2013-04-03 14:55:26.832637119 -0430
+@@ -1,31 +1,18 @@
+ _ChangelogURI: http://packages.debian.org/changelogs/pool/%s/%s/%s/%s_%s/changelog
+ 
+-Suite: squeeze
++Suite: kepakupai
+ RepositoryType: deb
+-BaseURI: http://universo.canaima.softwarelibre.gob.ve/
+-MatchURI: universo.canaima.softwarelibre.gob.ve
+-MirrorsFile: Debian.mirrors
+-_Description: Mirror Debian
+-Component: main
+-_CompDescription: Componentes Principales
+-Component: contrib
+-_CompDescription: Componentes Comunitarios
+-Component: non-free
+-_CompDescription: Componentes No Libres
+-
+-Suite: kukenan
+-RepositoryType: deb
+-BaseURI: http://repositorio.canaima.softwarelibre.gob.ve/
+-MatchURI: repositorio.canaima.softwarelibre.gob.ve
++BaseURI: http://paquetes.canaima.softwarelibre.gob.ve/
++MatchURI: paquetes.canaima.softwarelibre.gob.ve
+ MirrorsFile: Canaima.mirrors
+-_Description: Canaima 3.2 (kukenan)
++_Description: Canaima 4.0 (kepakupai)
+ Component: usuarios
+ _CompDescription: Distribución para usuarios
+ 
+ Suite: auyantepui
+ RepositoryType: deb
+-BaseURI: http://repositorio.canaima.softwarelibre.gob.ve/
+-MatchURI: repositorio.canaima.softwarelibre.gob.ve
++BaseURI: http://paquetes.canaima.softwarelibre.gob.ve/
++MatchURI: paquetes.canaima.softwarelibre.gob.ve
+ MirrorsFile: Canaima.mirrors
+ _Description: Canaima 3.1 (auyantepui)
+ Component: usuarios
+@@ -33,8 +20,8 @@
+ 
+ Suite: roraima
+ RepositoryType: deb
+-BaseURI: http://repositorio.canaima.softwarelibre.gob.ve/
+-MatchURI: repositorio.canaima.softwarelibre.gob.ve
++BaseURI: http://paquetes.canaima.softwarelibre.gob.ve/
++MatchURI: paquetes.canaima.softwarelibre.gob.ve
+ MirrorsFile: Canaima.mirrors
+ _Description: Canaima 3.0 (roraima)
+ Component: usuarios
+@@ -42,8 +29,8 @@
+ 
+ Suite: estable
+ RepositoryType: deb
+-BaseURI: http://repositorio.canaima.softwarelibre.gob.ve/
+-MatchURI: repositorio.canaima.softwarelibre.gob.ve
++BaseURI: http://paquetes.canaima.softwarelibre.gob.ve/
++MatchURI: paquetes.canaima.softwarelibre.gob.ve
+ MirrorsFile: Canaima.mirrors
+ _Description: Canaima GNU/Linux (Estable)
+ Component: usuarios
+@@ -51,8 +38,8 @@
+ 
+ Suite: pruebas
+ RepositoryType: deb
+-BaseURI: http://repositorio.canaima.softwarelibre.gob.ve/
+-MatchURI: repositorio.canaima.softwarelibre.gob.ve
++BaseURI: http://paquetes.canaima.softwarelibre.gob.ve/
++MatchURI: paquetes.canaima.softwarelibre.gob.ve
+ MirrorsFile: Canaima.mirrors
+ _Description: Canaima GNU/Linux (Pruebas)
+ Component: usuarios
+@@ -60,8 +47,8 @@
+ 
+ Suite: desarrollo
+ RepositoryType: deb
+-BaseURI: http://repositorio.canaima.softwarelibre.gob.ve/
+-MatchURI: repositorio.canaima.softwarelibre.gob.ve
++BaseURI: http://paquetes.canaima.softwarelibre.gob.ve/
++MatchURI: paquetes.canaima.softwarelibre.gob.ve
+ MirrorsFile: Canaima.mirrors
+ _Description: Canaima GNU/Linux (Desarrollo)
+ Component: usuarios

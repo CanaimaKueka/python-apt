@@ -28,6 +28,8 @@ inline bool setattr(PyObject *object, const char *attr, const char *fmt, T arg)
     if (!object)
         return false;
     PyObject *value = Py_BuildValue(fmt, arg);
+    if (value == NULL)
+       return false;
 
     int result = PyObject_SetAttrString(object, attr, value);
     Py_DECREF(value);
@@ -92,12 +94,12 @@ void PyOpProgress::Update()
    setattr(callbackInst, "op", "s", Op.c_str());
    setattr(callbackInst, "subop", "s", SubOp.c_str());
    setattr(callbackInst, "major_change", "b", MajorChange);
-   setattr(callbackInst, "percent", "f", Percent);
+   setattr(callbackInst, "percent", "N", MkPyNumber(Percent));
 #ifdef COMPAT_0_7
    setattr(callbackInst, "Op", "s", Op.c_str());
    setattr(callbackInst, "subOp", "s", SubOp.c_str());
    setattr(callbackInst, "majorChange", "b", MajorChange);
-   PyObject *arglist = Py_BuildValue("(f)", Percent);
+   PyObject *arglist = Py_BuildValue("(N)", MkPyNumber(Percent));
    RunSimpleCallback("update", arglist);
 #else
    RunSimpleCallback("update");
@@ -127,7 +129,7 @@ PyObject *PyFetchProgress::GetDesc(pkgAcquire::ItemDesc *item) {
     return pyDesc;
 }
 
-bool PyFetchProgress::MediaChange(string Media, string Drive)
+bool PyFetchProgress::MediaChange(std::string Media, std::string Drive)
 {
    PyCbObj_END_ALLOW_THREADS
    //std::cout << "MediaChange" << std::endl;
@@ -156,19 +158,19 @@ void PyFetchProgress::UpdateStatus(pkgAcquire::ItemDesc &Itm, int status)
    // Added object file size and object partial size to
    // parameters that are passed to updateStatus.
    // -- Stephan
-   PyObject *arglist = Py_BuildValue("(sssikk)", Itm.URI.c_str(),
+   PyObject *arglist = Py_BuildValue("(sssNNN)", Itm.URI.c_str(),
 				     Itm.Description.c_str(),
 				     Itm.ShortDesc.c_str(),
-				     status,
-				     Itm.Owner->FileSize,
-				     Itm.Owner->PartialSize);
+				     MkPyNumber(status),
+				     MkPyNumber(Itm.Owner->FileSize),
+				     MkPyNumber(Itm.Owner->PartialSize));
 
    RunSimpleCallback("update_status_full", arglist);
 
    // legacy version of the interface
 
-   arglist = Py_BuildValue("(sssi)", Itm.URI.c_str(), Itm.Description.c_str(),
-                           Itm.ShortDesc.c_str(), status);
+   arglist = Py_BuildValue("(sssN)", Itm.URI.c_str(), Itm.Description.c_str(),
+                           Itm.ShortDesc.c_str(), MkPyNumber(status));
 
    if(PyObject_HasAttrString(callbackInst, "updateStatus"))
       RunSimpleCallback("updateStatus", arglist);
@@ -240,11 +242,11 @@ void PyFetchProgress::Start()
    pkgAcquireStatus::Start();
 
 #ifdef COMPAT_0_7
-   setattr(callbackInst, "currentCPS", "d", 0);
-   setattr(callbackInst, "currentBytes", "d", 0);
-   setattr(callbackInst, "currentItems", "k", 0);
-   setattr(callbackInst, "totalItems", "k", 0);
-   setattr(callbackInst, "totalBytes", "d", 0);
+   setattr(callbackInst, "currentCPS", "N", MkPyNumber(0));
+   setattr(callbackInst, "currentBytes", "N", MkPyNumber(0));
+   setattr(callbackInst, "currentItems", "N", MkPyNumber(0));
+   setattr(callbackInst, "totalItems", "N", MkPyNumber(0));
+   setattr(callbackInst, "totalBytes", "N", MkPyNumber(0));
 #endif
 
    RunSimpleCallback("start");
@@ -280,14 +282,14 @@ bool PyFetchProgress::Pulse(pkgAcquire * Owner)
       return false;
    }
 
-   setattr(callbackInst, "last_bytes", "d", LastBytes);
-   setattr(callbackInst, "current_cps", "d", CurrentCPS);
-   setattr(callbackInst, "current_bytes", "d", CurrentBytes);
-   setattr(callbackInst, "total_bytes", "d", TotalBytes);
-   setattr(callbackInst, "fetched_bytes", "d", FetchedBytes);
-   setattr(callbackInst, "elapsed_time", "k", ElapsedTime);
-   setattr(callbackInst, "current_items", "k", CurrentItems);
-   setattr(callbackInst, "total_items", "k", TotalItems);
+   setattr(callbackInst, "last_bytes", "N", MkPyNumber(LastBytes));
+   setattr(callbackInst, "current_cps", "N", MkPyNumber(CurrentCPS));
+   setattr(callbackInst, "current_bytes", "N", MkPyNumber(CurrentBytes));
+   setattr(callbackInst, "total_bytes", "N", MkPyNumber(TotalBytes));
+   setattr(callbackInst, "fetched_bytes", "N", MkPyNumber(FetchedBytes));
+   setattr(callbackInst, "elapsed_time", "N", MkPyNumber(ElapsedTime));
+   setattr(callbackInst, "current_items", "N", MkPyNumber(CurrentItems));
+   setattr(callbackInst, "total_items", "N", MkPyNumber(TotalItems));
 
    // New style
    if (!PyObject_HasAttrString(callbackInst, "updateStatus")) {
@@ -313,12 +315,12 @@ bool PyFetchProgress::Pulse(pkgAcquire * Owner)
      return true;
    }
 #ifdef COMPAT_0_7
-   setattr(callbackInst, "currentCPS", "d", CurrentCPS);
-   setattr(callbackInst, "currentBytes", "d", CurrentBytes);
-   setattr(callbackInst, "totalBytes", "d", TotalBytes);
-   setattr(callbackInst, "fetchedBytes", "d", FetchedBytes);
-   setattr(callbackInst, "currentItems", "k", CurrentItems);
-   setattr(callbackInst, "totalItems", "k", TotalItems);
+   setattr(callbackInst, "currentCPS", "N", MkPyNumber(CurrentCPS));
+   setattr(callbackInst, "currentBytes", "N", MkPyNumber(CurrentBytes));
+   setattr(callbackInst, "totalBytes", "N", MkPyNumber(TotalBytes));
+   setattr(callbackInst, "fetchedBytes", "N", MkPyNumber(FetchedBytes));
+   setattr(callbackInst, "currentItems", "N", MkPyNumber(CurrentItems));
+   setattr(callbackInst, "totalItems", "N", MkPyNumber(TotalItems));
    // Go through the list of items and add active items to the
    // activeItems vector.
    map<pkgAcquire::Worker *, pkgAcquire::ItemDesc *> activeItemMap;
@@ -351,11 +353,11 @@ bool PyFetchProgress::Pulse(pkgAcquire * Owner)
        pkgAcquire::Worker *worker = iter->first;
        pkgAcquire::ItemDesc *itm = iter->second;
 
-       PyObject *itmTuple = Py_BuildValue("(ssskk)", itm->URI.c_str(),
+       PyObject *itmTuple = Py_BuildValue("(sssNN)", itm->URI.c_str(),
 					  itm->Description.c_str(),
 					  itm->ShortDesc.c_str(),
-					  worker->TotalSize,
-					  worker->CurrentSize);
+					  MkPyNumber(worker->TotalSize),
+					  MkPyNumber(worker->CurrentSize));
        PyTuple_SetItem(itemsTuple, tuplePos, itmTuple);
      }
 
@@ -399,7 +401,9 @@ bool PyFetchProgress::Pulse(pkgAcquire * Owner)
    {
       // most of the time the user who subclasses the pulse()
       // method forgot to add a return {True,False} so we just
-      // assume he wants a True
+      // assume he wants a True.  There may be a Python exception on the stack
+      // that must be cleared.
+      PyErr_Clear();
       PyCbObj_BEGIN_ALLOW_THREADS
       return true;
    }
@@ -483,7 +487,7 @@ pkgPackageManager::OrderResult PyInstallProgress::Run(pkgPackageManager *pm)
       PyObject *v = PyObject_GetAttrString(callbackInst, "writefd");
       if(v) {
 	 int fd = PyObject_AsFileDescriptor(v);
-	 cout << "got fd: " << fd << endl;
+         std::cout << "got fd: " << fd << std::endl;
 	 res = pm->DoInstall(fd);
       } else {
 	 res = pm->DoInstall();
@@ -540,7 +544,7 @@ pkgPackageManager::OrderResult PyInstallProgress::Run(pkgPackageManager *pm)
 //-----------------------------------------------------------------------------
 // apt-cdrom interface
 
-void PyCdromProgress::Update(string text, int current)
+void PyCdromProgress::Update(std::string text, int current)
 {
    PyObject *arglist = Py_BuildValue("(si)", text.c_str(), current);
    setattr(callbackInst, "total_steps", "i", totalSteps);
@@ -567,7 +571,7 @@ bool PyCdromProgress::ChangeCdrom()
 }
 
 
-bool PyCdromProgress::AskCdromName(string &Name)
+bool PyCdromProgress::AskCdromName(std::string &Name)
 {
    PyObject *arglist = Py_BuildValue("()");
    const char *new_name;
@@ -580,7 +584,7 @@ bool PyCdromProgress::AskCdromName(string &Name)
       if(!PyArg_Parse(result, "(bs)", &res, &new_name))
          std::cerr << "AskCdromName: result could not be parsed" << std::endl;
       // set the new name
-      Name = string(new_name);
+      Name =std:: string(new_name);
       return res;
    }
    // New style: String on success, None on failure.
@@ -591,7 +595,7 @@ bool PyCdromProgress::AskCdromName(string &Name)
         if(!PyArg_Parse(result, "s", &new_name))
             std::cerr << "ask_cdrom_name: result could not be parsed" << std::endl;
         else
-            Name = string(new_name);
-            return true;
+           Name = std::string(new_name);
+        return true;
   }
 }

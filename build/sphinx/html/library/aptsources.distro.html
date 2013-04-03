@@ -1,0 +1,236 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>aptsources.distro — Distribution abstraction of the sources.list &mdash; python-apt 0.8.8.2Canaima1 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.8.8.2Canaima1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="python-apt 0.8.8.2Canaima1 documentation" href="../index.html" />
+    <link rel="up" title="Python APT Library" href="index.html" />
+    <link rel="next" title="aptsources.sourceslist — Provide an abstraction of the sources.list" href="aptsources.sourceslist.html" />
+    <link rel="prev" title="aptsources.distinfo — provide meta information for distro repositories" href="aptsources.distinfo.html" />
+    <link rel="shortcut icon" type="image/png" href="../_static/py.png" />
+ 
+
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="aptsources.sourceslist.html" title="aptsources.sourceslist — Provide an abstraction of the sources.list"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="aptsources.distinfo.html" title="aptsources.distinfo — provide meta information for distro repositories"
+             accesskey="P">previous</a> |</li>
+        <li><img src="../_static/py.png" alt=""
+                 style="vertical-align: middle; margin-top: -1px"/></li>
+        <li><a href="../index.html">python-apt 0.8.8.2Canaima1 documentation</a> &raquo;</li>
+
+          <li><a href="index.html" accesskey="U">Python APT Library</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="aptsources-distro-distribution-abstraction-of-the-sources-list">
+<h1><a class="reference internal" href="#module-aptsources.distro" title="aptsources.distro"><tt class="xref py py-mod docutils literal"><span class="pre">aptsources.distro</span></tt></a> &#8212; Distribution abstraction of the sources.list<a class="headerlink" href="#aptsources-distro-distribution-abstraction-of-the-sources-list" title="Permalink to this headline">¶</a></h1>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This part of the documentation is created automatically.</p>
+</div>
+<span class="target" id="module-aptsources.distro"></span><dl class="class">
+<dt id="aptsources.distro.DebianDistribution">
+<em class="property">class </em><tt class="descclassname">aptsources.distro.</tt><tt class="descname">DebianDistribution</tt><big>(</big><em>id</em>, <em>codename</em>, <em>description</em>, <em>release</em><big>)</big><a class="headerlink" href="#aptsources.distro.DebianDistribution" title="Permalink to this definition">¶</a></dt>
+<dd><p>Class to support specific Debian features</p>
+<dl class="method">
+<dt id="aptsources.distro.DebianDistribution.get_mirrors">
+<tt class="descname">get_mirrors</tt><big>(</big><big>)</big><a class="headerlink" href="#aptsources.distro.DebianDistribution.get_mirrors" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="aptsources.distro.DebianDistribution.is_codename">
+<tt class="descname">is_codename</tt><big>(</big><em>name</em><big>)</big><a class="headerlink" href="#aptsources.distro.DebianDistribution.is_codename" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compare a given name with the release codename and check if
+if it can be used as a synonym for a development releases</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="aptsources.distro.Distribution">
+<em class="property">class </em><tt class="descclassname">aptsources.distro.</tt><tt class="descname">Distribution</tt><big>(</big><em>id</em>, <em>codename</em>, <em>description</em>, <em>release</em><big>)</big><a class="headerlink" href="#aptsources.distro.Distribution" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="aptsources.distro.Distribution.add_source">
+<tt class="descname">add_source</tt><big>(</big><em>type=None</em>, <em>uri=None</em>, <em>dist=None</em>, <em>comps=None</em>, <em>comment=''</em><big>)</big><a class="headerlink" href="#aptsources.distro.Distribution.add_source" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add distribution specific sources</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="aptsources.distro.Distribution.change_server">
+<tt class="descname">change_server</tt><big>(</big><em>uri</em><big>)</big><a class="headerlink" href="#aptsources.distro.Distribution.change_server" title="Permalink to this definition">¶</a></dt>
+<dd><p>Change the server of all distro specific sources to
+a given host</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="aptsources.distro.Distribution.disable_component">
+<tt class="descname">disable_component</tt><big>(</big><em>comp</em><big>)</big><a class="headerlink" href="#aptsources.distro.Distribution.disable_component" title="Permalink to this definition">¶</a></dt>
+<dd><p>Disable a component in all main, child and source code sources
+(excluding cdrom based sources)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="aptsources.distro.Distribution.enable_component">
+<tt class="descname">enable_component</tt><big>(</big><em>comp</em><big>)</big><a class="headerlink" href="#aptsources.distro.Distribution.enable_component" title="Permalink to this definition">¶</a></dt>
+<dd><p>Enable a component in all main, child and source code sources
+(excluding cdrom based sources)</p>
+<p>comp:         the component that should be enabled</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="aptsources.distro.Distribution.get_mirrors">
+<tt class="descname">get_mirrors</tt><big>(</big><em>mirror_template=None</em><big>)</big><a class="headerlink" href="#aptsources.distro.Distribution.get_mirrors" title="Permalink to this definition">¶</a></dt>
+<dd><p>Provide a set of mirrors where you can get the distribution from</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="aptsources.distro.Distribution.get_server_list">
+<tt class="descname">get_server_list</tt><big>(</big><big>)</big><a class="headerlink" href="#aptsources.distro.Distribution.get_server_list" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a list of used and suggested servers</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="aptsources.distro.Distribution.get_sources">
+<tt class="descname">get_sources</tt><big>(</big><em>sourceslist</em><big>)</big><a class="headerlink" href="#aptsources.distro.Distribution.get_sources" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find the corresponding template, main and child sources
+for the distribution</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="aptsources.distro.Distribution.is_codename">
+<tt class="descname">is_codename</tt><big>(</big><em>name</em><big>)</big><a class="headerlink" href="#aptsources.distro.Distribution.is_codename" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compare a given name with the release codename.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="exception">
+<dt id="aptsources.distro.NoDistroTemplateException">
+<em class="property">exception </em><tt class="descclassname">aptsources.distro.</tt><tt class="descname">NoDistroTemplateException</tt><a class="headerlink" href="#aptsources.distro.NoDistroTemplateException" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="class">
+<dt id="aptsources.distro.UbuntuDistribution">
+<em class="property">class </em><tt class="descclassname">aptsources.distro.</tt><tt class="descname">UbuntuDistribution</tt><big>(</big><em>id</em>, <em>codename</em>, <em>description</em>, <em>release</em><big>)</big><a class="headerlink" href="#aptsources.distro.UbuntuDistribution" title="Permalink to this definition">¶</a></dt>
+<dd><p>Class to support specific Ubuntu features</p>
+<dl class="method">
+<dt id="aptsources.distro.UbuntuDistribution.get_mirrors">
+<tt class="descname">get_mirrors</tt><big>(</big><big>)</big><a class="headerlink" href="#aptsources.distro.UbuntuDistribution.get_mirrors" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="aptsources.distro.get_distro">
+<tt class="descclassname">aptsources.distro.</tt><tt class="descname">get_distro</tt><big>(</big><em>id=None</em>, <em>codename=None</em>, <em>description=None</em>, <em>release=None</em><big>)</big><a class="headerlink" href="#aptsources.distro.get_distro" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check the currently used distribution and return the corresponding
+distriubtion class that supports distro specific features.</p>
+<p>If no paramter are given the distro will be auto detected via
+a call to lsb-release</p>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="aptsources.distinfo.html"
+                        title="previous chapter"><tt class="docutils literal docutils literal docutils literal"><span class="pre">aptsources.distinfo</span></tt> &#8212; provide meta information for distro repositories</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="aptsources.sourceslist.html"
+                        title="next chapter"><tt class="docutils literal"><span class="pre">aptsources.sourceslist</span></tt> &#8212; Provide an abstraction of the sources.list</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/library/aptsources.distro.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="aptsources.sourceslist.html" title="aptsources.sourceslist — Provide an abstraction of the sources.list"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="aptsources.distinfo.html" title="aptsources.distinfo — provide meta information for distro repositories"
+             >previous</a> |</li>
+        <li><img src="../_static/py.png" alt=""
+                 style="vertical-align: middle; margin-top: -1px"/></li>
+        <li><a href="../index.html">python-apt 0.8.8.2Canaima1 documentation</a> &raquo;</li>
+
+          <li><a href="index.html" >Python APT Library</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2009-2010, Julian Andres Klode &lt;jak@debian.org&gt;.
+      Last updated on Apr 03, 2013.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

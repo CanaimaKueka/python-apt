@@ -27,14 +27,15 @@ class TestProgress(unittest.TestCase):
         apt_pkg.init()
         apt_pkg.config.set("APT::Architecture", "amd64")
         apt_pkg.config.set("Dir::Etc", basedir)
-        apt_pkg.config.set("Dir::Etc::sourceparts", "/xxx")
+        apt_pkg.config.set("Dir::Etc::sourceparts", "/tmp")
         # setup lists dir
         if not os.path.exists("./tmp/partial"):
             os.makedirs("./tmp/partial")
         apt_pkg.config.set("Dir::state::lists", "./tmp")
         # create artifical line
         deb_line = "deb file:%s/data/fake-packages/ /\n" % basedir
-        open("fetch_sources.list","w").write(deb_line)
+        with open("fetch_sources.list","w") as fobj:
+            fobj.write(deb_line)
         apt_pkg.config.set("Dir::Etc::sourcelist", "fetch_sources.list")
 
     def test_acquire_progress(self):

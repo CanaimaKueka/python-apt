@@ -22,6 +22,7 @@
 #include <apt-pkg/sourcelist.h>
 #include <apt-pkg/pkgrecords.h>
 #include <apt-pkg/acquire-item.h>
+#include <apt-pkg/fileutl.h>
 #include <Python.h>
 
 #include <iostream>
@@ -182,6 +183,30 @@ static PyObject *PkgDepCacheCommit(PyObject *Self,PyObject *Args)
    }
 
    return HandleErrors(Py_None);
+}
+
+static PyObject *PkgDepCacheSetCandidateRelease(PyObject *Self,PyObject *Args)
+{
+   bool Success;
+   PyObject *PackageObj;
+   PyObject *VersionObj;
+   const char *target_rel;
+   std::list<std::pair<pkgCache::VerIterator, pkgCache::VerIterator> > Changed;
+   if (PyArg_ParseTuple(Args,"O!O!s",
+			&PyPackage_Type, &PackageObj,
+                        &PyVersion_Type, &VersionObj,
+                        &target_rel) == 0)
+      return 0;
+
+   pkgDepCache *depcache = GetCpp<pkgDepCache *>(Self);
+   pkgCache::VerIterator &I = GetCpp<pkgCache::VerIterator>(VersionObj);
+   if(I.end()) {
+      return HandleErrors(PyBool_FromLong(false));
+   }
+
+   Success = depcache->SetCandidateRelease(I, target_rel, Changed);
+
+   return HandleErrors(PyBool_FromLong(Success));
 }
 
 static PyObject *PkgDepCacheSetCandidateVer(PyObject *Self,PyObject *Args)
@@ -552,6 +577,12 @@ static PyMethodDef PkgDepCacheMethods[] =
    {"set_candidate_ver",PkgDepCacheSetCandidateVer,METH_VARARGS,
     "set_candidate_ver(pkg: apt_pkg.Package, ver: apt_pkg.Version) -> bool\n\n"
     "Set the candidate version of 'pkg' to 'ver'."},
+   {"set_candidate_release",PkgDepCacheSetCandidateRelease,METH_VARARGS,
+    "set_candidate_release(pkg: apt_pkg.Package, ver: apt_pkg.Version, rel: string) -> bool\n\n"
+    "Sets not only the candidate version 'ver' for package 'pkg', "
+    "but walks also down the dependency tree and checks if it is required "
+    "to set the candidate of the dependency to a version from the given "
+    "release string 'rel', too."},
 
    // global cache operations
    {"upgrade",PkgDepCacheUpgrade,METH_VARARGS,
@@ -638,22 +669,22 @@ static PyMethodDef PkgDepCacheMethods[] =
 
 #define depcache (GetCpp<pkgDepCache *>(Self))
 static PyObject *PkgDepCacheGetKeepCount(PyObject *Self,void*) {
-   return Py_BuildValue("l", depcache->KeepCount());
+   return MkPyNumber(depcache->KeepCount());
 }
 static PyObject *PkgDepCacheGetInstCount(PyObject *Self,void*) {
-   return Py_BuildValue("l", depcache->InstCount());
+   return MkPyNumber(depcache->InstCount());
 }
 static PyObject *PkgDepCacheGetDelCount(PyObject *Self,void*) {
-   return Py_BuildValue("l", depcache->DelCount());
+   return MkPyNumber(depcache->DelCount());
 }
 static PyObject *PkgDepCacheGetBrokenCount(PyObject *Self,void*) {
-   return Py_BuildValue("l", depcache->BrokenCount());
+   return MkPyNumber(depcache->BrokenCount());
 }
 static PyObject *PkgDepCacheGetUsrSize(PyObject *Self,void*) {
-   return Py_BuildValue("L", depcache->UsrSize());
+   return MkPyNumber(depcache->UsrSize());
 }
 static PyObject *PkgDepCacheGetDebSize(PyObject *Self,void*) {
-   return Py_BuildValue("L", depcache->DebSize());
+   return MkPyNumber(depcache->DebSize());
 }
 #undef depcache
 
@@ -989,7 +1020,8 @@ static const char *actiongroup__enter__doc =
 static PyObject *PkgActionGroupEnter(PyObject *Self,PyObject *Args) {
    if (PyArg_ParseTuple(Args,"") == 0)
       return 0;
-    return Self;
+   Py_INCREF(Self);
+   return Self;
 }
 
 static const char *actiongroup__exit__doc =

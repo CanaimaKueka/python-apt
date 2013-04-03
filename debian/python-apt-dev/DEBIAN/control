@@ -1,0 +1,17 @@
+Package: python-apt-dev
+Source: python-apt
+Version: 0.8.8.2Canaima1
+Architecture: all
+Maintainer: Equipo de Desarrollo de Canaima GNU/Linux <desarrolladores@canaima.softwarelibre.gob.ve>
+Installed-Size: 67
+Depends: python-apt (>= 0.8.8.2Canaima1), libapt-pkg-dev (>= 0.7.10)
+Recommends: python-dev
+Section: python
+Priority: optional
+Description: Python interface to libapt-pkg (development files)
+ The apt_pkg Python interface will provide full access to the internal
+ libapt-pkg structures allowing Python programs to easily perform a
+ variety of functions.
+ .
+ This package contains the header files needed to use python-apt objects from
+ C++ applications.

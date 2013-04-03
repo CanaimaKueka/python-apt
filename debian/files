@@ -1,0 +1,7 @@
+python-apt_0.8.8.2Canaima1_i386.deb python standard
+python-apt-doc_0.8.8.2Canaima1_all.deb doc optional
+python-apt-dbg_0.8.8.2Canaima1_i386.deb debug extra
+python-apt-dev_0.8.8.2Canaima1_all.deb python optional
+python-apt-common_0.8.8.2Canaima1_all.deb python optional
+python3-apt_0.8.8.2Canaima1_i386.deb python optional
+python3-apt-dbg_0.8.8.2Canaima1_i386.deb debug extra

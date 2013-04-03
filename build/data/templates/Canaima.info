@@ -1,0 +1,56 @@
+ChangelogURI: http://packages.debian.org/changelogs/pool/%s/%s/%s/%s_%s/changelog
+
+Suite: kepakupai
+RepositoryType: deb
+BaseURI: http://paquetes.canaima.softwarelibre.gob.ve/
+MatchURI: paquetes.canaima.softwarelibre.gob.ve
+MirrorsFile: Canaima.mirrors
+Description: Canaima 4.0 (kepakupai)
+Component: usuarios
+CompDescription: Distribución para usuarios
+
+Suite: auyantepui
+RepositoryType: deb
+BaseURI: http://paquetes.canaima.softwarelibre.gob.ve/
+MatchURI: paquetes.canaima.softwarelibre.gob.ve
+MirrorsFile: Canaima.mirrors
+Description: Canaima 3.1 (auyantepui)
+Component: usuarios
+CompDescription: Distribución para usuarios
+
+Suite: roraima
+RepositoryType: deb
+BaseURI: http://paquetes.canaima.softwarelibre.gob.ve/
+MatchURI: paquetes.canaima.softwarelibre.gob.ve
+MirrorsFile: Canaima.mirrors
+Description: Canaima 3.0 (roraima)
+Component: usuarios
+CompDescription: Distribución para usuarios
+
+Suite: estable
+RepositoryType: deb
+BaseURI: http://paquetes.canaima.softwarelibre.gob.ve/
+MatchURI: paquetes.canaima.softwarelibre.gob.ve
+MirrorsFile: Canaima.mirrors
+Description: Canaima GNU/Linux (Estable)
+Component: usuarios
+CompDescription: Repositorio Estable
+
+Suite: pruebas
+RepositoryType: deb
+BaseURI: http://paquetes.canaima.softwarelibre.gob.ve/
+MatchURI: paquetes.canaima.softwarelibre.gob.ve
+MirrorsFile: Canaima.mirrors
+Description: Canaima GNU/Linux (Pruebas)
+Component: usuarios
+CompDescription: Repositorio de Pruebas
+
+Suite: desarrollo
+RepositoryType: deb
+BaseURI: http://paquetes.canaima.softwarelibre.gob.ve/
+MatchURI: paquetes.canaima.softwarelibre.gob.ve
+MirrorsFile: Canaima.mirrors
+Description: Canaima GNU/Linux (Desarrollo)
+Component: usuarios
+CompDescription: Repositorio de Desarrollo
+

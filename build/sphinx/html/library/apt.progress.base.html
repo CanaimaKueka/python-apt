@@ -1,0 +1,548 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>apt.progress.base — Abstract classes for progress reporting &mdash; python-apt 0.8.8.2Canaima1 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.8.8.2Canaima1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="python-apt 0.8.8.2Canaima1 documentation" href="../index.html" />
+    <link rel="up" title="Python APT Library" href="index.html" />
+    <link rel="next" title="apt.progress.text — Progress reporting for text interfaces" href="apt.progress.text.html" />
+    <link rel="prev" title="apt.package — Classes for package handling" href="apt.package.html" />
+    <link rel="shortcut icon" type="image/png" href="../_static/py.png" />
+ 
+
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="apt.progress.text.html" title="apt.progress.text — Progress reporting for text interfaces"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="apt.package.html" title="apt.package — Classes for package handling"
+             accesskey="P">previous</a> |</li>
+        <li><img src="../_static/py.png" alt=""
+                 style="vertical-align: middle; margin-top: -1px"/></li>
+        <li><a href="../index.html">python-apt 0.8.8.2Canaima1 documentation</a> &raquo;</li>
+
+          <li><a href="index.html" accesskey="U">Python APT Library</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-apt.progress.base">
+<span id="apt-progress-base-abstract-classes-for-progress-reporting"></span><h1><a class="reference internal" href="#module-apt.progress.base" title="apt.progress.base"><tt class="xref py py-mod docutils literal"><span class="pre">apt.progress.base</span></tt></a> &#8212; Abstract classes for progress reporting<a class="headerlink" href="#module-apt.progress.base" title="Permalink to this headline">¶</a></h1>
+<p>This module provides base classes for progress handlers from which all
+progress classes should inherit from. Progress reporting classes not
+inheriting from those classes may not work and are not supported.</p>
+<p>When creating a subclass of one of those classes, all overridden methods should
+call the parent&#8217;s method first before doing anything else, because the parent
+method may have to set some attributes. Subclasses not doing so may not work
+correctly or may not work at all and are completely unsupported.</p>
+<div class="section" id="acquireprogress">
+<h2>AcquireProgress<a class="headerlink" href="#acquireprogress" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="apt.progress.base.AcquireProgress">
+<em class="property">class </em><tt class="descclassname">apt.progress.base.</tt><tt class="descname">AcquireProgress</tt><a class="headerlink" href="#apt.progress.base.AcquireProgress" title="Permalink to this definition">¶</a></dt>
+<dd><p>A monitor object for downloads controlled by the Acquire class. This base
+class does nothing and should only be used as a base class to inherit
+from. Instances of this class can be passed to the constructor of
+<a class="reference internal" href="apt_pkg.html#apt_pkg.Acquire" title="apt_pkg.Acquire"><tt class="xref py py-class docutils literal"><span class="pre">apt_pkg.Acquire</span></tt></a> and the Acquire object then uses it to report
+its progress.</p>
+<p>This class provides several methods which may be overridden by subclasses
+to implement progress reporting:</p>
+<dl class="method">
+<dt id="apt.progress.base.AcquireProgress.done">
+<tt class="descname">done</tt><big>(</big><em>item: apt_pkg.AcquireItemDesc</em><big>)</big><a class="headerlink" href="#apt.progress.base.AcquireProgress.done" title="Permalink to this definition">¶</a></dt>
+<dd><p>Invoked when an item is successfully and completely fetched.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="apt.progress.base.AcquireProgress.fail">
+<tt class="descname">fail</tt><big>(</big><em>item: apt_pkg.AcquireItemDesc</em><big>)</big><a class="headerlink" href="#apt.progress.base.AcquireProgress.fail" title="Permalink to this definition">¶</a></dt>
+<dd><p>Invoked when the process of fetching an item encounters a fatal error
+like a non existing file or no connection to the server.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="apt.progress.base.AcquireProgress.fetch">
+<tt class="descname">fetch</tt><big>(</big><em>item: apt_pkg.AcquireItemDesc</em><big>)</big><a class="headerlink" href="#apt.progress.base.AcquireProgress.fetch" title="Permalink to this definition">¶</a></dt>
+<dd><p>Invoked when some of the item&#8217;s data is fetched. This normally means
+that the file is being fetched now and e.g. the headers have been
+retrieved already.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="apt.progress.base.AcquireProgress.ims_hit">
+<tt class="descname">ims_hit</tt><big>(</big><em>item: apt_pkg.AcquireItemDesc</em><big>)</big><a class="headerlink" href="#apt.progress.base.AcquireProgress.ims_hit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Invoked when an item is confirmed to be up-to-date. For instance,
+when an HTTP download is informed that the file on the server was
+not modified.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="apt.progress.base.AcquireProgress.media_change">
+<tt class="descname">media_change</tt><big>(</big><em>media: str</em>, <em>drive: str</em><big>)</big> &rarr; bool<a class="headerlink" href="#apt.progress.base.AcquireProgress.media_change" title="Permalink to this definition">¶</a></dt>
+<dd><p>Prompt the user to change the inserted removable media. This function
+is called whenever a media change is needed to ask the user to insert
+the needed media.</p>
+<p>The parameter <em>media</em> decribes the name of the media type that
+should be changed, whereas the parameter <em>drive</em> should be the
+identifying name of the drive whose media should be changed.</p>
+<p>This method should not return until the user has confirmed to the user
+interface that the media change is complete. It must return True if
+the user confirms the media change, or False to cancel it.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="apt.progress.base.AcquireProgress.pulse">
+<tt class="descname">pulse</tt><big>(</big><em>owner: apt_pkg.Acquire</em><big>)</big> &rarr; bool<a class="headerlink" href="#apt.progress.base.AcquireProgress.pulse" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method gets invoked while the Acquire progress given by the
+parameter <em>owner</em> is underway. It should display information about
+the current state. It must return <tt class="docutils literal"><span class="pre">True</span></tt> to continue the acquistion
+or <tt class="docutils literal"><span class="pre">False</span></tt> to cancel it. This base implementation always returns
+<tt class="docutils literal"><span class="pre">True</span></tt>.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="apt.progress.base.AcquireProgress.start">
+<tt class="descname">start</tt><big>(</big><big>)</big><a class="headerlink" href="#apt.progress.base.AcquireProgress.start" title="Permalink to this definition">¶</a></dt>
+<dd><p>Invoked when the Acquire process starts running.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="apt.progress.base.AcquireProgress.stop">
+<tt class="descname">stop</tt><big>(</big><big>)</big><a class="headerlink" href="#apt.progress.base.AcquireProgress.stop" title="Permalink to this definition">¶</a></dt>
+<dd><p>Invoked when the Acquire process stops running.</p>
+</dd></dl>
+
+<p>In addition to those methods, this class provides several attributes which
+are set automatically and represent the fetch progress:</p>
+<dl class="attribute">
+<dt id="apt.progress.base.AcquireProgress.current_bytes">
+<tt class="descname">current_bytes</tt><a class="headerlink" href="#apt.progress.base.AcquireProgress.current_bytes" title="Permalink to this definition">¶</a></dt>
+<dd><p>The number of bytes fetched.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="apt.progress.base.AcquireProgress.current_cps">
+<tt class="descname">current_cps</tt><a class="headerlink" href="#apt.progress.base.AcquireProgress.current_cps" title="Permalink to this definition">¶</a></dt>
+<dd><p>The current rate of download, in bytes per second.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="apt.progress.base.AcquireProgress.current_items">
+<tt class="descname">current_items</tt><a class="headerlink" href="#apt.progress.base.AcquireProgress.current_items" title="Permalink to this definition">¶</a></dt>
+<dd><p>The number of items that have been successfully downloaded.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="apt.progress.base.AcquireProgress.elapsed_time">
+<tt class="descname">elapsed_time</tt><a class="headerlink" href="#apt.progress.base.AcquireProgress.elapsed_time" title="Permalink to this definition">¶</a></dt>
+<dd><p>The amount of time that has elapsed since the download started.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="apt.progress.base.AcquireProgress.fetched_bytes">
+<tt class="descname">fetched_bytes</tt><a class="headerlink" href="#apt.progress.base.AcquireProgress.fetched_bytes" title="Permalink to this definition">¶</a></dt>
+<dd><p>The total number of bytes accounted for by items that were
+successfully fetched.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="apt.progress.base.AcquireProgress.last_bytes">
+<tt class="descname">last_bytes</tt><a class="headerlink" href="#apt.progress.base.AcquireProgress.last_bytes" title="Permalink to this definition">¶</a></dt>
+<dd><p>The number of bytes fetched as of the previous call to pulse(),
+including local items.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="apt.progress.base.AcquireProgress.total_bytes">
+<tt class="descname">total_bytes</tt><a class="headerlink" href="#apt.progress.base.AcquireProgress.total_bytes" title="Permalink to this definition">¶</a></dt>
+<dd><p>The total number of bytes that need to be fetched. This member is
+inaccurate, as new items might be enqueued while the download is
+in progress!</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="apt.progress.base.AcquireProgress.total_items">
+<tt class="descname">total_items</tt><a class="headerlink" href="#apt.progress.base.AcquireProgress.total_items" title="Permalink to this definition">¶</a></dt>
+<dd><p>The total number of items that need to be fetched. This member is
+inaccurate, as new items might be enqueued while the download is
+in progress!</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="cdromprogress">
+<h2>CdromProgress<a class="headerlink" href="#cdromprogress" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="apt.progress.base.CdromProgress">
+<em class="property">class </em><tt class="descclassname">apt.progress.base.</tt><tt class="descname">CdromProgress</tt><a class="headerlink" href="#apt.progress.base.CdromProgress" title="Permalink to this definition">¶</a></dt>
+<dd><p>Base class for reporting the progress of adding a cdrom which could be
+used with apt_pkg.Cdrom to produce an utility like apt-cdrom.</p>
+<p>Methods defined here:</p>
+<dl class="method">
+<dt id="apt.progress.base.CdromProgress.ask_cdrom_name">
+<tt class="descname">ask_cdrom_name</tt><big>(</big><big>)</big> &rarr; str<a class="headerlink" href="#apt.progress.base.CdromProgress.ask_cdrom_name" title="Permalink to this definition">¶</a></dt>
+<dd><p>Ask for the name of the cdrom. This method is called when a CD-ROM
+is added (e.g. via <a class="reference internal" href="apt_pkg.html#apt_pkg.Cdrom.add" title="apt_pkg.Cdrom.add"><tt class="xref py py-meth docutils literal"><span class="pre">apt_pkg.Cdrom.add()</span></tt></a>) and no label for the
+CD-ROM can be found.</p>
+<p>Implementations should request a label from the user (e.g. via
+<a class="reference external" href="http://docs.python.org/library/functions.html#raw_input" title="(in Python v2.7)"><tt class="xref py py-func docutils literal"><span class="pre">raw_input()</span></tt></a>) and return this label from the function. The
+operation can be cancelled if the function returns <tt class="docutils literal"><span class="pre">None</span></tt> instead
+of a string.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="apt.progress.base.CdromProgress.change_cdrom">
+<tt class="descname">change_cdrom</tt><big>(</big><big>)</big> &rarr; bool<a class="headerlink" href="#apt.progress.base.CdromProgress.change_cdrom" title="Permalink to this definition">¶</a></dt>
+<dd><p>Ask for the CD-ROM to be changed. This method should return <tt class="docutils literal"><span class="pre">True</span></tt>
+if the CD-ROM has been changed or <tt class="docutils literal"><span class="pre">False</span></tt> if the CD-ROM has not been
+changed and the operation should be cancelled. This base implementation
+returns <tt class="docutils literal"><span class="pre">False</span></tt> and thus cancels the operation.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="apt.progress.base.CdromProgress.update">
+<tt class="descname">update</tt><big>(</big><em>text: str</em>, <em>current: int</em><big>)</big><a class="headerlink" href="#apt.progress.base.CdromProgress.update" title="Permalink to this definition">¶</a></dt>
+<dd><p>Periodically invoked in order to update the interface and give
+information about the progress of the operation.</p>
+<p>This method has two parameters. The first parameter <em>text</em> defines
+the text which should be displayed to the user as the progress
+message. The second parameter <em>current</em> is an integer describing how
+many steps have been completed already.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="apt.progress.base.CdromProgress.total_steps">
+<tt class="descname">total_steps</tt><a class="headerlink" href="#apt.progress.base.CdromProgress.total_steps" title="Permalink to this definition">¶</a></dt>
+<dd><p>The number of total steps, set automatically by python-apt. It may be
+used in conjunction with the parameter <em>current</em> of the <a class="reference internal" href="#apt.progress.base.CdromProgress.update" title="apt.progress.base.CdromProgress.update"><tt class="xref py py-meth docutils literal"><span class="pre">update()</span></tt></a>
+method to show how far the operation progressed.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="opprogress">
+<h2>OpProgress<a class="headerlink" href="#opprogress" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="apt.progress.base.OpProgress">
+<em class="property">class </em><tt class="descclassname">apt.progress.base.</tt><tt class="descname">OpProgress</tt><a class="headerlink" href="#apt.progress.base.OpProgress" title="Permalink to this definition">¶</a></dt>
+<dd><p>OpProgress classes are used for reporting the progress of operations
+such as opening the cache. It is based on the concept of one operation
+consisting of a series of sub operations.</p>
+<p>Methods defined here:</p>
+<dl class="method">
+<dt id="apt.progress.base.OpProgress.done">
+<tt class="descname">done</tt><big>(</big><big>)</big><a class="headerlink" href="#apt.progress.base.OpProgress.done" title="Permalink to this definition">¶</a></dt>
+<dd><p>Called once an operation has been completed.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="apt.progress.base.OpProgress.update">
+<tt class="descname">update</tt><big>(</big><span class="optional">[</span><em>percent=None</em><span class="optional">]</span><big>)</big><a class="headerlink" href="#apt.progress.base.OpProgress.update" title="Permalink to this definition">¶</a></dt>
+<dd><p>Called periodically to update the user interface. This function should
+use the attributes defined below to display the progress information.</p>
+<p>The optional parameter <em>percent</em> is included for compatibility
+reasons and may be removed at a later time.</p>
+</dd></dl>
+
+<p>The following attributes are available and are changed by the classes
+wanting to emit progress:</p>
+<dl class="attribute">
+<dt id="apt.progress.base.OpProgress.major_change">
+<tt class="descname">major_change</tt><a class="headerlink" href="#apt.progress.base.OpProgress.major_change" title="Permalink to this definition">¶</a></dt>
+<dd><p>An automatically set boolean value describing whether the current call
+to update is caused by a major change. In this case, the last operation
+has finished.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="apt.progress.base.OpProgress.op">
+<tt class="descname">op</tt><a class="headerlink" href="#apt.progress.base.OpProgress.op" title="Permalink to this definition">¶</a></dt>
+<dd><p>An automatically set string which describes the current operation in
+an human-readable way.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="apt.progress.base.OpProgress.percent">
+<tt class="descname">percent</tt><a class="headerlink" href="#apt.progress.base.OpProgress.percent" title="Permalink to this definition">¶</a></dt>
+<dd><p>An automatically set float value describing how much of the operation
+has been completed, in percent.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="apt.progress.base.OpProgress.subop">
+<tt class="descname">subop</tt><a class="headerlink" href="#apt.progress.base.OpProgress.subop" title="Permalink to this definition">¶</a></dt>
+<dd><p>An automatically set string which describes the current sub-operation
+in an human-readable way.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="installprogress">
+<h2>InstallProgress<a class="headerlink" href="#installprogress" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="apt.progress.base.InstallProgress">
+<em class="property">class </em><tt class="descclassname">apt.progress.base.</tt><tt class="descname">InstallProgress</tt><a class="headerlink" href="#apt.progress.base.InstallProgress" title="Permalink to this definition">¶</a></dt>
+<dd><p>InstallProgress classes make it possible to monitor the progress of dpkg
+and APT and emit information at certain stages. It uses file descriptors
+to read the status lines from APT/dpkg and parses them and afterwards calls
+the callback methods.</p>
+<p>Subclasses should override the following methods in order to implement
+progress reporting:</p>
+<dl class="method">
+<dt id="apt.progress.base.InstallProgress.conffile">
+<tt class="descname">conffile</tt><big>(</big><em>current</em>, <em>new</em><big>)</big><a class="headerlink" href="#apt.progress.base.InstallProgress.conffile" title="Permalink to this definition">¶</a></dt>
+<dd><p>Called when a conffile question from dpkg is detected.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This part of the API is semi-stable and may be extended with 2 more
+parameters before the release of 0.7.100.</p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="apt.progress.base.InstallProgress.error">
+<tt class="descname">error</tt><big>(</big><em>pkg</em>, <em>errormsg</em><big>)</big><a class="headerlink" href="#apt.progress.base.InstallProgress.error" title="Permalink to this definition">¶</a></dt>
+<dd><p>(Abstract) Called when a error is detected during the install.</p>
+</dd></dl>
+
+<p>The following method should be overridden to implement progress reporting
+for dpkg-based runs i.e. calls to <a class="reference internal" href="#apt.progress.base.InstallProgress.run" title="apt.progress.base.InstallProgress.run"><tt class="xref py py-meth docutils literal"><span class="pre">run()</span></tt></a> with a filename:</p>
+<dl class="method">
+<dt id="apt.progress.base.InstallProgress.processing">
+<tt class="descname">processing</tt><big>(</big><em>pkg</em>, <em>stage</em><big>)</big><a class="headerlink" href="#apt.progress.base.InstallProgress.processing" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method is called just before a processing stage starts. The
+parameter <em>pkg</em> is the name of the package and the parameter <em>stage</em>
+is one of the stages listed in the dpkg manual under the status-fd
+option, i.e. &#8220;upgrade&#8221;, &#8220;install&#8221; (both sent before unpacking),
+&#8220;configure&#8221;, &#8220;trigproc&#8221;, &#8220;remove&#8221;, &#8220;purge&#8221;.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="apt.progress.base.InstallProgress.dpkg_status_change">
+<tt class="descname">dpkg_status_change</tt><big>(</big><em>pkg: str</em>, <em>status: str</em><big>)</big><a class="headerlink" href="#apt.progress.base.InstallProgress.dpkg_status_change" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method is called whenever the dpkg status of the package
+changes. The parameter <em>pkg</em> is the name of the package and the
+parameter <em>status</em> is one of the status strings used in the status
+file (<tt class="file docutils literal"><span class="pre">/var/lib/dpkg/status</span></tt>) and documented
+in <em class="manpage">dpkg(1)</em>.</p>
+</dd></dl>
+
+<p>The following methods should be overridden to implement progress reporting
+for  <a class="reference internal" href="#apt.progress.base.InstallProgress.run" title="apt.progress.base.InstallProgress.run"><tt class="xref py py-meth docutils literal"><span class="pre">run()</span></tt></a> calls with an <a class="reference internal" href="apt_pkg.html#apt_pkg.PackageManager" title="apt_pkg.PackageManager"><tt class="xref py py-class docutils literal"><span class="pre">apt_pkg.PackageManager</span></tt></a> object as
+their parameter:</p>
+<dl class="method">
+<dt id="apt.progress.base.InstallProgress.status_change">
+<tt class="descname">status_change</tt><big>(</big><em>pkg</em>, <em>percent</em>, <em>status</em><big>)</big><a class="headerlink" href="#apt.progress.base.InstallProgress.status_change" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method implements progress reporting for package installation by
+APT and may be extended to dpkg at a later time.</p>
+<p>This method takes two parameters: The parameter <em>percent</em> is a float
+value describing the overall progress and the parameter <em>status</em> is a
+string describing the current status in an human-readable manner.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="apt.progress.base.InstallProgress.start_update">
+<tt class="descname">start_update</tt><big>(</big><big>)</big><a class="headerlink" href="#apt.progress.base.InstallProgress.start_update" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method is called before the installation of any package starts.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="apt.progress.base.InstallProgress.finish_update">
+<tt class="descname">finish_update</tt><big>(</big><big>)</big><a class="headerlink" href="#apt.progress.base.InstallProgress.finish_update" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method is called when all changes have been applied.</p>
+</dd></dl>
+
+<p>There are also several methods which are fully implemented and should not
+be overridden by subclasses unless the subclass has very special needs:</p>
+<dl class="method">
+<dt id="apt.progress.base.InstallProgress.fork">
+<tt class="descname">fork</tt><big>(</big><big>)</big> &rarr; int<a class="headerlink" href="#apt.progress.base.InstallProgress.fork" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fork a child process and return 0 to the child process and the PID of
+the child to the parent process. This implementation just calls
+<a class="reference external" href="http://docs.python.org/library/os.html#os.fork" title="(in Python v2.7)"><tt class="xref py py-func docutils literal"><span class="pre">os.fork()</span></tt></a> and returns its value.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="apt.progress.base.InstallProgress.run">
+<tt class="descname">run</tt><big>(</big><em>obj</em><big>)</big><a class="headerlink" href="#apt.progress.base.InstallProgress.run" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method runs install actions. The parameter <em>obj</em> may either
+be a PackageManager object in which case its <strong>do_install()</strong> method is
+called or the path to a deb file.</p>
+<p>If the object is a <a class="reference internal" href="apt_pkg.html#apt_pkg.PackageManager" title="apt_pkg.PackageManager"><tt class="xref py py-class docutils literal"><span class="pre">apt_pkg.PackageManager</span></tt></a>, the functions
+returns the result of calling its <tt class="docutils literal"><span class="pre">do_install()</span></tt> method. Otherwise,
+the function returns the exit status of dpkg. In both cases, <tt class="docutils literal"><span class="pre">0</span></tt>
+means that there were no problems and <tt class="docutils literal"><span class="pre">!=</span> <span class="pre">0</span></tt> means that there were
+issues.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="apt.progress.base.InstallProgress.update_interface">
+<tt class="descname">update_interface</tt><big>(</big><big>)</big><a class="headerlink" href="#apt.progress.base.InstallProgress.update_interface" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method is responsible for reading the status from dpkg/APT and
+calling the correct callback methods. Subclasses should not override
+this method.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="apt.progress.base.InstallProgress.wait_child">
+<tt class="descname">wait_child</tt><big>(</big><big>)</big><a class="headerlink" href="#apt.progress.base.InstallProgress.wait_child" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method is responsible for calling <a class="reference internal" href="#apt.progress.base.InstallProgress.update_interface" title="apt.progress.base.InstallProgress.update_interface"><tt class="xref py py-meth docutils literal"><span class="pre">update_interface()</span></tt></a> from
+time to time. It exits once the child has exited. The return value
+is the full status returned by <a class="reference external" href="http://docs.python.org/library/os.html#os.waitpid" title="(in Python v2.7)"><tt class="xref py py-func docutils literal"><span class="pre">os.waitpid()</span></tt></a> (not only the
+return code). Subclasses should not override this method.</p>
+</dd></dl>
+
+<p>The class also provides several attributes which may be useful:</p>
+<dl class="attribute">
+<dt id="apt.progress.base.InstallProgress.percent">
+<tt class="descname">percent</tt><a class="headerlink" href="#apt.progress.base.InstallProgress.percent" title="Permalink to this definition">¶</a></dt>
+<dd><p>The percentage of completion as it was in the last call to
+<a class="reference internal" href="#apt.progress.base.InstallProgress.status_change" title="apt.progress.base.InstallProgress.status_change"><tt class="xref py py-meth docutils literal"><span class="pre">status_change()</span></tt></a>.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="apt.progress.base.InstallProgress.status">
+<tt class="descname">status</tt><a class="headerlink" href="#apt.progress.base.InstallProgress.status" title="Permalink to this definition">¶</a></dt>
+<dd><p>The status string passed in the last call to <a class="reference internal" href="#apt.progress.base.InstallProgress.status_change" title="apt.progress.base.InstallProgress.status_change"><tt class="xref py py-meth docutils literal"><span class="pre">status_change()</span></tt></a>.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="apt.progress.base.InstallProgress.select_timeout">
+<tt class="descname">select_timeout</tt><a class="headerlink" href="#apt.progress.base.InstallProgress.select_timeout" title="Permalink to this definition">¶</a></dt>
+<dd><p>Used in <a class="reference internal" href="#apt.progress.base.InstallProgress.wait_child" title="apt.progress.base.InstallProgress.wait_child"><tt class="xref py py-meth docutils literal"><span class="pre">wait_child()</span></tt></a> to when calling <a class="reference external" href="http://docs.python.org/library/select.html#select.select" title="(in Python v2.7)"><tt class="xref py py-func docutils literal"><span class="pre">select.select()</span></tt></a>
+on dpkg&#8217;s/APT&#8217;s status descriptor. Subclasses may set their own value
+if needed.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="apt.progress.base.InstallProgress.statusfd">
+<tt class="descname">statusfd</tt><a class="headerlink" href="#apt.progress.base.InstallProgress.statusfd" title="Permalink to this definition">¶</a></dt>
+<dd><p>A readable <tt class="xref py py-class docutils literal"><span class="pre">file</span></tt> object from which the status information from
+APT or dpkg is read.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="apt.progress.base.InstallProgress.writefd">
+<tt class="descname">writefd</tt><a class="headerlink" href="#apt.progress.base.InstallProgress.writefd" title="Permalink to this definition">¶</a></dt>
+<dd><p>A writable <tt class="xref py py-class docutils literal"><span class="pre">file</span></tt> object to which dpkg or APT write their status
+information.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../contents.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#"><tt class="docutils literal"><span class="pre">apt.progress.base</span></tt> &#8212; Abstract classes for progress reporting</a><ul>
+<li><a class="reference internal" href="#acquireprogress">AcquireProgress</a></li>
+<li><a class="reference internal" href="#cdromprogress">CdromProgress</a></li>
+<li><a class="reference internal" href="#opprogress">OpProgress</a></li>
+<li><a class="reference internal" href="#installprogress">InstallProgress</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="apt.package.html"
+                        title="previous chapter"><tt class="docutils literal docutils literal docutils literal"><span class="pre">apt.package</span></tt> &#8212; Classes for package handling</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="apt.progress.text.html"
+                        title="next chapter"><tt class="docutils literal"><span class="pre">apt.progress.text</span></tt> &#8212; Progress reporting for text interfaces</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/library/apt.progress.base.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="apt.progress.text.html" title="apt.progress.text — Progress reporting for text interfaces"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="apt.package.html" title="apt.package — Classes for package handling"
+             >previous</a> |</li>
+        <li><img src="../_static/py.png" alt=""
+                 style="vertical-align: middle; margin-top: -1px"/></li>
+        <li><a href="../index.html">python-apt 0.8.8.2Canaima1 documentation</a> &raquo;</li>
+
+          <li><a href="index.html" >Python APT Library</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2009-2010, Julian Andres Klode &lt;jak@debian.org&gt;.
+      Last updated on Apr 03, 2013.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

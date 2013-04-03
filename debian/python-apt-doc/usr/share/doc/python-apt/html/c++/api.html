@@ -1,0 +1,1332 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Python APT C++ API &mdash; python-apt 0.8.8.2Canaima1 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.8.8.2Canaima1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="python-apt 0.8.8.2Canaima1 documentation" href="../index.html" />
+    <link rel="up" title="Python APT and C++" href="index.html" />
+    <link rel="next" title="Embedding Python APT" href="embedding.html" />
+    <link rel="prev" title="Python APT and C++" href="index.html" />
+    <link rel="shortcut icon" type="image/png" href="../_static/py.png" />
+ 
+
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="embedding.html" title="Embedding Python APT"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Python APT and C++"
+             accesskey="P">previous</a> |</li>
+        <li><img src="../_static/py.png" alt=""
+                 style="vertical-align: middle; margin-top: -1px"/></li>
+        <li><a href="../index.html">python-apt 0.8.8.2Canaima1 documentation</a> &raquo;</li>
+
+          <li><a href="index.html" accesskey="U">Python APT and C++</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="python-apt-c-api">
+<h1>Python APT C++ API<a class="headerlink" href="#python-apt-c-api" title="Permalink to this headline">¶</a></h1>
+<p>The C++ API provides functions to create Python objects from C++ objects and
+to retrieve the C++ object stored in the Python object. An object may have
+another Python object as its owner and keeps its owner alive for its
+lifetime. Some objects require an owner of a specific type, while others
+require none. Refer to the sections below for details.</p>
+<p>The C++ API names use the name of the class in apt_pkg and are prefixed with
+Py. For each supported class, there is a _Type object, a _Check() function,
+a _CheckExact() function, a _FromCpp() and a _ToCpp() function.</p>
+<p class="versionadded">
+<span class="versionmodified">New in version 0.7.100.</span></p>
+<div class="section" id="acquire-pkgacquire">
+<h2>Acquire (pkgAcquire)<a class="headerlink" href="#acquire-pkgacquire" title="Permalink to this headline">¶</a></h2>
+<dl class="var">
+<dt id="PyAcquire_Type">
+<a class="reference external" href="http://docs.python.org/c-api/type.html#PyTypeObject" title="(in Python v2.7)">PyTypeObject</a> <tt class="descname">PyAcquire_Type</tt><a class="headerlink" href="#PyAcquire_Type" title="Permalink to this definition">¶</a></dt>
+<dd><p>The type object for <a class="reference internal" href="../library/apt_pkg.html#apt_pkg.Acquire" title="apt_pkg.Acquire"><tt class="xref py py-class docutils literal"><span class="pre">apt_pkg.Acquire</span></tt></a> objects.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="PyAcquire_Check">
+int <tt class="descname">PyAcquire_Check</tt><big>(</big><a class="reference external" href="http://docs.python.org/c-api/structures.html#PyObject" title="(in Python v2.7)">PyObject</a><em>&nbsp;*object</em><big>)</big><a class="headerlink" href="#PyAcquire_Check" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check that the object <em>object</em> is an <a class="reference internal" href="../library/apt_pkg.html#apt_pkg.Acquire" title="apt_pkg.Acquire"><tt class="xref py py-class docutils literal"><span class="pre">apt_pkg.Acquire</span></tt></a> object, or
+a subclass thereof.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="PyAcquire_CheckExact">
+int <tt class="descname">PyAcquire_CheckExact</tt><big>(</big><a class="reference external" href="http://docs.python.org/c-api/structures.html#PyObject" title="(in Python v2.7)">PyObject</a><em>&nbsp;*object</em><big>)</big><a class="headerlink" href="#PyAcquire_CheckExact" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check that the object <em>object</em> is an <a class="reference internal" href="../library/apt_pkg.html#apt_pkg.Acquire" title="apt_pkg.Acquire"><tt class="xref py py-class docutils literal"><span class="pre">apt_pkg.Acquire</span></tt></a> object and no
+subclass thereof.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="PyAcquire_FromCpp">
+<a class="reference external" href="http://docs.python.org/c-api/structures.html#PyObject" title="(in Python v2.7)">PyObject</a>* <tt class="descname">PyAcquire_FromCpp</tt><big>(</big>pkgAcquire<em>&nbsp;*acquire</em>, bool<em>&nbsp;delete</em>, <a class="reference external" href="http://docs.python.org/c-api/structures.html#PyObject" title="(in Python v2.7)">PyObject</a><em>&nbsp;*owner</em><big>)</big><a class="headerlink" href="#PyAcquire_FromCpp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a new <a class="reference internal" href="../library/apt_pkg.html#apt_pkg.Acquire" title="apt_pkg.Acquire"><tt class="xref py py-class docutils literal"><span class="pre">apt_pkg.Acquire</span></tt></a> object from the <tt class="xref c c-type docutils literal"><span class="pre">pkgAcquire</span></tt>
+pointer given by the parameter <em>acquire</em>. If the parameter <em>delete</em> is
+true, the object pointed to by <em>acquire</em> will be deleted when the refcount
+of the return value reaches 0.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="PyAcquire_ToCpp">
+pkgAcquire* <tt class="descname">PyAcquire_ToCpp</tt><big>(</big><a class="reference external" href="http://docs.python.org/c-api/structures.html#PyObject" title="(in Python v2.7)">PyObject</a><em>&nbsp;*acquire</em><big>)</big><a class="headerlink" href="#PyAcquire_ToCpp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the <tt class="xref c c-type docutils literal"><span class="pre">pkgAcquire</span></tt> pointer contained in the Python object
+<em>acquire</em>.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="acquirefile-pkgacqfile">
+<h2>AcquireFile (pkgAcqFile)<a class="headerlink" href="#acquirefile-pkgacqfile" title="Permalink to this headline">¶</a></h2>
+<dl class="var">
+<dt id="PyAcquireFile_Type">
+<a class="reference external" href="http://docs.python.org/c-api/type.html#PyTypeObject" title="(in Python v2.7)">PyTypeObject</a> <tt class="descname">PyAcquireFile_Type</tt><a class="headerlink" href="#PyAcquireFile_Type" title="Permalink to this definition">¶</a></dt>
+<dd><p>The type object for <a class="reference internal" href="../library/apt_pkg.html#apt_pkg.AcquireFile" title="apt_pkg.AcquireFile"><tt class="xref py py-class docutils literal"><span class="pre">apt_pkg.AcquireFile</span></tt></a> objects.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="PyAcquireFile_Check">
+int <tt class="descname">PyAcquireFile_Check</tt><big>(</big><a class="reference external" href="http://docs.python.org/c-api/structures.html#PyObject" title="(in Python v2.7)">PyObject</a><em>&nbsp;*object</em><big>)</big><a class="headerlink" href="#PyAcquireFile_Check" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check that the object <em>object</em> is an <a class="reference internal" href="../library/apt_pkg.html#apt_pkg.AcquireFile" title="apt_pkg.AcquireFile"><tt class="xref py py-class docutils literal"><span class="pre">apt_pkg.AcquireFile</span></tt></a> object, or
+a subclass thereof.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="PyAcquireFile_CheckExact">
+int <tt class="descname">PyAcquireFile_CheckExact</tt><big>(</big><a class="reference external" href="http://docs.python.org/c-api/structures.html#PyObject" title="(in Python v2.7)">PyObject</a><em>&nbsp;*object</em><big>)</big><a class="headerlink" href="#PyAcquireFile_CheckExact" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check that the object <em>object</em> is an <a class="reference internal" href="../library/apt_pkg.html#apt_pkg.AcquireFile" title="apt_pkg.AcquireFile"><tt class="xref py py-class docutils literal"><span class="pre">apt_pkg.AcquireFile</span></tt></a> object
+and no subclass thereof.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="PyAcquireFile_FromCpp">
+<a class="reference external" href="http://docs.python.org/c-api/structures.html#PyObject" title="(in Python v2.7)">PyObject</a>* <tt class="descname">PyAcquireFile_FromCpp</tt><big>(</big>pkgAcqFile<em>&nbsp;*file</em>, bool<em>&nbsp;delete</em>, <a class="reference external" href="http://docs.python.org/c-api/structures.html#PyObject" title="(in Python v2.7)">PyObject</a><em>&nbsp;*owner</em><big>)</big><a class="headerlink" href="#PyAcquireFile_FromCpp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a new <a class="reference internal" href="../library/apt_pkg.html#apt_pkg.AcquireFile" title="apt_pkg.AcquireFile"><tt class="xref py py-class docutils literal"><span class="pre">apt_pkg.AcquireFile</span></tt></a> object from the <tt class="xref c c-type docutils literal"><span class="pre">pkgAcqFile</span></tt>
+pointer given by the parameter <em>file</em>. If the parameter <em>delete</em> is
+true, the object pointed to by <em>file</em> will be deleted when the reference
+count of the returned object reaches 0. The parameter <em>owner</em> should point
+to a <a class="reference internal" href="../library/apt_pkg.html#apt_pkg.Acquire" title="apt_pkg.Acquire"><tt class="xref py py-class docutils literal"><span class="pre">apt_pkg.Acquire</span></tt></a> object.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="PyAcquireFile_ToCpp">
+pkgAcqFile* <tt class="descname">PyAcquireFile_ToCpp</tt><big>(</big><a class="reference external" href="http://docs.python.org/c-api/structures.html#PyObject" title="(in Python v2.7)">PyObject</a><em>&nbsp;*acquire</em><big>)</big><a class="headerlink" href="#PyAcquireFile_ToCpp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the <tt class="xref c c-type docutils literal"><span class="pre">pkgAcqFile</span></tt> pointer contained in the Python object
+<em>acquire</em>.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="acquireitem-pkgacquire-item">
+<h2>AcquireItem (pkgAcquire::Item)<a class="headerlink" href="#acquireitem-pkgacquire-item" title="Permalink to this headline">¶</a></h2>
+<dl class="var">
+<dt id="PyAcquireItem_Type">
+<a class="reference external" href="http://docs.python.org/c-api/type.html#PyTypeObject" title="(in Python v2.7)">PyTypeObject</a> <tt class="descname">PyAcquireItem_Type</tt><a class="headerlink" href="#PyAcquireItem_Type" title="Permalink to this definition">¶</a></dt>
+<dd><p>The type object for <a class="reference internal" href="../library/apt_pkg.html#apt_pkg.AcquireItem" title="apt_pkg.AcquireItem"><tt class="xref py py-class docutils literal"><span class="pre">apt_pkg.AcquireItem</span></tt></a> objects.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="PyAcquireItem_Check">
+int <tt class="descname">PyAcquireItem_Check</tt><big>(</big><a class="reference external" href="http://docs.python.org/c-api/structures.html#PyObject" title="(in Python v2.7)">PyObject</a><em>&nbsp;*object</em><big>)</big><a class="headerlink" href="#PyAcquireItem_Check" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check that the object <em>object</em> is an <a class="reference internal" href="../library/apt_pkg.html#apt_pkg.AcquireItem" title="apt_pkg.AcquireItem"><tt class="xref py py-class docutils literal"><span class="pre">apt_pkg.AcquireItem</span></tt></a> object, or
+a subclass thereof.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="PyAcquireItem_CheckExact">
+int <tt class="descname">PyAcquireItem_CheckExact</tt><big>(</big><a class="reference external" href="http://docs.python.org/c-api/structures.html#PyObject" title="(in Python v2.7)">PyObject</a><em>&nbsp;*object</em><big>)</big><a class="headerlink" href="#PyAcquireItem_CheckExact" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check that the object <em>object</em> is an <a class="reference internal" href="../library/apt_pkg.html#apt_pkg.AcquireItem" title="apt_pkg.AcquireItem"><tt class="xref py py-class docutils literal"><span class="pre">apt_pkg.AcquireItem</span></tt></a> object
+and no subclass thereof.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="PyAcquireItem_FromCpp">
+<a class="reference external" href="http://docs.python.org/c-api/structures.html#PyObject" title="(in Python v2.7)">PyObject</a>* <tt class="descname">PyAcquireItem_FromCpp</tt><big>(</big>pkgAcquire::Item<em>&nbsp;*item</em>, bool<em>&nbsp;delete</em>, <a class="reference external" href="http://docs.python.org/c-api/structures.html#PyObject" title="(in Python v2.7)">PyObject</a><em>&nbsp;*owner</em><big>)</big><a class="headerlink" href="#PyAcquireItem_FromCpp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a new <a class="reference internal" href="../library/apt_pkg.html#apt_pkg.AcquireItem" title="apt_pkg.AcquireItem"><tt class="xref py py-class docutils literal"><span class="pre">apt_pkg.AcquireItem</span></tt></a> object from the <tt class="xref c c-type docutils literal"><span class="pre">pkgAcquire::Item</span></tt>
+pointer given by the parameter <em>item</em>. If the parameter <em>delete</em> is
+true, the object pointed to by <em>item</em> will be deleted when the reference
+count of the returned object reaches 0. The parameter <em>owner</em> should point
+to a <a class="reference internal" href="../library/apt_pkg.html#apt_pkg.Acquire" title="apt_pkg.Acquire"><tt class="xref py py-class docutils literal"><span class="pre">apt_pkg.Acquire</span></tt></a> object.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="PyAcquireItem_ToCpp">
+pkgAcquire::Item* <tt class="descname">PyAcquireItem_ToCpp</tt><big>(</big><a class="reference external" href="http://docs.python.org/c-api/structures.html#PyObject" title="(in Python v2.7)">PyObject</a><em>&nbsp;*object</em><big>)</big><a class="headerlink" href="#PyAcquireItem_ToCpp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the <tt class="xref c c-type docutils literal"><span class="pre">pkgAcquire::Item</span></tt> pointer contained in the Python object
+<em>object</em>.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="acquireitemdesc-pkgacquire-itemdesc">
+<h2>AcquireItemDesc (pkgAcquire::ItemDesc)<a class="headerlink" href="#acquireitemdesc-pkgacquire-itemdesc" title="Permalink to this headline">¶</a></h2>
+<dl class="var">
+<dt id="PyAcquireItemDesc_Type">
+<a class="reference external" href="http://docs.python.org/c-api/type.html#PyTypeObject" title="(in Python v2.7)">PyTypeObject</a> <tt class="descname">PyAcquireItemDesc_Type</tt><a class="headerlink" href="#PyAcquireItemDesc_Type" title="Permalink to this definition">¶</a></dt>
+<dd><p>The type object for <a class="reference internal" href="../library/apt_pkg.html#apt_pkg.AcquireItemDesc" title="apt_pkg.AcquireItemDesc"><tt class="xref py py-class docutils literal"><span class="pre">apt_pkg.AcquireItemDesc</span></tt></a> objects.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="PyAcquireItemDesc_Check">
+int <tt class="descname">PyAcquireItemDesc_Check</tt><big>(</big><a class="reference external" href="http://docs.python.org/c-api/structures.html#PyObject" title="(in Python v2.7)">PyObject</a><em>&nbsp;*object</em><big>)</big><a class="headerlink" href="#PyAcquireItemDesc_Check" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check that the object <em>object</em> is an <a class="reference internal" href="../library/apt_pkg.html#apt_pkg.AcquireItemDesc" title="apt_pkg.AcquireItemDesc"><tt class="xref py py-class docutils literal"><span class="pre">apt_pkg.AcquireItemDesc</span></tt></a> object, or
+a subclass thereof.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="PyAcquireItemDesc_CheckExact">
+int <tt class="descname">PyAcquireItemDesc_CheckExact</tt><big>(</big><a class="reference external" href="http://docs.python.org/c-api/structures.html#PyObject" title="(in Python v2.7)">PyObject</a><em>&nbsp;*object</em><big>)</big><a class="headerlink" href="#PyAcquireItemDesc_CheckExact" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check that the object <em>object</em> is an <a class="reference internal" href="../library/apt_pkg.html#apt_pkg.AcquireItemDesc" title="apt_pkg.AcquireItemDesc"><tt class="xref py py-class docutils literal"><span class="pre">apt_pkg.AcquireItemDesc</span></tt></a> object
+and no subclass thereof.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="PyAcquireItemDesc_FromCpp">
+<a class="reference external" href="http://docs.python.org/c-api/structures.html#PyObject" title="(in Python v2.7)">PyObject</a>* <tt class="descname">PyAcquireItemDesc_FromCpp</tt><big>(</big>pkgAcquire::ItemDesc<em>&nbsp;*desc</em>, bool<em>&nbsp;delete</em>, <a class="reference external" href="http://docs.python.org/c-api/structures.html#PyObject" title="(in Python v2.7)">PyObject</a><em>&nbsp;*owner</em><big>)</big><a class="headerlink" href="#PyAcquireItemDesc_FromCpp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a new <a class="reference internal" href="../library/apt_pkg.html#apt_pkg.AcquireItemDesc" title="apt_pkg.AcquireItemDesc"><tt class="xref py py-class docutils literal"><span class="pre">apt_pkg.AcquireItemDesc</span></tt></a> object from the <tt class="xref c c-type docutils literal"><span class="pre">pkgAcquire::ItemDesc</span></tt>
+pointer given by the parameter <em>desc</em>. If the parameter <em>delete</em> is
+true, the object pointed to by <em>desc</em> will be deleted when the reference
+count of the returned object reaches 0. The parameter <em>owner</em> should point
+to a <a class="reference internal" href="../library/apt_pkg.html#apt_pkg.AcquireItem" title="apt_pkg.AcquireItem"><tt class="xref py py-class docutils literal"><span class="pre">apt_pkg.AcquireItem</span></tt></a> object.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="PyAcquireItemDesc_ToCpp">
+pkgAcquire::ItemDesc* <tt class="descname">PyAcquireItemDesc_ToCpp</tt><big>(</big><a class="reference external" href="http://docs.python.org/c-api/structures.html#PyObject" title="(in Python v2.7)">PyObject</a><em>&nbsp;*object</em><big>)</big><a class="headerlink" href="#PyAcquireItemDesc_ToCpp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the <tt class="xref c c-type docutils literal"><span class="pre">pkgAcquire::ItemDesc</span></tt> pointer contained in the Python object
+<em>object</em>.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="acquireworker-pkgacquire-worker">
+<h2>AcquireWorker (pkgAcquire::Worker)<a class="headerlink" href="#acquireworker-pkgacquire-worker" title="Permalink to this headline">¶</a></h2>
+<dl class="var">
+<dt id="PyAcquireWorker_Type">
+<a class="reference external" href="http://docs.python.org/c-api/type.html#PyTypeObject" title="(in Python v2.7)">PyTypeObject</a> <tt class="descname">PyAcquireWorker_Type</tt><a class="headerlink" href="#PyAcquireWorker_Type" title="Permalink to this definition">¶</a></dt>
+<dd><p>The type object for <a class="reference internal" href="../library/apt_pkg.html#apt_pkg.AcquireWorker" title="apt_pkg.AcquireWorker"><tt class="xref py py-class docutils literal"><span class="pre">apt_pkg.AcquireWorker</span></tt></a> objects.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="PyAcquireWorker_Check">
+int <tt class="descname">PyAcquireWorker_Check</tt><big>(</big><a class="reference external" href="http://docs.python.org/c-api/structures.html#PyObject" title="(in Python v2.7)">PyObject</a><em>&nbsp;*object</em><big>)</big><a class="headerlink" href="#PyAcquireWorker_Check" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check that the object <em>object</em> is an <a class="reference internal" href="../library/apt_pkg.html#apt_pkg.AcquireWorker" title="apt_pkg.AcquireWorker"><tt class="xref py py-class docutils literal"><span class="pre">apt_pkg.AcquireWorker</span></tt></a> object, or
+a subclass thereof.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="PyAcquireWorker_CheckExact">
+int <tt class="descname">PyAcquireWorker_CheckExact</tt><big>(</big><a class="reference external" href="http://docs.python.org/c-api/structures.html#PyObject" title="(in Python v2.7)">PyObject</a><em>&nbsp;*object</em><big>)</big><a class="headerlink" href="#PyAcquireWorker_CheckExact" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check that the object <em>object</em> is an <a class="reference internal" href="../library/apt_pkg.html#apt_pkg.AcquireWorker" title="apt_pkg.AcquireWorker"><tt class="xref py py-class docutils literal"><span class="pre">apt_pkg.AcquireWorker</span></tt></a> object
+and no subclass thereof.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="PyAcquireWorker_FromCpp">
+<a class="reference external" href="http://docs.python.org/c-api/structures.html#PyObject" title="(in Python v2.7)">PyObject</a>* <tt class="descname">PyAcquireWorker_FromCpp</tt><big>(</big>pkgAcquire::Worker<em>&nbsp;*worker</em>, bool<em>&nbsp;delete</em>, <a class="reference external" href="http://docs.python.org/c-api/structures.html#PyObject" title="(in Python v2.7)">PyObject</a><em>&nbsp;*owner</em><big>)</big><a class="headerlink" href="#PyAcquireWorker_FromCpp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a new <a class="reference internal" href="../library/apt_pkg.html#apt_pkg.AcquireWorker" title="apt_pkg.AcquireWorker"><tt class="xref py py-class docutils literal"><span class="pre">apt_pkg.AcquireWorker</span></tt></a> object from the <tt class="xref c c-type docutils literal"><span class="pre">pkgAcquire::Worker</span></tt>
+pointer given by the parameter <em>worker</em>. If the parameter <em>delete</em> is
+true, the object pointed to by <em>worker</em> will be deleted when the reference
+count of the returned object reaches 0. The parameter <em>owner</em> should point
+to a <a class="reference internal" href="../library/apt_pkg.html#apt_pkg.Acquire" title="apt_pkg.Acquire"><tt class="xref py py-class docutils literal"><span class="pre">apt_pkg.Acquire</span></tt></a> object.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="PyAcquireWorker_ToCpp">
+pkgAcquire::Worker* <tt class="descname">PyAcquireWorker_ToCpp</tt><big>(</big><a class="reference external" href="http://docs.python.org/c-api/structures.html#PyObject" title="(in Python v2.7)">PyObject</a><em>&nbsp;*object</em><big>)</big><a class="headerlink" href="#PyAcquireWorker_ToCpp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the <tt class="xref c c-type docutils literal"><span class="pre">pkgAcquire::Worker</span></tt> pointer contained in the Python object
+<em>object</em>.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="actiongroup-pkgdepcache-actiongroup">
+<h2>ActionGroup (pkgDepCache::ActionGroup)<a class="headerlink" href="#actiongroup-pkgdepcache-actiongroup" title="Permalink to this headline">¶</a></h2>
+<dl class="var">
+<dt id="PyActionGroup_Type">
+<a class="reference external" href="http://docs.python.org/c-api/type.html#PyTypeObject" title="(in Python v2.7)">PyTypeObject</a> <tt class="descname">PyActionGroup_Type</tt><a class="headerlink" href="#PyActionGroup_Type" title="Permalink to this definition">¶</a></dt>
+<dd><p>The type object for <a class="reference internal" href="../library/apt_pkg.html#apt_pkg.ActionGroup" title="apt_pkg.ActionGroup"><tt class="xref py py-class docutils literal"><span class="pre">apt_pkg.ActionGroup</span></tt></a> objects.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="PyActionGroup_Check">
+int <tt class="descname">PyActionGroup_Check</tt><big>(</big><a class="reference external" href="http://docs.python.org/c-api/structures.html#PyObject" title="(in Python v2.7)">PyObject</a><em>&nbsp;*object</em><big>)</big><a class="headerlink" href="#PyActionGroup_Check" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check that the object <em>object</em> is an <a class="reference internal" href="../library/apt_pkg.html#apt_pkg.ActionGroup" title="apt_pkg.ActionGroup"><tt class="xref py py-class docutils literal"><span class="pre">apt_pkg.ActionGroup</span></tt></a> object, or
+a subclass thereof.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="PyActionGroup_CheckExact">
+int <tt class="descname">PyActionGroup_CheckExact</tt><big>(</big><a class="reference external" href="http://docs.python.org/c-api/structures.html#PyObject" title="(in Python v2.7)">PyObject</a><em>&nbsp;*object</em><big>)</big><a class="headerlink" href="#PyActionGroup_CheckExact" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check that the object <em>object</em> is an <a class="reference internal" href="../library/apt_pkg.html#apt_pkg.ActionGroup" title="apt_pkg.ActionGroup"><tt class="xref py py-class docutils literal"><span class="pre">apt_pkg.ActionGroup</span></tt></a> object
+and no subclass thereof.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="PyActionGroup_FromCpp">
+<a class="reference external" href="http://docs.python.org/c-api/structures.html#PyObject" title="(in Python v2.7)">PyObject</a>* <tt class="descname">PyActionGroup_FromCpp</tt><big>(</big>pkgDepCache::ActionGroup<em>&nbsp;*agroup</em>, bool<em>&nbsp;delete</em>, <a class="reference external" href="http://docs.python.org/c-api/structures.html#PyObject" title="(in Python v2.7)">PyObject</a><em>&nbsp;*owner</em><big>)</big><a class="headerlink" href="#PyActionGroup_FromCpp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a new <a class="reference internal" href="../library/apt_pkg.html#apt_pkg.ActionGroup" title="apt_pkg.ActionGroup"><tt class="xref py py-class docutils literal"><span class="pre">apt_pkg.ActionGroup</span></tt></a> object from the <tt class="xref c c-type docutils literal"><span class="pre">pkgDepCache::ActionGroup</span></tt>
+pointer given by the parameter <em>agroup</em>. If the parameter <em>delete</em> is
+true, the object pointed to by <em>agroup</em> will be deleted when the reference
+count of the returned object reaches 0. The parameter <em>owner</em> should point
+to a <a class="reference internal" href="../library/apt_pkg.html#apt_pkg.DepCache" title="apt_pkg.DepCache"><tt class="xref py py-class docutils literal"><span class="pre">apt_pkg.DepCache</span></tt></a> object.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="PyActionGroup_ToCpp">
+pkgDepCache::ActionGroup* <tt class="descname">PyActionGroup_ToCpp</tt><big>(</big><a class="reference external" href="http://docs.python.org/c-api/structures.html#PyObject" title="(in Python v2.7)">PyObject</a><em>&nbsp;*object</em><big>)</big><a class="headerlink" href="#PyActionGroup_ToCpp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the <tt class="xref c c-type docutils literal"><span class="pre">pkgDepCache::ActionGroup</span></tt> pointer contained in the
+Python object <em>object</em>.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="cache-pkgcache">
+<h2>Cache (pkgCache)<a class="headerlink" href="#cache-pkgcache" title="Permalink to this headline">¶</a></h2>
+<dl class="var">
+<dt id="PyCache_Type">
+<a class="reference external" href="http://docs.python.org/c-api/type.html#PyTypeObject" title="(in Python v2.7)">PyTypeObject</a> <tt class="descname">PyCache_Type</tt><a class="headerlink" href="#PyCache_Type" title="Permalink to this definition">¶</a></dt>
+<dd><p>The type object for <a class="reference internal" href="../library/apt_pkg.html#apt_pkg.Cache" title="apt_pkg.Cache"><tt class="xref py py-class docutils literal"><span class="pre">apt_pkg.Cache</span></tt></a> objects.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="PyCache_Check">
+int <tt class="descname">PyCache_Check</tt><big>(</big><a class="reference external" href="http://docs.python.org/c-api/structures.html#PyObject" title="(in Python v2.7)">PyObject</a><em>&nbsp;*object</em><big>)</big><a class="headerlink" href="#PyCache_Check" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check that the object <em>object</em> is an <a class="reference internal" href="../library/apt_pkg.html#apt_pkg.Cache" title="apt_pkg.Cache"><tt class="xref py py-class docutils literal"><span class="pre">apt_pkg.Cache</span></tt></a> object, or
+a subclass thereof.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="PyCache_CheckExact">
+int <tt class="descname">PyCache_CheckExact</tt><big>(</big><a class="reference external" href="http://docs.python.org/c-api/structures.html#PyObject" title="(in Python v2.7)">PyObject</a><em>&nbsp;*object</em><big>)</big><a class="headerlink" href="#PyCache_CheckExact" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check that the object <em>object</em> is an <a class="reference internal" href="../library/apt_pkg.html#apt_pkg.Cache" title="apt_pkg.Cache"><tt class="xref py py-class docutils literal"><span class="pre">apt_pkg.Cache</span></tt></a> object
+and no subclass thereof.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="PyCache_FromCpp">
+<a class="reference external" href="http://docs.python.org/c-api/structures.html#PyObject" title="(in Python v2.7)">PyObject</a>* <tt class="descname">PyCache_FromCpp</tt><big>(</big>pkgCache<em>&nbsp;*cache</em>, bool<em>&nbsp;delete</em>, <a class="reference external" href="http://docs.python.org/c-api/structures.html#PyObject" title="(in Python v2.7)">PyObject</a><em>&nbsp;*owner</em><big>)</big><a class="headerlink" href="#PyCache_FromCpp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a new <a class="reference internal" href="../library/apt_pkg.html#apt_pkg.Cache" title="apt_pkg.Cache"><tt class="xref py py-class docutils literal"><span class="pre">apt_pkg.Cache</span></tt></a> object from the <tt class="xref c c-type docutils literal"><span class="pre">pkgCache</span></tt>
+pointer given by the parameter <em>cache</em>. If the parameter <em>delete</em> is
+true, the object pointed to by <em>cache</em> will be deleted when the reference
+count of the returned object reaches 0. The parameter <em>owner</em> shall point
+to a object of the type <a class="reference internal" href="#PyCacheFile_Type" title="PyCacheFile_Type"><tt class="xref c c-data docutils literal"><span class="pre">PyCacheFile_Type</span></tt></a>.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="PyCache_ToCpp">
+pkgCache* <tt class="descname">PyCache_ToCpp</tt><big>(</big><a class="reference external" href="http://docs.python.org/c-api/structures.html#PyObject" title="(in Python v2.7)">PyObject</a><em>&nbsp;*object</em><big>)</big><a class="headerlink" href="#PyCache_ToCpp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the <tt class="xref c c-type docutils literal"><span class="pre">pkgCache</span></tt> pointer contained in the Python object
+<em>object</em>.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="cachefile-pkgcachefile">
+<h2>CacheFile (pkgCacheFile)<a class="headerlink" href="#cachefile-pkgcachefile" title="Permalink to this headline">¶</a></h2>
+<dl class="var">
+<dt id="PyCacheFile_Type">
+<a class="reference external" href="http://docs.python.org/c-api/type.html#PyTypeObject" title="(in Python v2.7)">PyTypeObject</a> <tt class="descname">PyCacheFile_Type</tt><a class="headerlink" href="#PyCacheFile_Type" title="Permalink to this definition">¶</a></dt>
+<dd><p>The type object for CacheFile. This type is internal and not exported to
+Python anywhere.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="PyCacheFile_Check">
+int <tt class="descname">PyCacheFile_Check</tt><big>(</big><a class="reference external" href="http://docs.python.org/c-api/structures.html#PyObject" title="(in Python v2.7)">PyObject</a><em>&nbsp;*object</em><big>)</big><a class="headerlink" href="#PyCacheFile_Check" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check that the object <em>object</em> is of the type <a class="reference internal" href="#PyCacheFile_Type" title="PyCacheFile_Type"><tt class="xref c c-data docutils literal"><span class="pre">PyCacheFile_Type</span></tt></a> or
+a subclass thereof.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="PyCacheFile_CheckExact">
+int <tt class="descname">PyCacheFile_CheckExact</tt><big>(</big><a class="reference external" href="http://docs.python.org/c-api/structures.html#PyObject" title="(in Python v2.7)">PyObject</a><em>&nbsp;*object</em><big>)</big><a class="headerlink" href="#PyCacheFile_CheckExact" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check that the object <em>object</em> is of the type <a class="reference internal" href="#PyCacheFile_Type" title="PyCacheFile_Type"><tt class="xref c c-data docutils literal"><span class="pre">PyCacheFile_Type</span></tt></a> and
+no subclass thereof.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="PyCacheFile_FromCpp">
+<a class="reference external" href="http://docs.python.org/c-api/structures.html#PyObject" title="(in Python v2.7)">PyObject</a>* <tt class="descname">PyCacheFile_FromCpp</tt><big>(</big>pkgCacheFile<em>&nbsp;*file</em>, bool<em>&nbsp;delete</em>, <a class="reference external" href="http://docs.python.org/c-api/structures.html#PyObject" title="(in Python v2.7)">PyObject</a><em>&nbsp;*owner</em><big>)</big><a class="headerlink" href="#PyCacheFile_FromCpp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a new <tt class="xref py py-class docutils literal"><span class="pre">apt_pkg.CacheFile</span></tt> object from the <tt class="xref c c-type docutils literal"><span class="pre">pkgCacheFile</span></tt>
+pointer given by the parameter <em>file</em> If the parameter <em>delete</em> is
+true, the object pointed to by <em>file</em> will be deleted when the reference
+count of the returned object reaches 0.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="PyCacheFile_ToCpp">
+pkgCacheFile* <tt class="descname">PyCacheFile_ToCpp</tt><big>(</big><a class="reference external" href="http://docs.python.org/c-api/structures.html#PyObject" title="(in Python v2.7)">PyObject</a><em>&nbsp;*object</em><big>)</big><a class="headerlink" href="#PyCacheFile_ToCpp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the <tt class="xref c c-type docutils literal"><span class="pre">pkgCacheFile</span></tt> pointer contained in the Python object
+<em>object</em>.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="cdrom-pkgcdrom">
+<h2>Cdrom (pkgCdrom)<a class="headerlink" href="#cdrom-pkgcdrom" title="Permalink to this headline">¶</a></h2>
+<dl class="var">
+<dt id="PyCdrom_Type">
+<a class="reference external" href="http://docs.python.org/c-api/type.html#PyTypeObject" title="(in Python v2.7)">PyTypeObject</a> <tt class="descname">PyCdrom_Type</tt><a class="headerlink" href="#PyCdrom_Type" title="Permalink to this definition">¶</a></dt>
+<dd><p>The type object for <a class="reference internal" href="../library/apt_pkg.html#apt_pkg.Cdrom" title="apt_pkg.Cdrom"><tt class="xref py py-class docutils literal"><span class="pre">apt_pkg.Cdrom</span></tt></a> objects.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="PyCdrom_Check">
+int <tt class="descname">PyCdrom_Check</tt><big>(</big><a class="reference external" href="http://docs.python.org/c-api/structures.html#PyObject" title="(in Python v2.7)">PyObject</a><em>&nbsp;*object</em><big>)</big><a class="headerlink" href="#PyCdrom_Check" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check that the object <em>object</em> is an <a class="reference internal" href="../library/apt_pkg.html#apt_pkg.Cdrom" title="apt_pkg.Cdrom"><tt class="xref py py-class docutils literal"><span class="pre">apt_pkg.Cdrom</span></tt></a> object, or
+a subclass thereof.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="PyCdrom_CheckExact">
+int <tt class="descname">PyCdrom_CheckExact</tt><big>(</big><a class="reference external" href="http://docs.python.org/c-api/structures.html#PyObject" title="(in Python v2.7)">PyObject</a><em>&nbsp;*object</em><big>)</big><a class="headerlink" href="#PyCdrom_CheckExact" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check that the object <em>object</em> is an <a class="reference internal" href="../library/apt_pkg.html#apt_pkg.Cdrom" title="apt_pkg.Cdrom"><tt class="xref py py-class docutils literal"><span class="pre">apt_pkg.Cdrom</span></tt></a> object
+and no subclass thereof.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="PyCdrom_FromCpp">
+<a class="reference external" href="http://docs.python.org/c-api/structures.html#PyObject" title="(in Python v2.7)">PyObject</a>* <tt class="descname">PyCdrom_FromCpp</tt><big>(</big>pkgCdrom<em>&nbsp;&amp;cdrom</em>, bool<em>&nbsp;delete</em>, <a class="reference external" href="http://docs.python.org/c-api/structures.html#PyObject" title="(in Python v2.7)">PyObject</a><em>&nbsp;*owner</em><big>)</big><a class="headerlink" href="#PyCdrom_FromCpp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a new <a class="reference internal" href="../library/apt_pkg.html#apt_pkg.Cdrom" title="apt_pkg.Cdrom"><tt class="xref py py-class docutils literal"><span class="pre">apt_pkg.Cdrom</span></tt></a> object from the <tt class="xref c c-type docutils literal"><span class="pre">pkgCdrom</span></tt>
+reference given by the parameter <em>cdrom</em>. If the parameter <em>delete</em> is
+true, <em>cdrom</em> will be deleted when the reference count of the returned
+object reaches 0.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="PyCdrom_ToCpp">
+pkgCdrom&amp; <tt class="descname">PyCdrom_ToCpp</tt><big>(</big><a class="reference external" href="http://docs.python.org/c-api/structures.html#PyObject" title="(in Python v2.7)">PyObject</a><em>&nbsp;*object</em><big>)</big><a class="headerlink" href="#PyCdrom_ToCpp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the <tt class="xref c c-type docutils literal"><span class="pre">pkgCdrom</span></tt> reference contained in the Python object
+<em>object</em>.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="configuration-configuration">
+<h2>Configuration (Configuration)<a class="headerlink" href="#configuration-configuration" title="Permalink to this headline">¶</a></h2>
+<dl class="var">
+<dt id="PyConfiguration_Type">
+<a class="reference external" href="http://docs.python.org/c-api/type.html#PyTypeObject" title="(in Python v2.7)">PyTypeObject</a> <tt class="descname">PyConfiguration_Type</tt><a class="headerlink" href="#PyConfiguration_Type" title="Permalink to this definition">¶</a></dt>
+<dd><p>The type object for <a class="reference internal" href="../library/apt_pkg.html#apt_pkg.Configuration" title="apt_pkg.Configuration"><tt class="xref py py-class docutils literal"><span class="pre">apt_pkg.Configuration</span></tt></a> objects.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="PyConfiguration_Check">
+int <tt class="descname">PyConfiguration_Check</tt><big>(</big><a class="reference external" href="http://docs.python.org/c-api/structures.html#PyObject" title="(in Python v2.7)">PyObject</a><em>&nbsp;*object</em><big>)</big><a class="headerlink" href="#PyConfiguration_Check" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check that the object <em>object</em> is an <a class="reference internal" href="../library/apt_pkg.html#apt_pkg.Configuration" title="apt_pkg.Configuration"><tt class="xref py py-class docutils literal"><span class="pre">apt_pkg.Configuration</span></tt></a> object, or
+a subclass thereof.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="PyConfiguration_CheckExact">
+int <tt class="descname">PyConfiguration_CheckExact</tt><big>(</big><a class="reference external" href="http://docs.python.org/c-api/structures.html#PyObject" title="(in Python v2.7)">PyObject</a><em>&nbsp;*object</em><big>)</big><a class="headerlink" href="#PyConfiguration_CheckExact" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check that the object <em>object</em> is an <a class="reference internal" href="../library/apt_pkg.html#apt_pkg.Configuration" title="apt_pkg.Configuration"><tt class="xref py py-class docutils literal"><span class="pre">apt_pkg.Configuration</span></tt></a> object
+and no subclass thereof.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="PyConfiguration_FromCpp">
+<a class="reference external" href="http://docs.python.org/c-api/structures.html#PyObject" title="(in Python v2.7)">PyObject</a>* <tt class="descname">PyConfiguration_FromCpp</tt><big>(</big>Configuration<em>&nbsp;*cpp</em>, bool<em>&nbsp;delete</em>, <a class="reference external" href="http://docs.python.org/c-api/structures.html#PyObject" title="(in Python v2.7)">PyObject</a><em>&nbsp;*owner</em><big>)</big><a class="headerlink" href="#PyConfiguration_FromCpp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a new <a class="reference internal" href="../library/apt_pkg.html#apt_pkg.Configuration" title="apt_pkg.Configuration"><tt class="xref py py-class docutils literal"><span class="pre">apt_pkg.Configuration</span></tt></a> object from the <tt class="xref c c-type docutils literal"><span class="pre">Configuration</span></tt>
+pointer given by the parameter <em>cpp</em>. If the parameter <em>delete</em> is
+true, the object pointed to by <em>cpp</em> will be deleted when the reference
+count of the returned object reaches 0. The parameter <em>owner</em> may refer to
+a parent object (e.g. when exposing a sub tree of a configuration object).</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="PyConfiguration_ToCpp">
+Configuration* <tt class="descname">PyConfiguration_ToCpp</tt><big>(</big><a class="reference external" href="http://docs.python.org/c-api/structures.html#PyObject" title="(in Python v2.7)">PyObject</a><em>&nbsp;*object</em><big>)</big><a class="headerlink" href="#PyConfiguration_ToCpp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the <tt class="xref c c-type docutils literal"><span class="pre">Configuration</span></tt> pointer contained in the Python object
+<em>object</em>.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="depcache-pkgdepcache">
+<h2>DepCache (pkgDepCache)<a class="headerlink" href="#depcache-pkgdepcache" title="Permalink to this headline">¶</a></h2>
+<dl class="var">
+<dt id="PyDepCache_Type">
+<a class="reference external" href="http://docs.python.org/c-api/type.html#PyTypeObject" title="(in Python v2.7)">PyTypeObject</a> <tt class="descname">PyDepCache_Type</tt><a class="headerlink" href="#PyDepCache_Type" title="Permalink to this definition">¶</a></dt>
+<dd><p>The type object for <a class="reference internal" href="../library/apt_pkg.html#apt_pkg.DepCache" title="apt_pkg.DepCache"><tt class="xref py py-class docutils literal"><span class="pre">apt_pkg.DepCache</span></tt></a> objects.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="PyDepCache_Check">
+int <tt class="descname">PyDepCache_Check</tt><big>(</big><a class="reference external" href="http://docs.python.org/c-api/structures.html#PyObject" title="(in Python v2.7)">PyObject</a><em>&nbsp;*object</em><big>)</big><a class="headerlink" href="#PyDepCache_Check" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check that the object <em>object</em> is an <a class="reference internal" href="../library/apt_pkg.html#apt_pkg.DepCache" title="apt_pkg.DepCache"><tt class="xref py py-class docutils literal"><span class="pre">apt_pkg.DepCache</span></tt></a> object, or
+a subclass thereof.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="PyDepCache_CheckExact">
+int <tt class="descname">PyDepCache_CheckExact</tt><big>(</big><a class="reference external" href="http://docs.python.org/c-api/structures.html#PyObject" title="(in Python v2.7)">PyObject</a><em>&nbsp;*object</em><big>)</big><a class="headerlink" href="#PyDepCache_CheckExact" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check that the object <em>object</em> is an <a class="reference internal" href="../library/apt_pkg.html#apt_pkg.DepCache" title="apt_pkg.DepCache"><tt class="xref py py-class docutils literal"><span class="pre">apt_pkg.DepCache</span></tt></a> object
+and no subclass thereof.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="PyDepCache_FromCpp">
+<a class="reference external" href="http://docs.python.org/c-api/structures.html#PyObject" title="(in Python v2.7)">PyObject</a>* <tt class="descname">PyDepCache_FromCpp</tt><big>(</big>pkgDepCache<em>&nbsp;*cpp</em>, bool<em>&nbsp;delete</em>, <a class="reference external" href="http://docs.python.org/c-api/structures.html#PyObject" title="(in Python v2.7)">PyObject</a><em>&nbsp;*owner</em><big>)</big><a class="headerlink" href="#PyDepCache_FromCpp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a new <a class="reference internal" href="../library/apt_pkg.html#apt_pkg.DepCache" title="apt_pkg.DepCache"><tt class="xref py py-class docutils literal"><span class="pre">apt_pkg.DepCache</span></tt></a> object from the <tt class="xref c c-type docutils literal"><span class="pre">pkgDepCache</span></tt>
+pointer given by the parameter <em>cpp</em>. If the parameter <em>delete</em> is
+true, the object pointed to by <em>cpp</em> will be deleted when the reference
+count of the returned object reaches 0. The parameter <em>owner</em> must be
+a PyObject of the type <a class="reference internal" href="#PyCache_Type" title="PyCache_Type"><tt class="xref c c-data docutils literal"><span class="pre">PyCache_Type</span></tt></a>.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="PyDepCache_ToCpp">
+pkgDepCache* <tt class="descname">PyDepCache_ToCpp</tt><big>(</big><a class="reference external" href="http://docs.python.org/c-api/structures.html#PyObject" title="(in Python v2.7)">PyObject</a><em>&nbsp;*object</em><big>)</big><a class="headerlink" href="#PyDepCache_ToCpp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the <tt class="xref c c-type docutils literal"><span class="pre">pkgDepCache</span></tt> pointer contained in the Python object
+<em>object</em>.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="dependency-pkgcache-depiterator">
+<h2>Dependency (pkgCache::DepIterator)<a class="headerlink" href="#dependency-pkgcache-depiterator" title="Permalink to this headline">¶</a></h2>
+<dl class="var">
+<dt id="PyDependency_Type">
+<a class="reference external" href="http://docs.python.org/c-api/type.html#PyTypeObject" title="(in Python v2.7)">PyTypeObject</a> <tt class="descname">PyDependency_Type</tt><a class="headerlink" href="#PyDependency_Type" title="Permalink to this definition">¶</a></dt>
+<dd><p>The type object for <a class="reference internal" href="../library/apt_pkg.html#apt_pkg.Dependency" title="apt_pkg.Dependency"><tt class="xref py py-class docutils literal"><span class="pre">apt_pkg.Dependency</span></tt></a> objects.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="PyDependency_Check">
+int <tt class="descname">PyDependency_Check</tt><big>(</big><a class="reference external" href="http://docs.python.org/c-api/structures.html#PyObject" title="(in Python v2.7)">PyObject</a><em>&nbsp;*object</em><big>)</big><a class="headerlink" href="#PyDependency_Check" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check that the object <em>object</em> is an <a class="reference internal" href="../library/apt_pkg.html#apt_pkg.Dependency" title="apt_pkg.Dependency"><tt class="xref py py-class docutils literal"><span class="pre">apt_pkg.Dependency</span></tt></a> object, or
+a subclass thereof.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="PyDependency_CheckExact">
+int <tt class="descname">PyDependency_CheckExact</tt><big>(</big><a class="reference external" href="http://docs.python.org/c-api/structures.html#PyObject" title="(in Python v2.7)">PyObject</a><em>&nbsp;*object</em><big>)</big><a class="headerlink" href="#PyDependency_CheckExact" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check that the object <em>object</em> is an <a class="reference internal" href="../library/apt_pkg.html#apt_pkg.Dependency" title="apt_pkg.Dependency"><tt class="xref py py-class docutils literal"><span class="pre">apt_pkg.Dependency</span></tt></a> object
+and no subclass thereof.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="PyDependency_FromCpp">
+<a class="reference external" href="http://docs.python.org/c-api/structures.html#PyObject" title="(in Python v2.7)">PyObject</a>* <tt class="descname">PyDependency_FromCpp</tt><big>(</big>pkgCache::DepIterator<em>&nbsp;&amp;cpp</em>, bool<em>&nbsp;delete</em>, <a class="reference external" href="http://docs.python.org/c-api/structures.html#PyObject" title="(in Python v2.7)">PyObject</a><em>&nbsp;*owner</em><big>)</big><a class="headerlink" href="#PyDependency_FromCpp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a new <a class="reference internal" href="../library/apt_pkg.html#apt_pkg.Dependency" title="apt_pkg.Dependency"><tt class="xref py py-class docutils literal"><span class="pre">apt_pkg.Dependency</span></tt></a> object from the <tt class="xref c c-type docutils literal"><span class="pre">pkgCache::DepIterator</span></tt>
+reference given by the parameter <em>cpp</em>. If the parameter <em>delete</em> is
+true, <em>cpp</em> will be deleted when the reference
+count of the returned object reaches 0. The parameter <em>owner</em> must be
+a PyObject of the type <a class="reference internal" href="#PyPackage_Type" title="PyPackage_Type"><tt class="xref c c-data docutils literal"><span class="pre">PyPackage_Type</span></tt></a>.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="PyDependency_ToCpp">
+pkgCache::DepIterator&amp; <tt class="descname">PyDependency_ToCpp</tt><big>(</big><a class="reference external" href="http://docs.python.org/c-api/structures.html#PyObject" title="(in Python v2.7)">PyObject</a><em>&nbsp;*object</em><big>)</big><a class="headerlink" href="#PyDependency_ToCpp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the <tt class="xref c c-type docutils literal"><span class="pre">pkgCache::DepIterator</span></tt> reference contained in the
+Python object <em>object</em>.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="description-pkgcache-desciterator">
+<h2>Description (pkgCache::DescIterator)<a class="headerlink" href="#description-pkgcache-desciterator" title="Permalink to this headline">¶</a></h2>
+<dl class="var">
+<dt id="PyDescription_Type">
+<a class="reference external" href="http://docs.python.org/c-api/type.html#PyTypeObject" title="(in Python v2.7)">PyTypeObject</a> <tt class="descname">PyDescription_Type</tt><a class="headerlink" href="#PyDescription_Type" title="Permalink to this definition">¶</a></dt>
+<dd><p>The type object for <a class="reference internal" href="../library/apt_pkg.html#apt_pkg.Description" title="apt_pkg.Description"><tt class="xref py py-class docutils literal"><span class="pre">apt_pkg.Description</span></tt></a> objects.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="PyDescription_Check">
+int <tt class="descname">PyDescription_Check</tt><big>(</big><a class="reference external" href="http://docs.python.org/c-api/structures.html#PyObject" title="(in Python v2.7)">PyObject</a><em>&nbsp;*object</em><big>)</big><a class="headerlink" href="#PyDescription_Check" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check that the object <em>object</em> is an <a class="reference internal" href="../library/apt_pkg.html#apt_pkg.Description" title="apt_pkg.Description"><tt class="xref py py-class docutils literal"><span class="pre">apt_pkg.Description</span></tt></a> object, or
+a subclass thereof.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="PyDescription_CheckExact">
+int <tt class="descname">PyDescription_CheckExact</tt><big>(</big><a class="reference external" href="http://docs.python.org/c-api/structures.html#PyObject" title="(in Python v2.7)">PyObject</a><em>&nbsp;*object</em><big>)</big><a class="headerlink" href="#PyDescription_CheckExact" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check that the object <em>object</em> is an <a class="reference internal" href="../library/apt_pkg.html#apt_pkg.Description" title="apt_pkg.Description"><tt class="xref py py-class docutils literal"><span class="pre">apt_pkg.Description</span></tt></a> object
+and no subclass thereof.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="PyDescription_FromCpp">
+<a class="reference external" href="http://docs.python.org/c-api/structures.html#PyObject" title="(in Python v2.7)">PyObject</a>* <tt class="descname">PyDescription_FromCpp</tt><big>(</big>pkgCache::DescIterator<em>&nbsp;&amp;cpp</em>, bool<em>&nbsp;delete</em>, <a class="reference external" href="http://docs.python.org/c-api/structures.html#PyObject" title="(in Python v2.7)">PyObject</a><em>&nbsp;*owner</em><big>)</big><a class="headerlink" href="#PyDescription_FromCpp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a new <a class="reference internal" href="../library/apt_pkg.html#apt_pkg.Description" title="apt_pkg.Description"><tt class="xref py py-class docutils literal"><span class="pre">apt_pkg.Description</span></tt></a> object from the <tt class="xref c c-type docutils literal"><span class="pre">pkgCache::DescIterator</span></tt>
+reference given by the parameter <em>cpp</em>. If the parameter <em>delete</em> is
+true, <em>cpp</em> will be deleted when the reference
+count of the returned object reaches 0. The parameter <em>owner</em> must be
+a PyObject of the type <a class="reference internal" href="#PyPackage_Type" title="PyPackage_Type"><tt class="xref c c-data docutils literal"><span class="pre">PyPackage_Type</span></tt></a>.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="PyDescription_ToCpp">
+pkgCache::DescIterator&amp; <tt class="descname">PyDescription_ToCpp</tt><big>(</big><a class="reference external" href="http://docs.python.org/c-api/structures.html#PyObject" title="(in Python v2.7)">PyObject</a><em>&nbsp;*object</em><big>)</big><a class="headerlink" href="#PyDescription_ToCpp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the <tt class="xref c c-type docutils literal"><span class="pre">pkgCache::DescIterator</span></tt> reference contained in the
+Python object <em>object</em>.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="group-pkgcache-grpiterator">
+<h2>Group (pkgCache::GrpIterator)<a class="headerlink" href="#group-pkgcache-grpiterator" title="Permalink to this headline">¶</a></h2>
+<p class="versionadded">
+<span class="versionmodified">New in version 0.8.0.</span></p>
+<dl class="var">
+<dt id="PyGroup_Type">
+<a class="reference external" href="http://docs.python.org/c-api/type.html#PyTypeObject" title="(in Python v2.7)">PyTypeObject</a> <tt class="descname">PyGroup_Type</tt><a class="headerlink" href="#PyGroup_Type" title="Permalink to this definition">¶</a></dt>
+<dd><p>The type object for <a class="reference internal" href="../library/apt_pkg.html#apt_pkg.Group" title="apt_pkg.Group"><tt class="xref py py-class docutils literal"><span class="pre">apt_pkg.Group</span></tt></a> objects.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="PyGroup_Check">
+int <tt class="descname">PyGroup_Check</tt><big>(</big><a class="reference external" href="http://docs.python.org/c-api/structures.html#PyObject" title="(in Python v2.7)">PyObject</a><em>&nbsp;*object</em><big>)</big><a class="headerlink" href="#PyGroup_Check" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check that the object <em>object</em> is an <a class="reference internal" href="../library/apt_pkg.html#apt_pkg.Group" title="apt_pkg.Group"><tt class="xref py py-class docutils literal"><span class="pre">apt_pkg.Group</span></tt></a> object, or
+a subclass thereof.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="PyGroup_CheckExact">
+int <tt class="descname">PyGroup_CheckExact</tt><big>(</big><a class="reference external" href="http://docs.python.org/c-api/structures.html#PyObject" title="(in Python v2.7)">PyObject</a><em>&nbsp;*object</em><big>)</big><a class="headerlink" href="#PyGroup_CheckExact" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check that the object <em>object</em> is an <a class="reference internal" href="../library/apt_pkg.html#apt_pkg.Group" title="apt_pkg.Group"><tt class="xref py py-class docutils literal"><span class="pre">apt_pkg.Group</span></tt></a> object
+and no subclass thereof.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="PyGroup_FromCpp">
+<a class="reference external" href="http://docs.python.org/c-api/structures.html#PyObject" title="(in Python v2.7)">PyObject</a>* <tt class="descname">PyGroup_FromCpp</tt><big>(</big>pkgCache::GrpIterator<em>&nbsp;&amp;cpp</em>, bool<em>&nbsp;delete</em>, <a class="reference external" href="http://docs.python.org/c-api/structures.html#PyObject" title="(in Python v2.7)">PyObject</a><em>&nbsp;*owner</em><big>)</big><a class="headerlink" href="#PyGroup_FromCpp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a new <a class="reference internal" href="../library/apt_pkg.html#apt_pkg.Group" title="apt_pkg.Group"><tt class="xref py py-class docutils literal"><span class="pre">apt_pkg.Group</span></tt></a> object from the <tt class="xref c c-type docutils literal"><span class="pre">pkgCache::GrpIterator</span></tt>
+reference given by the parameter <em>cpp</em>. If the parameter <em>delete</em> is
+true, <em>cpp</em> will be deleted when the reference
+count of the returned object reaches 0. The parameter <em>owner</em> should be
+a PyObject of the type <a class="reference internal" href="#PyCache_Type" title="PyCache_Type"><tt class="xref c c-data docutils literal"><span class="pre">PyCache_Type</span></tt></a>.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="PyGroup_ToCpp">
+pkgCache::GrpIterator&amp; <tt class="descname">PyGroup_ToCpp</tt><big>(</big><a class="reference external" href="http://docs.python.org/c-api/structures.html#PyObject" title="(in Python v2.7)">PyObject</a><em>&nbsp;*object</em><big>)</big><a class="headerlink" href="#PyGroup_ToCpp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the <tt class="xref c c-type docutils literal"><span class="pre">pkgCache::GrpIterator</span></tt> reference contained in the
+Python object <em>object</em>.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="hashes-hashes">
+<h2>Hashes (Hashes)<a class="headerlink" href="#hashes-hashes" title="Permalink to this headline">¶</a></h2>
+<dl class="var">
+<dt id="PyHashes_Type">
+<a class="reference external" href="http://docs.python.org/c-api/type.html#PyTypeObject" title="(in Python v2.7)">PyTypeObject</a> <tt class="descname">PyHashes_Type</tt><a class="headerlink" href="#PyHashes_Type" title="Permalink to this definition">¶</a></dt>
+<dd><p>The type object for <a class="reference internal" href="../library/apt_pkg.html#apt_pkg.Hashes" title="apt_pkg.Hashes"><tt class="xref py py-class docutils literal"><span class="pre">apt_pkg.Hashes</span></tt></a> objects.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="PyHashes_Check">
+int <tt class="descname">PyHashes_Check</tt><big>(</big><a class="reference external" href="http://docs.python.org/c-api/structures.html#PyObject" title="(in Python v2.7)">PyObject</a><em>&nbsp;*object</em><big>)</big><a class="headerlink" href="#PyHashes_Check" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check that the object <em>object</em> is an <a class="reference internal" href="../library/apt_pkg.html#apt_pkg.Hashes" title="apt_pkg.Hashes"><tt class="xref py py-class docutils literal"><span class="pre">apt_pkg.Hashes</span></tt></a> object, or
+a subclass thereof.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="PyHashes_CheckExact">
+int <tt class="descname">PyHashes_CheckExact</tt><big>(</big><a class="reference external" href="http://docs.python.org/c-api/structures.html#PyObject" title="(in Python v2.7)">PyObject</a><em>&nbsp;*object</em><big>)</big><a class="headerlink" href="#PyHashes_CheckExact" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check that the object <em>object</em> is an <a class="reference internal" href="../library/apt_pkg.html#apt_pkg.Hashes" title="apt_pkg.Hashes"><tt class="xref py py-class docutils literal"><span class="pre">apt_pkg.Hashes</span></tt></a> object
+and no subclass thereof.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="PyHashes_FromCpp">
+<a class="reference external" href="http://docs.python.org/c-api/structures.html#PyObject" title="(in Python v2.7)">PyObject</a>* <tt class="descname">PyHashes_FromCpp</tt><big>(</big>Hashes<em>&nbsp;&amp;cpp</em>, bool<em>&nbsp;delete</em>, <a class="reference external" href="http://docs.python.org/c-api/structures.html#PyObject" title="(in Python v2.7)">PyObject</a><em>&nbsp;*owner</em><big>)</big><a class="headerlink" href="#PyHashes_FromCpp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a new <a class="reference internal" href="../library/apt_pkg.html#apt_pkg.Hashes" title="apt_pkg.Hashes"><tt class="xref py py-class docutils literal"><span class="pre">apt_pkg.Hashes</span></tt></a> object from the <tt class="xref c c-type docutils literal"><span class="pre">Hashes</span></tt>
+reference given by the parameter <em>cpp</em>. If the parameter <em>delete</em> is
+true, <em>cpp</em> will be deleted when the reference count of the returned
+object reaches 0.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="PyHashes_ToCpp">
+Hashes&amp; <tt class="descname">PyHashes_ToCpp</tt><big>(</big><a class="reference external" href="http://docs.python.org/c-api/structures.html#PyObject" title="(in Python v2.7)">PyObject</a><em>&nbsp;*object</em><big>)</big><a class="headerlink" href="#PyHashes_ToCpp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the <tt class="xref c c-type docutils literal"><span class="pre">Hashes</span></tt> reference contained in the
+Python object <em>object</em>.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="hashstring-hashstring">
+<h2>HashString (HashString)<a class="headerlink" href="#hashstring-hashstring" title="Permalink to this headline">¶</a></h2>
+<dl class="var">
+<dt id="PyHashString_Type">
+<a class="reference external" href="http://docs.python.org/c-api/type.html#PyTypeObject" title="(in Python v2.7)">PyTypeObject</a> <tt class="descname">PyHashString_Type</tt><a class="headerlink" href="#PyHashString_Type" title="Permalink to this definition">¶</a></dt>
+<dd><p>The type object for <a class="reference internal" href="../library/apt_pkg.html#apt_pkg.HashString" title="apt_pkg.HashString"><tt class="xref py py-class docutils literal"><span class="pre">apt_pkg.HashString</span></tt></a> objects.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="PyHashString_Check">
+int <tt class="descname">PyHashString_Check</tt><big>(</big><a class="reference external" href="http://docs.python.org/c-api/structures.html#PyObject" title="(in Python v2.7)">PyObject</a><em>&nbsp;*object</em><big>)</big><a class="headerlink" href="#PyHashString_Check" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check that the object <em>object</em> is an <a class="reference internal" href="../library/apt_pkg.html#apt_pkg.HashString" title="apt_pkg.HashString"><tt class="xref py py-class docutils literal"><span class="pre">apt_pkg.HashString</span></tt></a> object, or
+a subclass thereof.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="PyHashString_CheckExact">
+int <tt class="descname">PyHashString_CheckExact</tt><big>(</big><a class="reference external" href="http://docs.python.org/c-api/structures.html#PyObject" title="(in Python v2.7)">PyObject</a><em>&nbsp;*object</em><big>)</big><a class="headerlink" href="#PyHashString_CheckExact" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check that the object <em>object</em> is an <a class="reference internal" href="../library/apt_pkg.html#apt_pkg.HashString" title="apt_pkg.HashString"><tt class="xref py py-class docutils literal"><span class="pre">apt_pkg.HashString</span></tt></a> object
+and no subclass thereof.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="PyHashString_FromCpp">
+<a class="reference external" href="http://docs.python.org/c-api/structures.html#PyObject" title="(in Python v2.7)">PyObject</a>* <tt class="descname">PyHashString_FromCpp</tt><big>(</big>HashString<em>&nbsp;*cpp</em>, bool<em>&nbsp;delete</em>, <a class="reference external" href="http://docs.python.org/c-api/structures.html#PyObject" title="(in Python v2.7)">PyObject</a><em>&nbsp;*owner</em><big>)</big><a class="headerlink" href="#PyHashString_FromCpp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a new <a class="reference internal" href="../library/apt_pkg.html#apt_pkg.HashString" title="apt_pkg.HashString"><tt class="xref py py-class docutils literal"><span class="pre">apt_pkg.HashString</span></tt></a> object from the <tt class="xref c c-type docutils literal"><span class="pre">HashString</span></tt>
+pointer given by the parameter <em>cpp</em>. If the parameter <em>delete</em> is
+true, the object pointed to by <em>cpp</em> will be deleted when the reference
+count of the returned object reaches 0.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="PyHashString_ToCpp">
+HashString* <tt class="descname">PyHashString_ToCpp</tt><big>(</big><a class="reference external" href="http://docs.python.org/c-api/structures.html#PyObject" title="(in Python v2.7)">PyObject</a><em>&nbsp;*object</em><big>)</big><a class="headerlink" href="#PyHashString_ToCpp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the <tt class="xref c c-type docutils literal"><span class="pre">HashString</span></tt> pointer contained in the Python object
+<em>object</em>.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="indexrecords-indexrecords">
+<h2>IndexRecords (indexRecords)<a class="headerlink" href="#indexrecords-indexrecords" title="Permalink to this headline">¶</a></h2>
+<dl class="var">
+<dt id="PyIndexRecords_Type">
+<a class="reference external" href="http://docs.python.org/c-api/type.html#PyTypeObject" title="(in Python v2.7)">PyTypeObject</a> <tt class="descname">PyIndexRecords_Type</tt><a class="headerlink" href="#PyIndexRecords_Type" title="Permalink to this definition">¶</a></dt>
+<dd><p>The type object for <a class="reference internal" href="../library/apt_pkg.html#apt_pkg.IndexRecords" title="apt_pkg.IndexRecords"><tt class="xref py py-class docutils literal"><span class="pre">apt_pkg.IndexRecords</span></tt></a> objects.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="PyIndexRecords_Check">
+int <tt class="descname">PyIndexRecords_Check</tt><big>(</big><a class="reference external" href="http://docs.python.org/c-api/structures.html#PyObject" title="(in Python v2.7)">PyObject</a><em>&nbsp;*object</em><big>)</big><a class="headerlink" href="#PyIndexRecords_Check" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check that the object <em>object</em> is an <a class="reference internal" href="../library/apt_pkg.html#apt_pkg.IndexRecords" title="apt_pkg.IndexRecords"><tt class="xref py py-class docutils literal"><span class="pre">apt_pkg.IndexRecords</span></tt></a> object, or
+a subclass thereof.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="PyIndexRecords_CheckExact">
+int <tt class="descname">PyIndexRecords_CheckExact</tt><big>(</big><a class="reference external" href="http://docs.python.org/c-api/structures.html#PyObject" title="(in Python v2.7)">PyObject</a><em>&nbsp;*object</em><big>)</big><a class="headerlink" href="#PyIndexRecords_CheckExact" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check that the object <em>object</em> is an <a class="reference internal" href="../library/apt_pkg.html#apt_pkg.IndexRecords" title="apt_pkg.IndexRecords"><tt class="xref py py-class docutils literal"><span class="pre">apt_pkg.IndexRecords</span></tt></a> object
+and no subclass thereof.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="PyIndexRecords_FromCpp">
+<a class="reference external" href="http://docs.python.org/c-api/structures.html#PyObject" title="(in Python v2.7)">PyObject</a>* <tt class="descname">PyIndexRecords_FromCpp</tt><big>(</big>indexRecords<em>&nbsp;*cpp</em>, bool<em>&nbsp;delete</em>, <a class="reference external" href="http://docs.python.org/c-api/structures.html#PyObject" title="(in Python v2.7)">PyObject</a><em>&nbsp;*owner</em><big>)</big><a class="headerlink" href="#PyIndexRecords_FromCpp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a new <a class="reference internal" href="../library/apt_pkg.html#apt_pkg.IndexRecords" title="apt_pkg.IndexRecords"><tt class="xref py py-class docutils literal"><span class="pre">apt_pkg.IndexRecords</span></tt></a> object from the <tt class="xref c c-type docutils literal"><span class="pre">indexRecords</span></tt>
+pointer given by the parameter <em>cpp</em>. If the parameter <em>delete</em> is
+true, the object pointed to by <em>cpp</em> will be deleted when the reference
+count of the returned object reaches 0.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="PyIndexRecords_ToCpp">
+indexRecords* <tt class="descname">PyIndexRecords_ToCpp</tt><big>(</big><a class="reference external" href="http://docs.python.org/c-api/structures.html#PyObject" title="(in Python v2.7)">PyObject</a><em>&nbsp;*object</em><big>)</big><a class="headerlink" href="#PyIndexRecords_ToCpp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the <tt class="xref c c-type docutils literal"><span class="pre">indexRecords</span></tt> pointer contained in the Python object
+<em>object</em>.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="metaindex-metaindex">
+<h2>MetaIndex (metaIndex)<a class="headerlink" href="#metaindex-metaindex" title="Permalink to this headline">¶</a></h2>
+<dl class="var">
+<dt id="PyMetaIndex_Type">
+<a class="reference external" href="http://docs.python.org/c-api/type.html#PyTypeObject" title="(in Python v2.7)">PyTypeObject</a> <tt class="descname">PyMetaIndex_Type</tt><a class="headerlink" href="#PyMetaIndex_Type" title="Permalink to this definition">¶</a></dt>
+<dd><p>The type object for <a class="reference internal" href="../library/apt_pkg.html#apt_pkg.MetaIndex" title="apt_pkg.MetaIndex"><tt class="xref py py-class docutils literal"><span class="pre">apt_pkg.MetaIndex</span></tt></a> objects.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="PyMetaIndex_Check">
+int <tt class="descname">PyMetaIndex_Check</tt><big>(</big><a class="reference external" href="http://docs.python.org/c-api/structures.html#PyObject" title="(in Python v2.7)">PyObject</a><em>&nbsp;*object</em><big>)</big><a class="headerlink" href="#PyMetaIndex_Check" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check that the object <em>object</em> is an <a class="reference internal" href="../library/apt_pkg.html#apt_pkg.MetaIndex" title="apt_pkg.MetaIndex"><tt class="xref py py-class docutils literal"><span class="pre">apt_pkg.MetaIndex</span></tt></a> object, or
+a subclass thereof.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="PyMetaIndex_CheckExact">
+int <tt class="descname">PyMetaIndex_CheckExact</tt><big>(</big><a class="reference external" href="http://docs.python.org/c-api/structures.html#PyObject" title="(in Python v2.7)">PyObject</a><em>&nbsp;*object</em><big>)</big><a class="headerlink" href="#PyMetaIndex_CheckExact" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check that the object <em>object</em> is an <a class="reference internal" href="../library/apt_pkg.html#apt_pkg.MetaIndex" title="apt_pkg.MetaIndex"><tt class="xref py py-class docutils literal"><span class="pre">apt_pkg.MetaIndex</span></tt></a> object
+and no subclass thereof.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="PyMetaIndex_FromCpp">
+<a class="reference external" href="http://docs.python.org/c-api/structures.html#PyObject" title="(in Python v2.7)">PyObject</a>* <tt class="descname">PyMetaIndex_FromCpp</tt><big>(</big>metaIndex<em>&nbsp;*cpp</em>, bool<em>&nbsp;delete</em>, <a class="reference external" href="http://docs.python.org/c-api/structures.html#PyObject" title="(in Python v2.7)">PyObject</a><em>&nbsp;*owner</em><big>)</big><a class="headerlink" href="#PyMetaIndex_FromCpp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a new <a class="reference internal" href="../library/apt_pkg.html#apt_pkg.MetaIndex" title="apt_pkg.MetaIndex"><tt class="xref py py-class docutils literal"><span class="pre">apt_pkg.MetaIndex</span></tt></a> object from the <tt class="xref c c-type docutils literal"><span class="pre">metaIndex</span></tt>
+pointer given by the parameter <em>cpp</em>. If the parameter <em>delete</em> is
+true, the object pointed to by <em>cpp</em> will be deleted when the reference
+count of the returned object reaches 0. The parameter <em>owner</em> should be
+a PyObject of the type <a class="reference internal" href="#PySourceList_Type" title="PySourceList_Type"><tt class="xref c c-data docutils literal"><span class="pre">PySourceList_Type</span></tt></a>.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="PyMetaIndex_ToCpp">
+metaIndex* <tt class="descname">PyMetaIndex_ToCpp</tt><big>(</big><a class="reference external" href="http://docs.python.org/c-api/structures.html#PyObject" title="(in Python v2.7)">PyObject</a><em>&nbsp;*object</em><big>)</big><a class="headerlink" href="#PyMetaIndex_ToCpp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the <tt class="xref c c-type docutils literal"><span class="pre">metaIndex</span></tt> pointer contained in the Python object
+<em>object</em>.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="package-pkgcache-pkgiterator">
+<h2>Package (pkgCache::PkgIterator)<a class="headerlink" href="#package-pkgcache-pkgiterator" title="Permalink to this headline">¶</a></h2>
+<dl class="var">
+<dt id="PyPackage_Type">
+<a class="reference external" href="http://docs.python.org/c-api/type.html#PyTypeObject" title="(in Python v2.7)">PyTypeObject</a> <tt class="descname">PyPackage_Type</tt><a class="headerlink" href="#PyPackage_Type" title="Permalink to this definition">¶</a></dt>
+<dd><p>The type object for <a class="reference internal" href="../library/apt_pkg.html#apt_pkg.Package" title="apt_pkg.Package"><tt class="xref py py-class docutils literal"><span class="pre">apt_pkg.Package</span></tt></a> objects.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="PyPackage_Check">
+int <tt class="descname">PyPackage_Check</tt><big>(</big><a class="reference external" href="http://docs.python.org/c-api/structures.html#PyObject" title="(in Python v2.7)">PyObject</a><em>&nbsp;*object</em><big>)</big><a class="headerlink" href="#PyPackage_Check" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check that the object <em>object</em> is an <a class="reference internal" href="../library/apt_pkg.html#apt_pkg.Package" title="apt_pkg.Package"><tt class="xref py py-class docutils literal"><span class="pre">apt_pkg.Package</span></tt></a> object, or
+a subclass thereof.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="PyPackage_CheckExact">
+int <tt class="descname">PyPackage_CheckExact</tt><big>(</big><a class="reference external" href="http://docs.python.org/c-api/structures.html#PyObject" title="(in Python v2.7)">PyObject</a><em>&nbsp;*object</em><big>)</big><a class="headerlink" href="#PyPackage_CheckExact" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check that the object <em>object</em> is an <a class="reference internal" href="../library/apt_pkg.html#apt_pkg.Package" title="apt_pkg.Package"><tt class="xref py py-class docutils literal"><span class="pre">apt_pkg.Package</span></tt></a> object
+and no subclass thereof.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="PyPackage_FromCpp">
+<a class="reference external" href="http://docs.python.org/c-api/structures.html#PyObject" title="(in Python v2.7)">PyObject</a>* <tt class="descname">PyPackage_FromCpp</tt><big>(</big>pkgCache::PkgIterator<em>&nbsp;&amp;cpp</em>, bool<em>&nbsp;delete</em>, <a class="reference external" href="http://docs.python.org/c-api/structures.html#PyObject" title="(in Python v2.7)">PyObject</a><em>&nbsp;*owner</em><big>)</big><a class="headerlink" href="#PyPackage_FromCpp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a new <a class="reference internal" href="../library/apt_pkg.html#apt_pkg.Package" title="apt_pkg.Package"><tt class="xref py py-class docutils literal"><span class="pre">apt_pkg.Package</span></tt></a> object from the <tt class="xref c c-type docutils literal"><span class="pre">pkgCache::PkgIterator</span></tt>
+reference given by the parameter <em>cpp</em>. If the parameter <em>delete</em> is
+true, <em>cpp</em> will be deleted when the reference
+count of the returned object reaches 0. The parameter <em>owner</em> should be
+a PyObject of the type <a class="reference internal" href="#PyCache_Type" title="PyCache_Type"><tt class="xref c c-data docutils literal"><span class="pre">PyCache_Type</span></tt></a>.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="PyPackage_ToCpp">
+pkgCache::PkgIterator&amp; <tt class="descname">PyPackage_ToCpp</tt><big>(</big><a class="reference external" href="http://docs.python.org/c-api/structures.html#PyObject" title="(in Python v2.7)">PyObject</a><em>&nbsp;*object</em><big>)</big><a class="headerlink" href="#PyPackage_ToCpp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the <tt class="xref c c-type docutils literal"><span class="pre">pkgCache::PkgIterator</span></tt> reference contained in the
+Python object <em>object</em>.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="packagefile-pkgcache-pkgfileiterator">
+<h2>PackageFile (pkgCache::PkgFileIterator)<a class="headerlink" href="#packagefile-pkgcache-pkgfileiterator" title="Permalink to this headline">¶</a></h2>
+<dl class="var">
+<dt id="PyPackageFile_Type">
+<a class="reference external" href="http://docs.python.org/c-api/type.html#PyTypeObject" title="(in Python v2.7)">PyTypeObject</a> <tt class="descname">PyPackageFile_Type</tt><a class="headerlink" href="#PyPackageFile_Type" title="Permalink to this definition">¶</a></dt>
+<dd><p>The type object for <a class="reference internal" href="../library/apt_pkg.html#apt_pkg.PackageFile" title="apt_pkg.PackageFile"><tt class="xref py py-class docutils literal"><span class="pre">apt_pkg.PackageFile</span></tt></a> objects.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="PyPackageFile_Check">
+int <tt class="descname">PyPackageFile_Check</tt><big>(</big><a class="reference external" href="http://docs.python.org/c-api/structures.html#PyObject" title="(in Python v2.7)">PyObject</a><em>&nbsp;*object</em><big>)</big><a class="headerlink" href="#PyPackageFile_Check" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check that the object <em>object</em> is an <a class="reference internal" href="../library/apt_pkg.html#apt_pkg.PackageFile" title="apt_pkg.PackageFile"><tt class="xref py py-class docutils literal"><span class="pre">apt_pkg.PackageFile</span></tt></a> object, or
+a subclass thereof.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="PyPackageFile_CheckExact">
+int <tt class="descname">PyPackageFile_CheckExact</tt><big>(</big><a class="reference external" href="http://docs.python.org/c-api/structures.html#PyObject" title="(in Python v2.7)">PyObject</a><em>&nbsp;*object</em><big>)</big><a class="headerlink" href="#PyPackageFile_CheckExact" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check that the object <em>object</em> is an <a class="reference internal" href="../library/apt_pkg.html#apt_pkg.PackageFile" title="apt_pkg.PackageFile"><tt class="xref py py-class docutils literal"><span class="pre">apt_pkg.PackageFile</span></tt></a> object
+and no subclass thereof.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="PyPackageFile_FromCpp">
+<a class="reference external" href="http://docs.python.org/c-api/structures.html#PyObject" title="(in Python v2.7)">PyObject</a>* <tt class="descname">PyPackageFile_FromCpp</tt><big>(</big>pkgCache::PkgFileIterator<em>&nbsp;&amp;cpp</em>, bool<em>&nbsp;delete</em>, <a class="reference external" href="http://docs.python.org/c-api/structures.html#PyObject" title="(in Python v2.7)">PyObject</a><em>&nbsp;*owner</em><big>)</big><a class="headerlink" href="#PyPackageFile_FromCpp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a new <a class="reference internal" href="../library/apt_pkg.html#apt_pkg.PackageFile" title="apt_pkg.PackageFile"><tt class="xref py py-class docutils literal"><span class="pre">apt_pkg.PackageFile</span></tt></a> object from the <tt class="xref c c-type docutils literal"><span class="pre">pkgCache::PkgFileIterator</span></tt>
+reference given by the parameter <em>cpp</em>. If the parameter <em>delete</em> is
+true, <em>cpp</em> will be deleted when the reference
+count of the returned object reaches 0. The parameter <em>owner</em> should be
+a PyObject of the type <a class="reference internal" href="#PyCache_Type" title="PyCache_Type"><tt class="xref c c-data docutils literal"><span class="pre">PyCache_Type</span></tt></a>.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="PyPackageFile_ToCpp">
+pkgCache::PkgFileIterator&amp; <tt class="descname">PyPackageFile_ToCpp</tt><big>(</big><a class="reference external" href="http://docs.python.org/c-api/structures.html#PyObject" title="(in Python v2.7)">PyObject</a><em>&nbsp;*object</em><big>)</big><a class="headerlink" href="#PyPackageFile_ToCpp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the <tt class="xref c c-type docutils literal"><span class="pre">pkgCache::PkgFileIterator</span></tt> reference contained in the
+Python object <em>object</em>.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="indexfile-pkgindexfile">
+<h2>IndexFile (pkgIndexFile)<a class="headerlink" href="#indexfile-pkgindexfile" title="Permalink to this headline">¶</a></h2>
+<dl class="var">
+<dt id="PyIndexFile_Type">
+<a class="reference external" href="http://docs.python.org/c-api/type.html#PyTypeObject" title="(in Python v2.7)">PyTypeObject</a> <tt class="descname">PyIndexFile_Type</tt><a class="headerlink" href="#PyIndexFile_Type" title="Permalink to this definition">¶</a></dt>
+<dd><p>The type object for <a class="reference internal" href="../library/apt_pkg.html#apt_pkg.IndexFile" title="apt_pkg.IndexFile"><tt class="xref py py-class docutils literal"><span class="pre">apt_pkg.IndexFile</span></tt></a> objects.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="PyIndexFile_Check">
+int <tt class="descname">PyIndexFile_Check</tt><big>(</big><a class="reference external" href="http://docs.python.org/c-api/structures.html#PyObject" title="(in Python v2.7)">PyObject</a><em>&nbsp;*object</em><big>)</big><a class="headerlink" href="#PyIndexFile_Check" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check that the object <em>object</em> is an <a class="reference internal" href="../library/apt_pkg.html#apt_pkg.IndexFile" title="apt_pkg.IndexFile"><tt class="xref py py-class docutils literal"><span class="pre">apt_pkg.IndexFile</span></tt></a> object, or
+a subclass thereof.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="PyIndexFile_CheckExact">
+int <tt class="descname">PyIndexFile_CheckExact</tt><big>(</big><a class="reference external" href="http://docs.python.org/c-api/structures.html#PyObject" title="(in Python v2.7)">PyObject</a><em>&nbsp;*object</em><big>)</big><a class="headerlink" href="#PyIndexFile_CheckExact" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check that the object <em>object</em> is an <a class="reference internal" href="../library/apt_pkg.html#apt_pkg.IndexFile" title="apt_pkg.IndexFile"><tt class="xref py py-class docutils literal"><span class="pre">apt_pkg.IndexFile</span></tt></a> object
+and no subclass thereof.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="PyIndexFile_FromCpp">
+<a class="reference external" href="http://docs.python.org/c-api/structures.html#PyObject" title="(in Python v2.7)">PyObject</a>* <tt class="descname">PyIndexFile_FromCpp</tt><big>(</big>pkgIndexFile<em>&nbsp;*cpp</em>, bool<em>&nbsp;delete</em>, <a class="reference external" href="http://docs.python.org/c-api/structures.html#PyObject" title="(in Python v2.7)">PyObject</a><em>&nbsp;*owner</em><big>)</big><a class="headerlink" href="#PyIndexFile_FromCpp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a new <a class="reference internal" href="../library/apt_pkg.html#apt_pkg.IndexFile" title="apt_pkg.IndexFile"><tt class="xref py py-class docutils literal"><span class="pre">apt_pkg.IndexFile</span></tt></a> object from the <tt class="xref c c-type docutils literal"><span class="pre">pkgIndexFile</span></tt>
+pointer given by the parameter <em>cpp</em>. If the parameter <em>delete</em> is
+true, the object pointed to by <em>cpp</em> will be deleted when the reference
+count of the returned object reaches 0. The parameter <em>owner</em> should be
+a PyObject of the type <a class="reference internal" href="#PyMetaIndex_Type" title="PyMetaIndex_Type"><tt class="xref c c-data docutils literal"><span class="pre">PyMetaIndex_Type</span></tt></a>.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="PyIndexFile_ToCpp">
+pkgIndexFile* <tt class="descname">PyIndexFile_ToCpp</tt><big>(</big><a class="reference external" href="http://docs.python.org/c-api/structures.html#PyObject" title="(in Python v2.7)">PyObject</a><em>&nbsp;*object</em><big>)</big><a class="headerlink" href="#PyIndexFile_ToCpp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the <tt class="xref c c-type docutils literal"><span class="pre">pkgIndexFile</span></tt> pointer contained in the Python object
+<em>object</em>.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="orderlist-pkgorderlist">
+<h2>OrderList (pkgOrderList)<a class="headerlink" href="#orderlist-pkgorderlist" title="Permalink to this headline">¶</a></h2>
+<dl class="var">
+<dt id="PyOrderList_Type">
+<a class="reference external" href="http://docs.python.org/c-api/type.html#PyTypeObject" title="(in Python v2.7)">PyTypeObject</a> <tt class="descname">PyOrderList_Type</tt><a class="headerlink" href="#PyOrderList_Type" title="Permalink to this definition">¶</a></dt>
+<dd><p>The type object for <a class="reference internal" href="../library/apt_pkg.html#apt_pkg.OrderList" title="apt_pkg.OrderList"><tt class="xref py py-class docutils literal"><span class="pre">apt_pkg.OrderList</span></tt></a> objects.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="PyOrderList_Check">
+int <tt class="descname">PyOrderList_Check</tt><big>(</big><a class="reference external" href="http://docs.python.org/c-api/structures.html#PyObject" title="(in Python v2.7)">PyObject</a><em>&nbsp;*object</em><big>)</big><a class="headerlink" href="#PyOrderList_Check" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check that the object <em>object</em> is an <a class="reference internal" href="../library/apt_pkg.html#apt_pkg.OrderList" title="apt_pkg.OrderList"><tt class="xref py py-class docutils literal"><span class="pre">apt_pkg.OrderList</span></tt></a> object, or
+a subclass thereof.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="PyOrderList_CheckExact">
+int <tt class="descname">PyOrderList_CheckExact</tt><big>(</big><a class="reference external" href="http://docs.python.org/c-api/structures.html#PyObject" title="(in Python v2.7)">PyObject</a><em>&nbsp;*object</em><big>)</big><a class="headerlink" href="#PyOrderList_CheckExact" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check that the object <em>object</em> is an <a class="reference internal" href="../library/apt_pkg.html#apt_pkg.OrderList" title="apt_pkg.OrderList"><tt class="xref py py-class docutils literal"><span class="pre">apt_pkg.OrderList</span></tt></a> object
+and no subclass thereof.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="PyOrderList_FromCpp">
+<a class="reference external" href="http://docs.python.org/c-api/structures.html#PyObject" title="(in Python v2.7)">PyObject</a>* <tt class="descname">PyOrderList_FromCpp</tt><big>(</big>pkgOrderList<em>&nbsp;*cpp</em>, bool<em>&nbsp;delete</em>, <a class="reference external" href="http://docs.python.org/c-api/structures.html#PyObject" title="(in Python v2.7)">PyObject</a><em>&nbsp;*owner</em><big>)</big><a class="headerlink" href="#PyOrderList_FromCpp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a new <a class="reference internal" href="../library/apt_pkg.html#apt_pkg.OrderList" title="apt_pkg.OrderList"><tt class="xref py py-class docutils literal"><span class="pre">apt_pkg.OrderList</span></tt></a> object from the <tt class="xref c c-type docutils literal"><span class="pre">pkgOrderList</span></tt>
+pointer given by the parameter <em>cpp</em>. If the parameter <em>delete</em> is
+true, the object pointed to by <em>cpp</em> will be deleted when the reference
+count of the returned object reaches 0. The owner must be a
+<a class="reference internal" href="../library/apt_pkg.html#apt_pkg.DepCache" title="apt_pkg.DepCache"><tt class="xref py py-class docutils literal"><span class="pre">apt_pkg.DepCache</span></tt></a> object.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="PyOrderList_ToCpp">
+pkgOrderList* <tt class="descname">PyOrderList_ToCpp</tt><big>(</big><a class="reference external" href="http://docs.python.org/c-api/structures.html#PyObject" title="(in Python v2.7)">PyObject</a><em>&nbsp;*object</em><big>)</big><a class="headerlink" href="#PyOrderList_ToCpp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the <tt class="xref c c-type docutils literal"><span class="pre">pkgOrderList</span></tt> pointer contained in the Python object
+<em>object</em>.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="packagemanager-pkgpackagemanager">
+<h2>PackageManager (pkgPackageManager)<a class="headerlink" href="#packagemanager-pkgpackagemanager" title="Permalink to this headline">¶</a></h2>
+<dl class="var">
+<dt id="PyPackageManager_Type">
+<a class="reference external" href="http://docs.python.org/c-api/type.html#PyTypeObject" title="(in Python v2.7)">PyTypeObject</a> <tt class="descname">PyPackageManager_Type</tt><a class="headerlink" href="#PyPackageManager_Type" title="Permalink to this definition">¶</a></dt>
+<dd><p>The type object for <a class="reference internal" href="../library/apt_pkg.html#apt_pkg.PackageManager" title="apt_pkg.PackageManager"><tt class="xref py py-class docutils literal"><span class="pre">apt_pkg.PackageManager</span></tt></a> objects.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="PyPackageManager_Check">
+int <tt class="descname">PyPackageManager_Check</tt><big>(</big><a class="reference external" href="http://docs.python.org/c-api/structures.html#PyObject" title="(in Python v2.7)">PyObject</a><em>&nbsp;*object</em><big>)</big><a class="headerlink" href="#PyPackageManager_Check" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check that the object <em>object</em> is an <a class="reference internal" href="../library/apt_pkg.html#apt_pkg.PackageManager" title="apt_pkg.PackageManager"><tt class="xref py py-class docutils literal"><span class="pre">apt_pkg.PackageManager</span></tt></a> object, or
+a subclass thereof.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="PyPackageManager_CheckExact">
+int <tt class="descname">PyPackageManager_CheckExact</tt><big>(</big><a class="reference external" href="http://docs.python.org/c-api/structures.html#PyObject" title="(in Python v2.7)">PyObject</a><em>&nbsp;*object</em><big>)</big><a class="headerlink" href="#PyPackageManager_CheckExact" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check that the object <em>object</em> is an <a class="reference internal" href="../library/apt_pkg.html#apt_pkg.PackageManager" title="apt_pkg.PackageManager"><tt class="xref py py-class docutils literal"><span class="pre">apt_pkg.PackageManager</span></tt></a> object
+and no subclass thereof.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="PyPackageManager_FromCpp">
+<a class="reference external" href="http://docs.python.org/c-api/structures.html#PyObject" title="(in Python v2.7)">PyObject</a>* <tt class="descname">PyPackageManager_FromCpp</tt><big>(</big>pkgPackageManager<em>&nbsp;*cpp</em>, bool<em>&nbsp;delete</em>, <a class="reference external" href="http://docs.python.org/c-api/structures.html#PyObject" title="(in Python v2.7)">PyObject</a><em>&nbsp;*owner</em><big>)</big><a class="headerlink" href="#PyPackageManager_FromCpp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a new <a class="reference internal" href="../library/apt_pkg.html#apt_pkg.PackageManager" title="apt_pkg.PackageManager"><tt class="xref py py-class docutils literal"><span class="pre">apt_pkg.PackageManager</span></tt></a> object from the <tt class="xref c c-type docutils literal"><span class="pre">pkgPackageManager</span></tt>
+pointer given by the parameter <em>cpp</em>. If the parameter <em>delete</em> is
+true, the object pointed to by <em>cpp</em> will be deleted when the reference
+count of the returned object reaches 0.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="PyPackageManager_ToCpp">
+pkgPackageManager* <tt class="descname">PyPackageManager_ToCpp</tt><big>(</big><a class="reference external" href="http://docs.python.org/c-api/structures.html#PyObject" title="(in Python v2.7)">PyObject</a><em>&nbsp;*object</em><big>)</big><a class="headerlink" href="#PyPackageManager_ToCpp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the <tt class="xref c c-type docutils literal"><span class="pre">pkgPackageManager</span></tt> pointer contained in the Python object
+<em>object</em>.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="policy-pkgpolicy">
+<h2>Policy (pkgPolicy)<a class="headerlink" href="#policy-pkgpolicy" title="Permalink to this headline">¶</a></h2>
+<dl class="var">
+<dt id="PyPolicy_Type">
+<a class="reference external" href="http://docs.python.org/c-api/type.html#PyTypeObject" title="(in Python v2.7)">PyTypeObject</a> <tt class="descname">PyPolicy_Type</tt><a class="headerlink" href="#PyPolicy_Type" title="Permalink to this definition">¶</a></dt>
+<dd><p>The type object for <a class="reference internal" href="../library/apt_pkg.html#apt_pkg.Policy" title="apt_pkg.Policy"><tt class="xref py py-class docutils literal"><span class="pre">apt_pkg.Policy</span></tt></a> objects.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="PyPolicy_Check">
+int <tt class="descname">PyPolicy_Check</tt><big>(</big><a class="reference external" href="http://docs.python.org/c-api/structures.html#PyObject" title="(in Python v2.7)">PyObject</a><em>&nbsp;*object</em><big>)</big><a class="headerlink" href="#PyPolicy_Check" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check that the object <em>object</em> is an <a class="reference internal" href="../library/apt_pkg.html#apt_pkg.Policy" title="apt_pkg.Policy"><tt class="xref py py-class docutils literal"><span class="pre">apt_pkg.Policy</span></tt></a> object, or
+a subclass thereof.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="PyPolicy_CheckExact">
+int <tt class="descname">PyPolicy_CheckExact</tt><big>(</big><a class="reference external" href="http://docs.python.org/c-api/structures.html#PyObject" title="(in Python v2.7)">PyObject</a><em>&nbsp;*object</em><big>)</big><a class="headerlink" href="#PyPolicy_CheckExact" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check that the object <em>object</em> is an <a class="reference internal" href="../library/apt_pkg.html#apt_pkg.Policy" title="apt_pkg.Policy"><tt class="xref py py-class docutils literal"><span class="pre">apt_pkg.Policy</span></tt></a> object
+and no subclass thereof.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="PyPolicy_FromCpp">
+<a class="reference external" href="http://docs.python.org/c-api/structures.html#PyObject" title="(in Python v2.7)">PyObject</a>* <tt class="descname">PyPolicy_FromCpp</tt><big>(</big>pkgPolicy<em>&nbsp;*cpp</em>, bool<em>&nbsp;delete</em>, <a class="reference external" href="http://docs.python.org/c-api/structures.html#PyObject" title="(in Python v2.7)">PyObject</a><em>&nbsp;*owner</em><big>)</big><a class="headerlink" href="#PyPolicy_FromCpp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a new <a class="reference internal" href="../library/apt_pkg.html#apt_pkg.Policy" title="apt_pkg.Policy"><tt class="xref py py-class docutils literal"><span class="pre">apt_pkg.Policy</span></tt></a> object from the <tt class="xref c c-type docutils literal"><span class="pre">pkgPolicy</span></tt>
+pointer given by the parameter <em>cpp</em>. If the parameter <em>delete</em> is
+true, the object pointed to by <em>cpp</em> will be deleted when the reference
+count of the returned object reaches 0. The parameter <em>owner</em> must be
+a PyObject of the type <a class="reference internal" href="#PyCache_Type" title="PyCache_Type"><tt class="xref c c-data docutils literal"><span class="pre">PyCache_Type</span></tt></a>.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="PyPolicy_ToCpp">
+pkgPolicy* <tt class="descname">PyPolicy_ToCpp</tt><big>(</big><a class="reference external" href="http://docs.python.org/c-api/structures.html#PyObject" title="(in Python v2.7)">PyObject</a><em>&nbsp;*object</em><big>)</big><a class="headerlink" href="#PyPolicy_ToCpp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the <tt class="xref c c-type docutils literal"><span class="pre">pkgPolicy</span></tt> pointer contained in the Python object
+<em>object</em>.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="problemresolver-pkgproblemresolver">
+<h2>ProblemResolver (pkgProblemResolver)<a class="headerlink" href="#problemresolver-pkgproblemresolver" title="Permalink to this headline">¶</a></h2>
+<dl class="var">
+<dt id="PyProblemResolver_Type">
+<a class="reference external" href="http://docs.python.org/c-api/type.html#PyTypeObject" title="(in Python v2.7)">PyTypeObject</a> <tt class="descname">PyProblemResolver_Type</tt><a class="headerlink" href="#PyProblemResolver_Type" title="Permalink to this definition">¶</a></dt>
+<dd><p>The type object for <a class="reference internal" href="../library/apt_pkg.html#apt_pkg.ProblemResolver" title="apt_pkg.ProblemResolver"><tt class="xref py py-class docutils literal"><span class="pre">apt_pkg.ProblemResolver</span></tt></a> objects.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="PyProblemResolver_Check">
+int <tt class="descname">PyProblemResolver_Check</tt><big>(</big><a class="reference external" href="http://docs.python.org/c-api/structures.html#PyObject" title="(in Python v2.7)">PyObject</a><em>&nbsp;*object</em><big>)</big><a class="headerlink" href="#PyProblemResolver_Check" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check that the object <em>object</em> is an <a class="reference internal" href="../library/apt_pkg.html#apt_pkg.ProblemResolver" title="apt_pkg.ProblemResolver"><tt class="xref py py-class docutils literal"><span class="pre">apt_pkg.ProblemResolver</span></tt></a> object, or
+a subclass thereof.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="PyProblemResolver_CheckExact">
+int <tt class="descname">PyProblemResolver_CheckExact</tt><big>(</big><a class="reference external" href="http://docs.python.org/c-api/structures.html#PyObject" title="(in Python v2.7)">PyObject</a><em>&nbsp;*object</em><big>)</big><a class="headerlink" href="#PyProblemResolver_CheckExact" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check that the object <em>object</em> is an <a class="reference internal" href="../library/apt_pkg.html#apt_pkg.ProblemResolver" title="apt_pkg.ProblemResolver"><tt class="xref py py-class docutils literal"><span class="pre">apt_pkg.ProblemResolver</span></tt></a> object
+and no subclass thereof.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="PyProblemResolver_FromCpp">
+<a class="reference external" href="http://docs.python.org/c-api/structures.html#PyObject" title="(in Python v2.7)">PyObject</a>* <tt class="descname">PyProblemResolver_FromCpp</tt><big>(</big>pkgProblemResolver<em>&nbsp;*cpp</em>, bool<em>&nbsp;delete</em>, <a class="reference external" href="http://docs.python.org/c-api/structures.html#PyObject" title="(in Python v2.7)">PyObject</a><em>&nbsp;*owner</em><big>)</big><a class="headerlink" href="#PyProblemResolver_FromCpp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a new <a class="reference internal" href="../library/apt_pkg.html#apt_pkg.ProblemResolver" title="apt_pkg.ProblemResolver"><tt class="xref py py-class docutils literal"><span class="pre">apt_pkg.ProblemResolver</span></tt></a> object from the <tt class="xref c c-type docutils literal"><span class="pre">pkgProblemResolver</span></tt>
+pointer given by the parameter <em>cpp</em>. If the parameter <em>delete</em> is
+true, the object pointed to by <em>cpp</em> will be deleted when the reference
+count of the returned object reaches 0. The parameter <em>owner</em> must be
+a PyObject of the type <a class="reference internal" href="#PyDepCache_Type" title="PyDepCache_Type"><tt class="xref c c-data docutils literal"><span class="pre">PyDepCache_Type</span></tt></a>.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="PyProblemResolver_ToCpp">
+pkgProblemResolver* <tt class="descname">PyProblemResolver_ToCpp</tt><big>(</big><a class="reference external" href="http://docs.python.org/c-api/structures.html#PyObject" title="(in Python v2.7)">PyObject</a><em>&nbsp;*object</em><big>)</big><a class="headerlink" href="#PyProblemResolver_ToCpp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the <tt class="xref c c-type docutils literal"><span class="pre">pkgProblemResolver</span></tt> pointer contained in the Python object
+<em>object</em>.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="sourcelist-pkgsourcelist">
+<h2>SourceList (pkgSourceList)<a class="headerlink" href="#sourcelist-pkgsourcelist" title="Permalink to this headline">¶</a></h2>
+<dl class="var">
+<dt id="PySourceList_Type">
+<a class="reference external" href="http://docs.python.org/c-api/type.html#PyTypeObject" title="(in Python v2.7)">PyTypeObject</a> <tt class="descname">PySourceList_Type</tt><a class="headerlink" href="#PySourceList_Type" title="Permalink to this definition">¶</a></dt>
+<dd><p>The type object for <a class="reference internal" href="../library/apt_pkg.html#apt_pkg.SourceList" title="apt_pkg.SourceList"><tt class="xref py py-class docutils literal"><span class="pre">apt_pkg.SourceList</span></tt></a> objects.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="PySourceList_Check">
+int <tt class="descname">PySourceList_Check</tt><big>(</big><a class="reference external" href="http://docs.python.org/c-api/structures.html#PyObject" title="(in Python v2.7)">PyObject</a><em>&nbsp;*object</em><big>)</big><a class="headerlink" href="#PySourceList_Check" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check that the object <em>object</em> is an <a class="reference internal" href="../library/apt_pkg.html#apt_pkg.SourceList" title="apt_pkg.SourceList"><tt class="xref py py-class docutils literal"><span class="pre">apt_pkg.SourceList</span></tt></a> object, or
+a subclass thereof.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="PySourceList_CheckExact">
+int <tt class="descname">PySourceList_CheckExact</tt><big>(</big><a class="reference external" href="http://docs.python.org/c-api/structures.html#PyObject" title="(in Python v2.7)">PyObject</a><em>&nbsp;*object</em><big>)</big><a class="headerlink" href="#PySourceList_CheckExact" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check that the object <em>object</em> is an <a class="reference internal" href="../library/apt_pkg.html#apt_pkg.SourceList" title="apt_pkg.SourceList"><tt class="xref py py-class docutils literal"><span class="pre">apt_pkg.SourceList</span></tt></a> object
+and no subclass thereof.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="PySourceList_FromCpp">
+<a class="reference external" href="http://docs.python.org/c-api/structures.html#PyObject" title="(in Python v2.7)">PyObject</a>* <tt class="descname">PySourceList_FromCpp</tt><big>(</big>pkgSourceList<em>&nbsp;*cpp</em>, bool<em>&nbsp;delete</em>, <a class="reference external" href="http://docs.python.org/c-api/structures.html#PyObject" title="(in Python v2.7)">PyObject</a><em>&nbsp;*owner</em><big>)</big><a class="headerlink" href="#PySourceList_FromCpp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a new <a class="reference internal" href="../library/apt_pkg.html#apt_pkg.SourceList" title="apt_pkg.SourceList"><tt class="xref py py-class docutils literal"><span class="pre">apt_pkg.SourceList</span></tt></a> object from the <tt class="xref c c-type docutils literal"><span class="pre">pkgSourceList</span></tt>
+pointer given by the parameter <em>cpp</em>. If the parameter <em>delete</em> is
+true, the object pointed to by <em>cpp</em> will be deleted when the reference
+count of the returned object reaches 0.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="PySourceList_ToCpp">
+pkgSourceList* <tt class="descname">PySourceList_ToCpp</tt><big>(</big><a class="reference external" href="http://docs.python.org/c-api/structures.html#PyObject" title="(in Python v2.7)">PyObject</a><em>&nbsp;*object</em><big>)</big><a class="headerlink" href="#PySourceList_ToCpp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the <tt class="xref c c-type docutils literal"><span class="pre">pkgSourceList</span></tt> pointer contained in the Python object
+<em>object</em>.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="tagfile-pkgtagfile">
+<h2>TagFile (pkgTagFile)<a class="headerlink" href="#tagfile-pkgtagfile" title="Permalink to this headline">¶</a></h2>
+<dl class="var">
+<dt id="PyTagFile_Type">
+<a class="reference external" href="http://docs.python.org/c-api/type.html#PyTypeObject" title="(in Python v2.7)">PyTypeObject</a> <tt class="descname">PyTagFile_Type</tt><a class="headerlink" href="#PyTagFile_Type" title="Permalink to this definition">¶</a></dt>
+<dd><p>The type object for <a class="reference internal" href="../library/apt_pkg.html#apt_pkg.TagFile" title="apt_pkg.TagFile"><tt class="xref py py-class docutils literal"><span class="pre">apt_pkg.TagFile</span></tt></a> objects.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="PyTagFile_Check">
+int <tt class="descname">PyTagFile_Check</tt><big>(</big><a class="reference external" href="http://docs.python.org/c-api/structures.html#PyObject" title="(in Python v2.7)">PyObject</a><em>&nbsp;*object</em><big>)</big><a class="headerlink" href="#PyTagFile_Check" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check that the object <em>object</em> is an <a class="reference internal" href="../library/apt_pkg.html#apt_pkg.TagFile" title="apt_pkg.TagFile"><tt class="xref py py-class docutils literal"><span class="pre">apt_pkg.TagFile</span></tt></a> object, or
+a subclass thereof.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="PyTagFile_CheckExact">
+int <tt class="descname">PyTagFile_CheckExact</tt><big>(</big><a class="reference external" href="http://docs.python.org/c-api/structures.html#PyObject" title="(in Python v2.7)">PyObject</a><em>&nbsp;*object</em><big>)</big><a class="headerlink" href="#PyTagFile_CheckExact" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check that the object <em>object</em> is an <a class="reference internal" href="../library/apt_pkg.html#apt_pkg.TagFile" title="apt_pkg.TagFile"><tt class="xref py py-class docutils literal"><span class="pre">apt_pkg.TagFile</span></tt></a> object
+and no subclass thereof.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="PyTagFile_FromCpp">
+<a class="reference external" href="http://docs.python.org/c-api/structures.html#PyObject" title="(in Python v2.7)">PyObject</a>* <tt class="descname">PyTagFile_FromCpp</tt><big>(</big>pkgTagFile<em>&nbsp;&amp;cpp</em>, bool<em>&nbsp;delete</em>, <a class="reference external" href="http://docs.python.org/c-api/structures.html#PyObject" title="(in Python v2.7)">PyObject</a><em>&nbsp;*owner</em><big>)</big><a class="headerlink" href="#PyTagFile_FromCpp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a new <a class="reference internal" href="../library/apt_pkg.html#apt_pkg.TagFile" title="apt_pkg.TagFile"><tt class="xref py py-class docutils literal"><span class="pre">apt_pkg.TagFile</span></tt></a> object from the <tt class="xref c c-type docutils literal"><span class="pre">pkgTagFile</span></tt>
+reference given by the parameter <em>cpp</em>. If the parameter <em>delete</em> is
+true, <em>cpp</em> will be deleted when the reference
+count of the returned object reaches 0. The parameter <em>owner</em> may be any
+Python object.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="PyTagFile_ToCpp">
+pkgTagFile&amp; <tt class="descname">PyTagFile_ToCpp</tt><big>(</big><a class="reference external" href="http://docs.python.org/c-api/structures.html#PyObject" title="(in Python v2.7)">PyObject</a><em>&nbsp;*object</em><big>)</big><a class="headerlink" href="#PyTagFile_ToCpp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the <tt class="xref c c-type docutils literal"><span class="pre">pkgTagFile</span></tt> reference contained in the
+Python object <em>object</em>.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="tagsection-pkgtagsection">
+<h2>TagSection (pkgTagSection)<a class="headerlink" href="#tagsection-pkgtagsection" title="Permalink to this headline">¶</a></h2>
+<dl class="var">
+<dt id="PyTagSection_Type">
+<a class="reference external" href="http://docs.python.org/c-api/type.html#PyTypeObject" title="(in Python v2.7)">PyTypeObject</a> <tt class="descname">PyTagSection_Type</tt><a class="headerlink" href="#PyTagSection_Type" title="Permalink to this definition">¶</a></dt>
+<dd><p>The type object for <a class="reference internal" href="../library/apt_pkg.html#apt_pkg.TagSection" title="apt_pkg.TagSection"><tt class="xref py py-class docutils literal"><span class="pre">apt_pkg.TagSection</span></tt></a> objects.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="PyTagSection_Check">
+int <tt class="descname">PyTagSection_Check</tt><big>(</big><a class="reference external" href="http://docs.python.org/c-api/structures.html#PyObject" title="(in Python v2.7)">PyObject</a><em>&nbsp;*object</em><big>)</big><a class="headerlink" href="#PyTagSection_Check" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check that the object <em>object</em> is an <a class="reference internal" href="../library/apt_pkg.html#apt_pkg.TagSection" title="apt_pkg.TagSection"><tt class="xref py py-class docutils literal"><span class="pre">apt_pkg.TagSection</span></tt></a> object, or
+a subclass thereof.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="PyTagSection_CheckExact">
+int <tt class="descname">PyTagSection_CheckExact</tt><big>(</big><a class="reference external" href="http://docs.python.org/c-api/structures.html#PyObject" title="(in Python v2.7)">PyObject</a><em>&nbsp;*object</em><big>)</big><a class="headerlink" href="#PyTagSection_CheckExact" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check that the object <em>object</em> is an <a class="reference internal" href="../library/apt_pkg.html#apt_pkg.TagSection" title="apt_pkg.TagSection"><tt class="xref py py-class docutils literal"><span class="pre">apt_pkg.TagSection</span></tt></a> object
+and no subclass thereof.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="PyTagSection_FromCpp">
+<a class="reference external" href="http://docs.python.org/c-api/structures.html#PyObject" title="(in Python v2.7)">PyObject</a>* <tt class="descname">PyTagSection_FromCpp</tt><big>(</big>pkgTagSection<em>&nbsp;&amp;cpp</em>, bool<em>&nbsp;delete</em>, <a class="reference external" href="http://docs.python.org/c-api/structures.html#PyObject" title="(in Python v2.7)">PyObject</a><em>&nbsp;*owner</em><big>)</big><a class="headerlink" href="#PyTagSection_FromCpp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a new <a class="reference internal" href="../library/apt_pkg.html#apt_pkg.TagSection" title="apt_pkg.TagSection"><tt class="xref py py-class docutils literal"><span class="pre">apt_pkg.TagSection</span></tt></a> object from the <tt class="xref c c-type docutils literal"><span class="pre">pkgTagSection</span></tt>
+reference given by the parameter <em>cpp</em>. If the parameter <em>delete</em> is
+true, <em>cpp</em> will be deleted when the reference
+count of the returned object reaches 0. The parameter <em>owner</em> may be
+a PyObject of the type <a class="reference internal" href="#PyTagFile_Type" title="PyTagFile_Type"><tt class="xref c c-data docutils literal"><span class="pre">PyTagFile_Type</span></tt></a>.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="PyTagSection_ToCpp">
+pkgTagSection&amp; <tt class="descname">PyTagSection_ToCpp</tt><big>(</big><a class="reference external" href="http://docs.python.org/c-api/structures.html#PyObject" title="(in Python v2.7)">PyObject</a><em>&nbsp;*object</em><big>)</big><a class="headerlink" href="#PyTagSection_ToCpp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the <tt class="xref c c-type docutils literal"><span class="pre">pkgTagSection</span></tt> reference contained in the
+Python object <em>object</em>.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="version-pkgcache-veriterator">
+<h2>Version (pkgCache::VerIterator)<a class="headerlink" href="#version-pkgcache-veriterator" title="Permalink to this headline">¶</a></h2>
+<dl class="var">
+<dt id="PyVersion_Type">
+<a class="reference external" href="http://docs.python.org/c-api/type.html#PyTypeObject" title="(in Python v2.7)">PyTypeObject</a> <tt class="descname">PyVersion_Type</tt><a class="headerlink" href="#PyVersion_Type" title="Permalink to this definition">¶</a></dt>
+<dd><p>The type object for <a class="reference internal" href="../library/apt_pkg.html#apt_pkg.Version" title="apt_pkg.Version"><tt class="xref py py-class docutils literal"><span class="pre">apt_pkg.Version</span></tt></a> objects.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="PyVersion_Check">
+int <tt class="descname">PyVersion_Check</tt><big>(</big><a class="reference external" href="http://docs.python.org/c-api/structures.html#PyObject" title="(in Python v2.7)">PyObject</a><em>&nbsp;*object</em><big>)</big><a class="headerlink" href="#PyVersion_Check" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check that the object <em>object</em> is an <a class="reference internal" href="../library/apt_pkg.html#apt_pkg.Version" title="apt_pkg.Version"><tt class="xref py py-class docutils literal"><span class="pre">apt_pkg.Version</span></tt></a> object, or
+a subclass thereof.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="PyVersion_CheckExact">
+int <tt class="descname">PyVersion_CheckExact</tt><big>(</big><a class="reference external" href="http://docs.python.org/c-api/structures.html#PyObject" title="(in Python v2.7)">PyObject</a><em>&nbsp;*object</em><big>)</big><a class="headerlink" href="#PyVersion_CheckExact" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check that the object <em>object</em> is an <a class="reference internal" href="../library/apt_pkg.html#apt_pkg.Version" title="apt_pkg.Version"><tt class="xref py py-class docutils literal"><span class="pre">apt_pkg.Version</span></tt></a> object
+and no subclass thereof.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="PyVersion_FromCpp">
+<a class="reference external" href="http://docs.python.org/c-api/structures.html#PyObject" title="(in Python v2.7)">PyObject</a>* <tt class="descname">PyVersion_FromCpp</tt><big>(</big>pkgCache::VerIterator<em>&nbsp;&amp;cpp</em>, bool<em>&nbsp;delete</em>, <a class="reference external" href="http://docs.python.org/c-api/structures.html#PyObject" title="(in Python v2.7)">PyObject</a><em>&nbsp;*owner</em><big>)</big><a class="headerlink" href="#PyVersion_FromCpp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a new <a class="reference internal" href="../library/apt_pkg.html#apt_pkg.Version" title="apt_pkg.Version"><tt class="xref py py-class docutils literal"><span class="pre">apt_pkg.Version</span></tt></a> object from the <tt class="xref c c-type docutils literal"><span class="pre">pkgCache::VerIterator</span></tt>
+reference given by the parameter <em>cpp</em>. If the parameter <em>delete</em> is
+true, <em>cpp</em> will be deleted when the reference
+count of the returned object reaches 0. The parameter <em>owner</em> must be
+a PyObject of the type <a class="reference internal" href="#PyPackage_Type" title="PyPackage_Type"><tt class="xref c c-data docutils literal"><span class="pre">PyPackage_Type</span></tt></a>.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="PyVersion_ToCpp">
+pkgCache::VerIterator&amp; <tt class="descname">PyVersion_ToCpp</tt><big>(</big><a class="reference external" href="http://docs.python.org/c-api/structures.html#PyObject" title="(in Python v2.7)">PyObject</a><em>&nbsp;*object</em><big>)</big><a class="headerlink" href="#PyVersion_ToCpp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the <tt class="xref c c-type docutils literal"><span class="pre">pkgCache::VerIterator</span></tt> reference contained in the
+Python object <em>object</em>.</p>
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../contents.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Python APT C++ API</a><ul>
+<li><a class="reference internal" href="#acquire-pkgacquire">Acquire (pkgAcquire)</a></li>
+<li><a class="reference internal" href="#acquirefile-pkgacqfile">AcquireFile (pkgAcqFile)</a></li>
+<li><a class="reference internal" href="#acquireitem-pkgacquire-item">AcquireItem (pkgAcquire::Item)</a></li>
+<li><a class="reference internal" href="#acquireitemdesc-pkgacquire-itemdesc">AcquireItemDesc (pkgAcquire::ItemDesc)</a></li>
+<li><a class="reference internal" href="#acquireworker-pkgacquire-worker">AcquireWorker (pkgAcquire::Worker)</a></li>
+<li><a class="reference internal" href="#actiongroup-pkgdepcache-actiongroup">ActionGroup (pkgDepCache::ActionGroup)</a></li>
+<li><a class="reference internal" href="#cache-pkgcache">Cache (pkgCache)</a></li>
+<li><a class="reference internal" href="#cachefile-pkgcachefile">CacheFile (pkgCacheFile)</a></li>
+<li><a class="reference internal" href="#cdrom-pkgcdrom">Cdrom (pkgCdrom)</a></li>
+<li><a class="reference internal" href="#configuration-configuration">Configuration (Configuration)</a></li>
+<li><a class="reference internal" href="#depcache-pkgdepcache">DepCache (pkgDepCache)</a></li>
+<li><a class="reference internal" href="#dependency-pkgcache-depiterator">Dependency (pkgCache::DepIterator)</a></li>
+<li><a class="reference internal" href="#description-pkgcache-desciterator">Description (pkgCache::DescIterator)</a></li>
+<li><a class="reference internal" href="#group-pkgcache-grpiterator">Group (pkgCache::GrpIterator)</a></li>
+<li><a class="reference internal" href="#hashes-hashes">Hashes (Hashes)</a></li>
+<li><a class="reference internal" href="#hashstring-hashstring">HashString (HashString)</a></li>
+<li><a class="reference internal" href="#indexrecords-indexrecords">IndexRecords (indexRecords)</a></li>
+<li><a class="reference internal" href="#metaindex-metaindex">MetaIndex (metaIndex)</a></li>
+<li><a class="reference internal" href="#package-pkgcache-pkgiterator">Package (pkgCache::PkgIterator)</a></li>
+<li><a class="reference internal" href="#packagefile-pkgcache-pkgfileiterator">PackageFile (pkgCache::PkgFileIterator)</a></li>
+<li><a class="reference internal" href="#indexfile-pkgindexfile">IndexFile (pkgIndexFile)</a></li>
+<li><a class="reference internal" href="#orderlist-pkgorderlist">OrderList (pkgOrderList)</a></li>
+<li><a class="reference internal" href="#packagemanager-pkgpackagemanager">PackageManager (pkgPackageManager)</a></li>
+<li><a class="reference internal" href="#policy-pkgpolicy">Policy (pkgPolicy)</a></li>
+<li><a class="reference internal" href="#problemresolver-pkgproblemresolver">ProblemResolver (pkgProblemResolver)</a></li>
+<li><a class="reference internal" href="#sourcelist-pkgsourcelist">SourceList (pkgSourceList)</a></li>
+<li><a class="reference internal" href="#tagfile-pkgtagfile">TagFile (pkgTagFile)</a></li>
+<li><a class="reference internal" href="#tagsection-pkgtagsection">TagSection (pkgTagSection)</a></li>
+<li><a class="reference internal" href="#version-pkgcache-veriterator">Version (pkgCache::VerIterator)</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="index.html"
+                        title="previous chapter">Python APT and C++</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="embedding.html"
+                        title="next chapter">Embedding Python APT</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/c++/api.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="embedding.html" title="Embedding Python APT"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Python APT and C++"
+             >previous</a> |</li>
+        <li><img src="../_static/py.png" alt=""
+                 style="vertical-align: middle; margin-top: -1px"/></li>
+        <li><a href="../index.html">python-apt 0.8.8.2Canaima1 documentation</a> &raquo;</li>
+
+          <li><a href="index.html" >Python APT and C++</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2009-2010, Julian Andres Klode &lt;jak@debian.org&gt;.
+      Last updated on Apr 03, 2013.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

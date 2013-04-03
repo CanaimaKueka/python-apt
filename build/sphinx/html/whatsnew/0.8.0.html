@@ -1,0 +1,185 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>What’s New In python-apt 0.8 &mdash; python-apt 0.8.8.2Canaima1 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.8.8.2Canaima1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="python-apt 0.8.8.2Canaima1 documentation" href="../index.html" />
+    <link rel="up" title="What’s new in python-apt" href="index.html" />
+    <link rel="next" title="Python APT Library" href="../library/index.html" />
+    <link rel="prev" title="What’s New In python-apt 0.7.100" href="0.7.100.html" />
+    <link rel="shortcut icon" type="image/png" href="../_static/py.png" />
+ 
+
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../library/index.html" title="Python APT Library"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="0.7.100.html" title="What’s New In python-apt 0.7.100"
+             accesskey="P">previous</a> |</li>
+        <li><img src="../_static/py.png" alt=""
+                 style="vertical-align: middle; margin-top: -1px"/></li>
+        <li><a href="../index.html">python-apt 0.8.8.2Canaima1 documentation</a> &raquo;</li>
+
+          <li><a href="index.html" accesskey="U">What&#8217;s new in python-apt</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="what-s-new-in-python-apt-0-8">
+<h1>What&#8217;s New In python-apt 0.8<a class="headerlink" href="#what-s-new-in-python-apt-0-8" title="Permalink to this headline">¶</a></h1>
+<p>Python-apt 0.8 is a new major release of the python bindings for the APT
+package management libraries.</p>
+<div class="section" id="removal-of-old-api">
+<h2>Removal of old API<a class="headerlink" href="#removal-of-old-api" title="Permalink to this headline">¶</a></h2>
+<p>The old API that was deprecated in 0.7.100 is no longer available. Applications
+that have not yet updated to the new API should do so.</p>
+</div>
+<div class="section" id="multi-arch-support">
+<h2>Multi-arch support<a class="headerlink" href="#multi-arch-support" title="Permalink to this headline">¶</a></h2>
+<p>This version of python-apt introduces multi-arch support:</p>
+<blockquote>
+<div><ul class="simple">
+<li>A new class, <a class="reference internal" href="../library/apt_pkg.html#apt_pkg.Group" title="apt_pkg.Group"><tt class="xref py py-class docutils literal"><span class="pre">apt_pkg.Group</span></tt></a> has been added.</li>
+<li><a class="reference internal" href="../library/apt_pkg.html#apt_pkg.Cache" title="apt_pkg.Cache"><tt class="xref py py-class docutils literal"><span class="pre">apt_pkg.Cache</span></tt></a> can now be indexed by <tt class="docutils literal"><span class="pre">(name,</span> <span class="pre">architecture)</span></tt>
+tuples</li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="features-for-mancoosi">
+<h2>Features for mancoosi<a class="headerlink" href="#features-for-mancoosi" title="Permalink to this headline">¶</a></h2>
+<p>Several new features related to ordering have been added on request
+of the mancoosi project:</p>
+<blockquote>
+<div><ul class="simple">
+<li>A new class <a class="reference internal" href="../library/apt_pkg.html#apt_pkg.OrderList" title="apt_pkg.OrderList"><tt class="xref py py-class docutils literal"><span class="pre">apt_pkg.OrderList</span></tt></a> has been added</li>
+<li>The <a class="reference internal" href="../library/apt_pkg.html#apt_pkg.PackageManager" title="apt_pkg.PackageManager"><tt class="xref py py-class docutils literal"><span class="pre">apt_pkg.PackageManager</span></tt></a> class now provides new methods
+for registering install/remove/configure actions which can be
+subclassed to check ordering.</li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="other-changes">
+<h2>Other changes<a class="headerlink" href="#other-changes" title="Permalink to this headline">¶</a></h2>
+<p>This release of python-apt also features several other, smaller changes:</p>
+<blockquote>
+<div><ul class="simple">
+<li>apt_pkg.Cache() now takes None for the progress parameter, preventing
+progress reporting.</li>
+</ul>
+</div></blockquote>
+<p>There have been various other changes, see the changelog for a complete list
+of changes.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../contents.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">What&#8217;s New In python-apt 0.8</a><ul>
+<li><a class="reference internal" href="#removal-of-old-api">Removal of old API</a></li>
+<li><a class="reference internal" href="#multi-arch-support">Multi-arch support</a></li>
+<li><a class="reference internal" href="#features-for-mancoosi">Features for mancoosi</a></li>
+<li><a class="reference internal" href="#other-changes">Other changes</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="0.7.100.html"
+                        title="previous chapter">What&#8217;s New In python-apt 0.7.100</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="../library/index.html"
+                        title="next chapter">Python APT Library</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/whatsnew/0.8.0.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../library/index.html" title="Python APT Library"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="0.7.100.html" title="What’s New In python-apt 0.7.100"
+             >previous</a> |</li>
+        <li><img src="../_static/py.png" alt=""
+                 style="vertical-align: middle; margin-top: -1px"/></li>
+        <li><a href="../index.html">python-apt 0.8.8.2Canaima1 documentation</a> &raquo;</li>
+
+          <li><a href="index.html" >What&#8217;s new in python-apt</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2009-2010, Julian Andres Klode &lt;jak@debian.org&gt;.
+      Last updated on Apr 03, 2013.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

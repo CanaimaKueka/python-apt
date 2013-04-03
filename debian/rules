@@ -1,15 +1,20 @@
 #!/usr/bin/make -f
 # Should be include-links, but that somehow fails.
 export DEBVER=$(shell dpkg-parsechangelog | sed -n -e 's/^Version: //p')
-export CFLAGS=-Wno-write-strings -DCOMPAT_0_7
-export PATH :=$(CURDIR)/utils:$(PATH)
-export SHELL = env PATH=$(PATH) sh
+# For compatibility, add -DCOMPAT_0_7
+export CFLAGS=-Wno-write-strings
+export PATH := $(CURDIR)/utils:$(PATH)
+export pyversions := $(CURDIR)/utils/pyversions
 
 %:
 	dh --with python2,python3 $@
 
 override_dh_auto_build:
 	dh_auto_build
+
+override_dh_install:
+	dh_movefiles
+	dh_install
 
 override_dh_installdocs:
 	set -e; if [ -z $(filter -a,$(DH_INTERNAL_OPTIONS)) ]; then \
@@ -28,10 +33,15 @@ override_dh_strip:
 override_dh_compress:
 	dh_compress -X.js -X_static/* -X _sources/* -X_sources/*/* -X.inv
 
+# We ignore failures on hurd, since its locking is broken
 override_dh_auto_test:
-	set -e; for python in $(shell pyversions -r); do \
-		$$python tests/test_all.py -q; \
+ifeq (,$(findstring nocheck, $(DEB_BUILD_OPTIONS)))
+	set -e; for python in $(shell $(pyversions) -r); do \
+		$$python tests/test_all.py -q || [ "$(DEB_BUILD_ARCH_OS)" = "hurd" ]; \
 	done;
+else
+	@echo "** tests disabled"
+endif
 
 override_dh_python2:
 	dh_python2 -N python-apt-common

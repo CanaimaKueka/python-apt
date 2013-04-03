@@ -1,0 +1,535 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>apt.cache — The Cache class &mdash; python-apt 0.8.8.2Canaima1 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.8.8.2Canaima1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="python-apt 0.8.8.2Canaima1 documentation" href="../index.html" />
+    <link rel="up" title="Python APT Library" href="index.html" />
+    <link rel="next" title="apt.cdrom - Functionality like in apt-cdrom" href="apt.cdrom.html" />
+    <link rel="prev" title="apt_inst - Working with local Debian packages" href="apt_inst.html" />
+    <link rel="shortcut icon" type="image/png" href="../_static/py.png" />
+ 
+
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="apt.cdrom.html" title="apt.cdrom - Functionality like in apt-cdrom"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="apt_inst.html" title="apt_inst - Working with local Debian packages"
+             accesskey="P">previous</a> |</li>
+        <li><img src="../_static/py.png" alt=""
+                 style="vertical-align: middle; margin-top: -1px"/></li>
+        <li><a href="../index.html">python-apt 0.8.8.2Canaima1 documentation</a> &raquo;</li>
+
+          <li><a href="index.html" accesskey="U">Python APT Library</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-apt.cache">
+<span id="apt-cache-the-cache-class"></span><h1><a class="reference internal" href="#module-apt.cache" title="apt.cache"><tt class="xref py py-mod docutils literal"><span class="pre">apt.cache</span></tt></a> &#8212; The Cache class<a class="headerlink" href="#module-apt.cache" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="the-cache-class">
+<h2>The Cache class<a class="headerlink" href="#the-cache-class" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="apt.cache.Cache">
+<em class="property">class </em><tt class="descclassname">apt.cache.</tt><tt class="descname">Cache</tt><big>(</big><em>progress=None</em>, <em>rootdir=None</em>, <em>memonly=False</em><big>)</big><a class="headerlink" href="#apt.cache.Cache" title="Permalink to this definition">¶</a></dt>
+<dd><p>Dictionary-like package cache.</p>
+<p>The APT cache file contains a hash table mapping names of binary
+packages to their metadata. A Cache object is the in-core
+representation of the same. It provides access to APTs idea of the
+list of available packages.</p>
+<p>The cache can be used like a mapping from package names to Package
+objects (although only getting items is supported).</p>
+<p>Keyword arguments:
+progress &#8211; a OpProgress object
+rootdir &#8211; a alternative root directory. if that is given</p>
+<blockquote>
+<div>the system sources.list and system lists/ files are
+not read, only files relative to the given rootdir</div></blockquote>
+<p>memonly &#8211; build the cache in memory only</p>
+<dl class="describe">
+<dt>
+<tt class="descname">cache[pkgname]</tt></dt>
+<dd><p>Return a <tt class="xref py py-class docutils literal"><span class="pre">Package()</span></tt> for the package with the name <em>pkgname</em>.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="apt.cache.Cache.actiongroup">
+<tt class="descname">actiongroup</tt><big>(</big><big>)</big><a class="headerlink" href="#apt.cache.Cache.actiongroup" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return an <cite>ActionGroup</cite> object for the current cache.</p>
+<p>Action groups can be used to speedup actions. The action group is
+active as soon as it is created, and disabled when the object is
+deleted or when release() is called.</p>
+<p>You can use the action group as a context manager, this is the
+recommended way:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">with</span> <span class="n">cache</span><span class="o">.</span><span class="n">actiongroup</span><span class="p">():</span>
+    <span class="k">for</span> <span class="n">package</span> <span class="ow">in</span> <span class="n">my_selected_packages</span><span class="p">:</span>
+        <span class="n">package</span><span class="o">.</span><span class="n">mark_install</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>This way, the action group is automatically released as soon as the
+with statement block is left. It also has the benefit of making it
+clear which parts of the code run with a action group and which
+don&#8217;t.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="apt.cache.Cache.broken_count">
+<tt class="descname">broken_count</tt><a class="headerlink" href="#apt.cache.Cache.broken_count" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the number of packages with broken dependencies.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="apt.cache.Cache.cache_post_change">
+<tt class="descname">cache_post_change</tt><big>(</big><big>)</big><a class="headerlink" href="#apt.cache.Cache.cache_post_change" title="Permalink to this definition">¶</a></dt>
+<dd><p>called internally if the cache has changed, emit a signal then</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="apt.cache.Cache.cache_pre_change">
+<tt class="descname">cache_pre_change</tt><big>(</big><big>)</big><a class="headerlink" href="#apt.cache.Cache.cache_pre_change" title="Permalink to this definition">¶</a></dt>
+<dd><p>called internally if the cache is about to change, emit
+a signal then</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="apt.cache.Cache.clear">
+<tt class="descname">clear</tt><big>(</big><big>)</big><a class="headerlink" href="#apt.cache.Cache.clear" title="Permalink to this definition">¶</a></dt>
+<dd><p>Unmark all changes</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="apt.cache.Cache.commit">
+<tt class="descname">commit</tt><big>(</big><em>fetch_progress=None</em>, <em>install_progress=None</em><big>)</big><a class="headerlink" href="#apt.cache.Cache.commit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Apply the marked changes to the cache.</p>
+<p>The first parameter, <em>fetch_progress</em>, refers to a FetchProgress()
+object as found in apt.progress, the default being
+apt.progress.FetchProgress().</p>
+<p>The second parameter, <em>install_progress</em>, is a
+apt.progress.InstallProgress() object.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="apt.cache.Cache.connect">
+<tt class="descname">connect</tt><big>(</big><em>name</em>, <em>callback</em><big>)</big><a class="headerlink" href="#apt.cache.Cache.connect" title="Permalink to this definition">¶</a></dt>
+<dd><p>connect to a signal, currently only used for
+cache_{post,pre}_{changed,open}</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="apt.cache.Cache.delete_count">
+<tt class="descname">delete_count</tt><a class="headerlink" href="#apt.cache.Cache.delete_count" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the number of packages marked for deletion.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="apt.cache.Cache.dpkg_journal_dirty">
+<tt class="descname">dpkg_journal_dirty</tt><a class="headerlink" href="#apt.cache.Cache.dpkg_journal_dirty" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return True if the dpkg was interrupted</p>
+<p>All dpkg operations will fail until this is fixed, the action to
+fix the system if dpkg got interrupted is to run 
+&#8216;dpkg &#8211;configure -a&#8217; as root.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="apt.cache.Cache.fetch_archives">
+<tt class="descname">fetch_archives</tt><big>(</big><em>progress=None</em>, <em>fetcher=None</em><big>)</big><a class="headerlink" href="#apt.cache.Cache.fetch_archives" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fetch the archives for all packages marked for install/upgrade.</p>
+<p>You can specify either an <a class="reference internal" href="apt.progress.base.html#apt.progress.base.AcquireProgress" title="apt.progress.base.AcquireProgress"><tt class="xref py py-class docutils literal"><span class="pre">apt.progress.base.AcquireProgress()</span></tt></a>
+object for the parameter <em>progress</em>, or specify an already
+existing <a class="reference internal" href="apt_pkg.html#apt_pkg.Acquire" title="apt_pkg.Acquire"><tt class="xref py py-class docutils literal"><span class="pre">apt_pkg.Acquire</span></tt></a> object for the parameter <em>fetcher</em>.</p>
+<p>The return value of the function is undefined. If an error occured,
+an exception of type <a class="reference internal" href="#apt.cache.FetchFailedException" title="apt.cache.FetchFailedException"><tt class="xref py py-class docutils literal"><span class="pre">FetchFailedException</span></tt></a> or
+<a class="reference internal" href="#apt.cache.FetchCancelledException" title="apt.cache.FetchCancelledException"><tt class="xref py py-class docutils literal"><span class="pre">FetchCancelledException</span></tt></a> is raised.</p>
+<p class="versionadded">
+<span class="versionmodified">New in version 0.8.0.</span></p>
+</dd></dl>
+
+<dl class="method">
+<dt id="apt.cache.Cache.get_changes">
+<tt class="descname">get_changes</tt><big>(</big><big>)</big><a class="headerlink" href="#apt.cache.Cache.get_changes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the marked changes</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="apt.cache.Cache.get_providing_packages">
+<tt class="descname">get_providing_packages</tt><big>(</big><em>pkgname</em>, <em>candidate_only=True</em>, <em>include_nonvirtual=False</em><big>)</big><a class="headerlink" href="#apt.cache.Cache.get_providing_packages" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a list of all packages providing a package.</p>
+<p>Return a list of packages which provide the virtual package of the
+specified name.</p>
+<p>If &#8216;candidate_only&#8217; is False, return all packages with at
+least one version providing the virtual package. Otherwise,
+return only those packages where the candidate version
+provides the virtual package.</p>
+<p>If &#8216;include_nonvirtual&#8217; is True then it will search for all
+packages providing pkgname, even if pkgname is not itself
+a virtual pkg.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="apt.cache.Cache.has_key">
+<tt class="descname">has_key</tt><big>(</big><em>key</em><big>)</big><a class="headerlink" href="#apt.cache.Cache.has_key" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="apt.cache.Cache.install_archives">
+<tt class="descname">install_archives</tt><big>(</big><em>pm</em>, <em>install_progress</em><big>)</big><a class="headerlink" href="#apt.cache.Cache.install_archives" title="Permalink to this definition">¶</a></dt>
+<dd><p>The first parameter <em>pm</em> refers to an object returned by
+apt_pkg.PackageManager().</p>
+<p>The second parameter <em>install_progress</em> refers to an InstallProgress()
+object of the module apt.progress.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="apt.cache.Cache.install_count">
+<tt class="descname">install_count</tt><a class="headerlink" href="#apt.cache.Cache.install_count" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the number of packages marked for installation.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="apt.cache.Cache.is_virtual_package">
+<tt class="descname">is_virtual_package</tt><big>(</big><em>pkgname</em><big>)</big><a class="headerlink" href="#apt.cache.Cache.is_virtual_package" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return whether the package is a virtual package.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="apt.cache.Cache.keep_count">
+<tt class="descname">keep_count</tt><a class="headerlink" href="#apt.cache.Cache.keep_count" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the number of packages marked as keep.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="apt.cache.Cache.keys">
+<tt class="descname">keys</tt><big>(</big><big>)</big><a class="headerlink" href="#apt.cache.Cache.keys" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="apt.cache.Cache.open">
+<tt class="descname">open</tt><big>(</big><em>progress=None</em><big>)</big><a class="headerlink" href="#apt.cache.Cache.open" title="Permalink to this definition">¶</a></dt>
+<dd><p>Open the package cache, after that it can be used like
+a dictionary</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="apt.cache.Cache.req_reinstall_pkgs">
+<tt class="descname">req_reinstall_pkgs</tt><a class="headerlink" href="#apt.cache.Cache.req_reinstall_pkgs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the packages not downloadable packages in reqreinst state.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="apt.cache.Cache.required_download">
+<tt class="descname">required_download</tt><a class="headerlink" href="#apt.cache.Cache.required_download" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the size of the packages that are required to download.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="apt.cache.Cache.required_space">
+<tt class="descname">required_space</tt><a class="headerlink" href="#apt.cache.Cache.required_space" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the size of the additional required space on the fs.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="apt.cache.Cache.update">
+<tt class="descname">update</tt><big>(</big><em>fetch_progress=None</em>, <em>pulse_interval=0</em>, <em>raise_on_error=True</em>, <em>sources_list=None</em><big>)</big><a class="headerlink" href="#apt.cache.Cache.update" title="Permalink to this definition">¶</a></dt>
+<dd><p>Run the equivalent of apt-get update.</p>
+<p>You probably want to call open() afterwards, in order to utilise the
+new cache. Otherwise, the old cache will be used which can lead to
+strange bugs.</p>
+<p>The first parameter <em>fetch_progress</em> may be set to an instance of
+apt.progress.FetchProgress, the default is apt.progress.FetchProgress()
+.
+sources_list &#8211; Update a alternative sources.list than the default.</p>
+<blockquote>
+<div>Note that the sources.list.d directory is ignored in this case</div></blockquote>
+</dd></dl>
+
+<dl class="method">
+<dt id="apt.cache.Cache.upgrade">
+<tt class="descname">upgrade</tt><big>(</big><em>dist_upgrade=False</em><big>)</big><a class="headerlink" href="#apt.cache.Cache.upgrade" title="Permalink to this definition">¶</a></dt>
+<dd><p>Upgrade all packages.</p>
+<p>If the parameter <em>dist_upgrade</em> is True, new dependencies will be
+installed as well (and conflicting packages may be removed). The
+default value is False.</p>
+</dd></dl>
+
+</dd></dl>
+
+<div class="section" id="example">
+<h3>Example<a class="headerlink" href="#example" title="Permalink to this headline">¶</a></h3>
+<p>The following example shows how to load the cache, update it, and upgrade
+all the packages on the system:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">apt</span>
+<span class="kn">import</span> <span class="nn">apt.progress</span>
+
+<span class="c"># First of all, open the cache</span>
+<span class="n">cache</span> <span class="o">=</span> <span class="n">apt</span><span class="o">.</span><span class="n">Cache</span><span class="p">()</span>
+<span class="c"># Now, lets update the package list</span>
+<span class="n">cache</span><span class="o">.</span><span class="n">update</span><span class="p">()</span>
+<span class="c"># We need to re-open the cache because it needs to read the package list</span>
+<span class="n">cache</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="bp">None</span><span class="p">)</span>
+<span class="c"># Now we can do the same as &#39;apt-get upgrade&#39; does</span>
+<span class="n">cache</span><span class="o">.</span><span class="n">upgrade</span><span class="p">()</span>
+<span class="c"># or we can play &#39;apt-get dist-upgrade&#39;</span>
+<span class="n">cache</span><span class="o">.</span><span class="n">upgrade</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
+<span class="c"># Q: Why does nothing happen?</span>
+<span class="c"># A: You forgot to call commit()!</span>
+<span class="n">cache</span><span class="o">.</span><span class="n">commit</span><span class="p">(</span><span class="n">apt</span><span class="o">.</span><span class="n">progress</span><span class="o">.</span><span class="n">TextFetchProgress</span><span class="p">(),</span>
+             <span class="n">apt</span><span class="o">.</span><span class="n">progress</span><span class="o">.</span><span class="n">InstallProgress</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="working-with-filters">
+<h2>Working with Filters<a class="headerlink" href="#working-with-filters" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="apt.cache.Filter">
+<em class="property">class </em><tt class="descclassname">apt.cache.</tt><tt class="descname">Filter</tt><a class="headerlink" href="#apt.cache.Filter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Filter base class</p>
+<dl class="method">
+<dt id="apt.cache.Filter.apply">
+<tt class="descname">apply</tt><big>(</big><em>pkg</em><big>)</big><a class="headerlink" href="#apt.cache.Filter.apply" title="Permalink to this definition">¶</a></dt>
+<dd><p>Filter function, return True if the package matchs a
+filter criteria and False otherwise</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="apt.cache.MarkedChangesFilter">
+<em class="property">class </em><tt class="descclassname">apt.cache.</tt><tt class="descname">MarkedChangesFilter</tt><a class="headerlink" href="#apt.cache.MarkedChangesFilter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Filter that returns all marked changes</p>
+<dl class="method">
+<dt id="apt.cache.MarkedChangesFilter.apply">
+<tt class="descname">apply</tt><big>(</big><em>pkg</em><big>)</big><a class="headerlink" href="#apt.cache.MarkedChangesFilter.apply" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="apt.cache.FilteredCache">
+<em class="property">class </em><tt class="descclassname">apt.cache.</tt><tt class="descname">FilteredCache</tt><big>(</big><em>cache=None</em>, <em>progress=None</em><big>)</big><a class="headerlink" href="#apt.cache.FilteredCache" title="Permalink to this definition">¶</a></dt>
+<dd><p>A package cache that is filtered.</p>
+<p>Can work on a existing cache or create a new one</p>
+<dl class="method">
+<dt id="apt.cache.FilteredCache.filter_cache_post_change">
+<tt class="descname">filter_cache_post_change</tt><big>(</big><big>)</big><a class="headerlink" href="#apt.cache.FilteredCache.filter_cache_post_change" title="Permalink to this definition">¶</a></dt>
+<dd><p>Called internally if the cache changes, emit a signal then.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="apt.cache.FilteredCache.has_key">
+<tt class="descname">has_key</tt><big>(</big><em>key</em><big>)</big><a class="headerlink" href="#apt.cache.FilteredCache.has_key" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="apt.cache.FilteredCache.keys">
+<tt class="descname">keys</tt><big>(</big><big>)</big><a class="headerlink" href="#apt.cache.FilteredCache.keys" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="apt.cache.FilteredCache.set_filter">
+<tt class="descname">set_filter</tt><big>(</big><em>filter</em><big>)</big><a class="headerlink" href="#apt.cache.FilteredCache.set_filter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the current active filter.</p>
+</dd></dl>
+
+</dd></dl>
+
+<div class="section" id="id1">
+<h3>Example<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<p>This is an example for a filtered cache, which only allows access to the
+packages whose state has been changed, eg. packages marked for installation:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">apt.cache</span> <span class="kn">import</span> <span class="n">FilteredCache</span><span class="p">,</span> <span class="n">Cache</span><span class="p">,</span> <span class="n">MarkedChangesFilter</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cache</span> <span class="o">=</span> <span class="n">apt</span><span class="o">.</span><span class="n">Cache</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">changed</span> <span class="o">=</span> <span class="n">apt</span><span class="o">.</span><span class="n">FilteredCache</span><span class="p">(</span><span class="n">cache</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">changed</span><span class="o">.</span><span class="n">set_filter</span><span class="p">(</span><span class="n">MarkedChangesFilter</span><span class="p">())</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="nb">len</span><span class="p">(</span><span class="n">changed</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">cache</span><span class="o">.</span><span class="n">get_changes</span><span class="p">())</span> <span class="c"># Both need to have same length</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="the-problemresolver-class">
+<h2>The ProblemResolver class<a class="headerlink" href="#the-problemresolver-class" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="apt.cache.ProblemResolver">
+<em class="property">class </em><tt class="descclassname">apt.cache.</tt><tt class="descname">ProblemResolver</tt><big>(</big><em>cache</em><big>)</big><a class="headerlink" href="#apt.cache.ProblemResolver" title="Permalink to this definition">¶</a></dt>
+<dd><p>Resolve problems due to dependencies and conflicts.</p>
+<p>The first argument &#8216;cache&#8217; is an instance of apt.Cache.</p>
+<dl class="method">
+<dt id="apt.cache.ProblemResolver.clear">
+<tt class="descname">clear</tt><big>(</big><em>package</em><big>)</big><a class="headerlink" href="#apt.cache.ProblemResolver.clear" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reset the package to the default state.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="apt.cache.ProblemResolver.install_protect">
+<tt class="descname">install_protect</tt><big>(</big><big>)</big><a class="headerlink" href="#apt.cache.ProblemResolver.install_protect" title="Permalink to this definition">¶</a></dt>
+<dd><p>mark protected packages for install or removal.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="apt.cache.ProblemResolver.protect">
+<tt class="descname">protect</tt><big>(</big><em>package</em><big>)</big><a class="headerlink" href="#apt.cache.ProblemResolver.protect" title="Permalink to this definition">¶</a></dt>
+<dd><p>Protect a package so it won&#8217;t be removed.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="apt.cache.ProblemResolver.remove">
+<tt class="descname">remove</tt><big>(</big><em>package</em><big>)</big><a class="headerlink" href="#apt.cache.ProblemResolver.remove" title="Permalink to this definition">¶</a></dt>
+<dd><p>Mark a package for removal.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="apt.cache.ProblemResolver.resolve">
+<tt class="descname">resolve</tt><big>(</big><big>)</big><a class="headerlink" href="#apt.cache.ProblemResolver.resolve" title="Permalink to this definition">¶</a></dt>
+<dd><p>Resolve dependencies, try to remove packages where needed.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="apt.cache.ProblemResolver.resolve_by_keep">
+<tt class="descname">resolve_by_keep</tt><big>(</big><big>)</big><a class="headerlink" href="#apt.cache.ProblemResolver.resolve_by_keep" title="Permalink to this definition">¶</a></dt>
+<dd><p>Resolve dependencies, do not try to remove packages.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="exceptions">
+<h2>Exceptions<a class="headerlink" href="#exceptions" title="Permalink to this headline">¶</a></h2>
+<dl class="exception">
+<dt id="apt.cache.FetchCancelledException">
+<em class="property">exception </em><tt class="descclassname">apt.cache.</tt><tt class="descname">FetchCancelledException</tt><a class="headerlink" href="#apt.cache.FetchCancelledException" title="Permalink to this definition">¶</a></dt>
+<dd><p>Exception that is thrown when the user cancels a fetch operation.</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="apt.cache.FetchFailedException">
+<em class="property">exception </em><tt class="descclassname">apt.cache.</tt><tt class="descname">FetchFailedException</tt><a class="headerlink" href="#apt.cache.FetchFailedException" title="Permalink to this definition">¶</a></dt>
+<dd><p>Exception that is thrown when fetching fails.</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="apt.cache.LockFailedException">
+<em class="property">exception </em><tt class="descclassname">apt.cache.</tt><tt class="descname">LockFailedException</tt><a class="headerlink" href="#apt.cache.LockFailedException" title="Permalink to this definition">¶</a></dt>
+<dd><p>Exception that is thrown when locking fails.</p>
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../contents.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#"><tt class="docutils literal"><span class="pre">apt.cache</span></tt> &#8212; The Cache class</a><ul>
+<li><a class="reference internal" href="#the-cache-class">The Cache class</a><ul>
+<li><a class="reference internal" href="#example">Example</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#working-with-filters">Working with Filters</a><ul>
+<li><a class="reference internal" href="#id1">Example</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#the-problemresolver-class">The ProblemResolver class</a></li>
+<li><a class="reference internal" href="#exceptions">Exceptions</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="apt_inst.html"
+                        title="previous chapter"><tt class="docutils literal"><span class="pre">apt_inst</span></tt> - Working with local Debian packages</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="apt.cdrom.html"
+                        title="next chapter"><tt class="docutils literal"><span class="pre">apt.cdrom</span></tt> - Functionality like in apt-cdrom</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/library/apt.cache.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="apt.cdrom.html" title="apt.cdrom - Functionality like in apt-cdrom"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="apt_inst.html" title="apt_inst - Working with local Debian packages"
+             >previous</a> |</li>
+        <li><img src="../_static/py.png" alt=""
+                 style="vertical-align: middle; margin-top: -1px"/></li>
+        <li><a href="../index.html">python-apt 0.8.8.2Canaima1 documentation</a> &raquo;</li>
+
+          <li><a href="index.html" >Python APT Library</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2009-2010, Julian Andres Klode &lt;jak@debian.org&gt;.
+      Last updated on Apr 03, 2013.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

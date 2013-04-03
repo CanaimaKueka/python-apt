@@ -1,0 +1,157 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Python APT Library &mdash; python-apt 0.8.8.2Canaima1 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.8.8.2Canaima1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="python-apt 0.8.8.2Canaima1 documentation" href="../index.html" />
+    <link rel="next" title="apt_pkg — The low-level bindings for apt-pkg" href="apt_pkg.html" />
+    <link rel="prev" title="What’s New In python-apt 0.8" href="../whatsnew/0.8.0.html" />
+    <link rel="shortcut icon" type="image/png" href="../_static/py.png" />
+ 
+
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="apt_pkg.html" title="apt_pkg — The low-level bindings for apt-pkg"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="../whatsnew/0.8.0.html" title="What’s New In python-apt 0.8"
+             accesskey="P">previous</a> |</li>
+        <li><img src="../_static/py.png" alt=""
+                 style="vertical-align: middle; margin-top: -1px"/></li>
+        <li><a href="../index.html">python-apt 0.8.8.2Canaima1 documentation</a> &raquo;</li>
+ 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="python-apt-library">
+<h1>Python APT Library<a class="headerlink" href="#python-apt-library" title="Permalink to this headline">¶</a></h1>
+<p>Python APT&#8217;s library provides access to almost every functionality supported
+by the underlying apt-pkg and apt-inst libraries. This means that it is
+possible to rewrite frontend programs like apt-cdrom in Python, and this is
+relatively easy, as can be seen in e.g. <a class="reference internal" href="../tutorials/apt-cdrom.html"><em>Writing your own apt-cdrom</em></a>.</p>
+<p>When going through the library, the first two modules are <a class="reference internal" href="apt_pkg.html#module-apt_pkg" title="apt_pkg"><tt class="xref py py-mod docutils literal"><span class="pre">apt_pkg</span></tt></a> and
+<a class="reference internal" href="apt_inst.html#module-apt_inst" title="apt_inst"><tt class="xref py py-mod docutils literal"><span class="pre">apt_inst</span></tt></a>. These modules are more or less straight bindings to the
+apt-pkg and apt-inst libraries and the base for the rest of python-apt.</p>
+<p>Going forward, the <tt class="xref py py-mod docutils literal"><span class="pre">apt</span></tt> package appears. This package is using
+<a class="reference internal" href="apt_pkg.html#module-apt_pkg" title="apt_pkg"><tt class="xref py py-mod docutils literal"><span class="pre">apt_pkg</span></tt></a> and :mod`apt_inst` to provide easy to use ways to manipulate
+the cache, fetch packages, or install new packages. It also provides useful
+progress classes, for text and GTK+ interfaces. The last package is
+<tt class="xref py py-mod docutils literal"><span class="pre">aptsources</span></tt>. The aptsources package provides classes and functions to
+read files like <tt class="file docutils literal"><span class="pre">/etc/apt/sources.list</span></tt> and to modify them.</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="apt_pkg.html"><tt class="docutils literal"><span class="pre">apt_pkg</span></tt> &#8212; The low-level bindings for apt-pkg</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apt_inst.html"><tt class="docutils literal"><span class="pre">apt_inst</span></tt> - Working with local Debian packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apt.cache.html"><tt class="docutils literal"><span class="pre">apt.cache</span></tt> &#8212; The Cache class</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apt.cdrom.html"><tt class="docutils literal"><span class="pre">apt.cdrom</span></tt> - Functionality like in apt-cdrom</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apt.debfile.html"><tt class="docutils literal"><span class="pre">apt.debfile</span></tt> &#8212; Classes related to debian package files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apt.package.html"><tt class="docutils literal"><span class="pre">apt.package</span></tt> &#8212; Classes for package handling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apt.progress.base.html"><tt class="docutils literal"><span class="pre">apt.progress.base</span></tt> &#8212; Abstract classes for progress reporting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apt.progress.text.html"><tt class="docutils literal"><span class="pre">apt.progress.text</span></tt> &#8212; Progress reporting for text interfaces</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apt.progress.gtk2.html"><tt class="docutils literal"><span class="pre">apt.progress.gtk2</span></tt> &#8212; Progress reporting for GTK+ interfaces</a></li>
+<li class="toctree-l1"><a class="reference internal" href="aptsources.distinfo.html"><tt class="docutils literal"><span class="pre">aptsources.distinfo</span></tt> &#8212; provide meta information for distro repositories</a></li>
+<li class="toctree-l1"><a class="reference internal" href="aptsources.distro.html"><tt class="docutils literal"><span class="pre">aptsources.distro</span></tt> &#8212; Distribution abstraction of the sources.list</a></li>
+<li class="toctree-l1"><a class="reference internal" href="aptsources.sourceslist.html"><tt class="docutils literal"><span class="pre">aptsources.sourceslist</span></tt> &#8212; Provide an abstraction of the sources.list</a></li>
+</ul>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="../whatsnew/0.8.0.html"
+                        title="previous chapter">What&#8217;s New In python-apt 0.8</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="apt_pkg.html"
+                        title="next chapter"><tt class="docutils literal docutils literal docutils literal"><span class="pre">apt_pkg</span></tt> &#8212; The low-level bindings for apt-pkg</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/library/index.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="apt_pkg.html" title="apt_pkg — The low-level bindings for apt-pkg"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="../whatsnew/0.8.0.html" title="What’s New In python-apt 0.8"
+             >previous</a> |</li>
+        <li><img src="../_static/py.png" alt=""
+                 style="vertical-align: middle; margin-top: -1px"/></li>
+        <li><a href="../index.html">python-apt 0.8.8.2Canaima1 documentation</a> &raquo;</li>
+ 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2009-2010, Julian Andres Klode &lt;jak@debian.org&gt;.
+      Last updated on Apr 03, 2013.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

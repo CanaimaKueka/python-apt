@@ -25,7 +25,11 @@ except ImportError:
 
 if sys.version_info[0] == 3:
     from distutils.command.build_py import build_py_2to3
+    from lib2to3.refactor import get_fixers_from_package
     cmdclass['build_py'] = build_py_2to3
+    cmdclass['build_py'].fixer_names = sorted(
+        set(get_fixers_from_package("lib2to3.fixes")) -
+        set(["lib2to3.fixes.fix_future"]))
 
 # The apt_pkg module.
 files = ['apt_pkgmodule.cc', 'acquire.cc', 'cache.cc', 'cdrom.cc',
@@ -33,7 +37,8 @@ files = ['apt_pkgmodule.cc', 'acquire.cc', 'cache.cc', 'cdrom.cc',
          'hashstring.cc', 'indexfile.cc', 'indexrecords.cc', 'metaindex.cc',
          'pkgmanager.cc', 'pkgrecords.cc', 'pkgsrcrecords.cc', 'policy.cc',
          'progress.cc', 'sourcelist.cc', 'string.cc', 'tag.cc',
-         'lock.cc', 'acquire-item.cc', 'python-apt-helpers.cc']
+         'lock.cc', 'acquire-item.cc', 'python-apt-helpers.cc',
+         'cachegroup.cc', 'orderlist.cc']
 files = sorted(['python/' + fname for fname in files], key=lambda s: s[:-3])
 apt_pkg = Extension("apt_pkg", files, libraries=["apt-pkg"])
 

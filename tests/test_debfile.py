@@ -17,8 +17,8 @@ sys.path.insert(0, get_library_dir())
 import apt_pkg
 import apt.debfile
 
-class TestDebfilee(unittest.TestCase):
-    """ test the apt cache """
+class TestDebfile(unittest.TestCase):
+    """ test the debfile """
 
     TEST_DEBS = [
         # conflicts with apt
@@ -47,6 +47,9 @@ class TestDebfilee(unittest.TestCase):
     def setUp(self):
         apt_pkg.init_config()
         apt_pkg.config.set("APT::Architecture","i386")
+        # FIXME: When run via test_all.py, the tests fail without this if it
+        # is set in the system.
+        apt_pkg.config.clear("APT::Architectures")
         apt_pkg.config.set("Dir::State::status", 
                            "./data/test_debs/var/lib/dpkg/status")
         apt_pkg.config.set("Dir::State::lists", 
@@ -84,12 +87,7 @@ class TestDebfilee(unittest.TestCase):
         self.assertEqual(deb["Maintainer"],
                          "Samuel Lidén Borell <samuel@slbdata.se>")
 
-    def testContent(self):
-        # no python-debian for python3 yet, so fail gracefully
-        try:
-            import debian
-        except ImportError:
-            return
+    def test_content(self):
         # normal
         deb = apt.debfile.DebPackage(cache=self.cache)
         deb.open(os.path.join("data", "test_debs", "gdebi-test11.deb"))
@@ -100,11 +98,38 @@ class TestDebfilee(unittest.TestCase):
         deb.open(os.path.join("data", "test_debs", "gdebi-test12.deb"))
         content = deb.data_content("usr/bin/binary")
         self.assertTrue(content.startswith("Automatically converted to printable ascii:\n\x7fELF "))
-                  
+        # control file
+        needle = """Package: gdebi-test12
+Version: 1.0
+Architecture: all
+Description: testpackage for gdebi - contains usr/bin/binary for file reading
+ This tests the binary file reading for debfile.py
+"""
+        content = deb.control_content("./control")
+        self.assertEqual(content, needle)
+        content = deb.control_content("control")
+        self.assertEqual(content, needle)
 
     def test_xz_data(self):
         deb = apt.debfile.DebPackage("./data/test_debs/data-tar-xz.deb")
         self.assertEqual(deb.filelist, ["./", "usr/", "usr/bin/"])
+
+    def test_check_exception(self):
+        deb = apt.debfile.DebPackage("./data/test_debs/data-tar-xz.deb")
+        self.assertRaises(AttributeError, lambda: deb.missing_deps)
+        deb.check()
+        deb.missing_deps
+
+    def test_no_supported_data_tar(self):
+        # ensure that a unknown data.tar.xxx raises a exception
+        raised = False
+        try:
+            deb = apt.debfile.DebPackage("./data/test_debs/data-tar-broken.deb")
+        except SystemError:
+            raised = True
+	# with self.assertRaises(SystemError): is more elegant above, but
+	# we need to support python2.6
+        self.assertTrue(raised)
 
 
 if __name__ == "__main__":

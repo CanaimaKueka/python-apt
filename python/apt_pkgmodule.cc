@@ -24,6 +24,9 @@
 #include <apt-pkg/sha256.h>
 #include <apt-pkg/init.h>
 #include <apt-pkg/pkgsystem.h>
+#include <apt-pkg/orderlist.h>
+#include <apt-pkg/aptconfiguration.h>
+#include <apt-pkg/fileutl.h>
 
 #include <sys/stat.h>
 #include <libintl.h>
@@ -83,7 +86,7 @@ static PyObject *VersionCompare(PyObject *Self,PyObject *Args)
       return 0;
    }
 
-   return Py_BuildValue("i",_system->VS->DoCmpVersion(A,A+LenA,B,B+LenB));
+   return MkPyNumber(_system->VS->DoCmpVersion(A,A+LenA,B,B+LenB));
 }
 
 static char *doc_CheckDep =
@@ -183,11 +186,11 @@ static const char *parse_src_depends_doc =
 "only contains those dependencies for the architecture set in the\n"
 "configuration variable APT::Architecture";
 static PyObject *RealParseDepends(PyObject *Self,PyObject *Args,
-                                  bool ParseArchFlags, string name,
+                                  bool ParseArchFlags, std::string name,
                                   bool debStyle=false)
 {
-   string Package;
-   string Version;
+   std::string Package;
+   std::string Version;
    unsigned int Op;
    bool StripMultiArch=true;
 
@@ -392,6 +395,30 @@ static PyObject *sha256sum(PyObject *Self,PyObject *Args)
    return 0;
 }
 									/*}}}*/
+// get_architectures - return the list of architectures			/*{{{*/
+// ---------------------------------------------------------------------
+static const char *doc_GetArchitectures =
+    "get_architectures() -> list\n\n"
+    "Return the list of supported architectures on this system. On a \n"
+    "multiarch system this can be more than one. The main architectures\n"
+    "is the first item in the list.";;
+static PyObject *GetArchitectures(PyObject *Self,PyObject *Args)
+{
+   PyObject *Obj;
+   if (PyArg_ParseTuple(Args,"",&Obj) == 0)
+      return 0;
+
+   PyObject *List = PyList_New(0);
+   std::vector<std::string> arches = APT::Configuration::getArchitectures();
+   std::vector<std::string>::const_iterator I;
+   for (I = arches.begin(); I != arches.end(); I++) 
+   {
+      PyList_Append(List, CppPyString(*I));
+   }
+
+   return List;
+}
+									/*}}}*/
 // init - 3 init functions						/*{{{*/
 // ---------------------------------------------------------------------
 static char *doc_Init =
@@ -459,7 +486,7 @@ static PyObject *GetLock(PyObject *Self,PyObject *Args)
 
    int fd = GetLock(file, errors);
 
-   return HandleErrors(Py_BuildValue("i", fd));
+   return HandleErrors(MkPyNumber(fd));
 }
 
 static char *doc_PkgSystemLock =
@@ -537,6 +564,9 @@ static PyMethodDef methods[] =
    {"md5sum",md5sum,METH_VARARGS,doc_md5sum},
    {"sha1sum",sha1sum,METH_VARARGS,doc_sha1sum},
    {"sha256sum",sha256sum,METH_VARARGS,doc_sha256sum},
+
+   // multiarch
+   {"get_architectures", GetArchitectures, METH_VARARGS, doc_GetArchitectures},
 
    // Strings
    {"check_domain_list",StrCheckDomainList,METH_VARARGS,
@@ -732,6 +762,12 @@ static struct _PyAptPkgAPIStruct API = {
    &PyVersion_Type,           // version_type
    &PyVersion_FromCpp,          // version_tocpp
    &PyVersion_ToCpp,          // version_tocpp
+   &PyGroup_Type,             // group_type
+   &PyGroup_FromCpp,          // group_fromcpp
+   &PyGroup_ToCpp,            // group_tocpp
+   &PyOrderList_Type,         // orderlist_type
+   &PyOrderList_FromCpp,      // orderlist_fromcpp
+   &PyOrderList_ToCpp         // orderlist_tocpp
 };
 
 
@@ -811,6 +847,8 @@ extern "C" void initapt_pkg()
    ADDTYPE(Module,"DependencyList",&PyDependencyList_Type); // NO __new__(), internal
    ADDTYPE(Module,"Package",&PyPackage_Type); // NO __new__()
    ADDTYPE(Module,"Version",&PyVersion_Type); // NO __new__()
+   ADDTYPE(Module,"Group", &PyGroup_Type);
+   ADDTYPE(Module,"GroupList", &PyGroupList_Type);
    /* ============================ cdrom.cc ============================ */
    ADDTYPE(Module,"Cdrom",&PyCdrom_Type);
    /* ========================= configuration.cc ========================= */
@@ -824,7 +862,8 @@ extern "C" void initapt_pkg()
    /* ========================= metaindex.cc ========================= */
    ADDTYPE(Module,"MetaIndex",&PyMetaIndex_Type); // NO __new__()
    /* ========================= pkgmanager.cc ========================= */
-   ADDTYPE(Module,"PackageManager",&PyPackageManager_Type);
+   ADDTYPE(Module,"_PackageManager",&PyPackageManager_Type);
+   ADDTYPE(Module,"PackageManager",&PyPackageManager2_Type);
    /* ========================= pkgrecords.cc ========================= */
    ADDTYPE(Module,"PackageRecords",&PyPackageRecords_Type);
    /* ========================= pkgsrcrecords.cc ========================= */
@@ -838,6 +877,7 @@ extern "C" void initapt_pkg()
    ADDTYPE(Module,"AcquireItemDesc",&PyAcquireItemDesc_Type);
    ADDTYPE(Module,"SystemLock",&PySystemLock_Type);
    ADDTYPE(Module,"FileLock",&PyFileLock_Type);
+   ADDTYPE(Module,"OrderList",&PyOrderList_Type);
    // Tag file constants
    PyModule_AddObject(Module,"REWRITE_PACKAGE_ORDER",
                       CharCharToList(TFRewritePackageOrder));
@@ -845,86 +885,110 @@ extern "C" void initapt_pkg()
    PyModule_AddObject(Module,"REWRITE_SOURCE_ORDER",
                       CharCharToList(TFRewriteSourceOrder));
 
+   PyDict_SetItemString(PyOrderList_Type.tp_dict, "FLAG_ADDED", MkPyNumber(pkgOrderList::Added));
+   PyDict_SetItemString(PyOrderList_Type.tp_dict, "FLAG_ADD_PENDIG", MkPyNumber(pkgOrderList::AddPending));
+   PyDict_SetItemString(PyOrderList_Type.tp_dict, "FLAG_IMMEDIATE", MkPyNumber(pkgOrderList::Immediate));
+   PyDict_SetItemString(PyOrderList_Type.tp_dict, "FLAG_LOOP", MkPyNumber(pkgOrderList::Loop));
+   PyDict_SetItemString(PyOrderList_Type.tp_dict, "FLAG_UNPACKED", MkPyNumber(pkgOrderList::UnPacked));
+   PyDict_SetItemString(PyOrderList_Type.tp_dict, "FLAG_CONFIGURED", MkPyNumber(pkgOrderList::Configured));
+   PyDict_SetItemString(PyOrderList_Type.tp_dict, "FLAG_REMOVED", MkPyNumber(pkgOrderList::Removed));
+   PyDict_SetItemString(PyOrderList_Type.tp_dict, "FLAG_IN_LIST", MkPyNumber(pkgOrderList::InList));
+   PyDict_SetItemString(PyOrderList_Type.tp_dict, "FLAG_AFTER", MkPyNumber(pkgOrderList::After));
+   PyDict_SetItemString(PyOrderList_Type.tp_dict, "FLAG_STATES_MASK", MkPyNumber(pkgOrderList::States));
 
    // Acquire constants.
    // some constants
    PyDict_SetItemString(PyAcquire_Type.tp_dict, "RESULT_CANCELLED",
-                        Py_BuildValue("i", pkgAcquire::Cancelled));
+                        MkPyNumber(pkgAcquire::Cancelled));
    PyDict_SetItemString(PyAcquire_Type.tp_dict, "RESULT_CONTINUE",
-                        Py_BuildValue("i", pkgAcquire::Continue));
+                        MkPyNumber(pkgAcquire::Continue));
    PyDict_SetItemString(PyAcquire_Type.tp_dict, "RESULT_FAILED",
-                        Py_BuildValue("i", pkgAcquire::Failed));
+                        MkPyNumber(pkgAcquire::Failed));
 #ifdef COMPAT_0_7
    PyDict_SetItemString(PyAcquire_Type.tp_dict, "ResultCancelled",
-                        Py_BuildValue("i", pkgAcquire::Cancelled));
+                        MkPyNumber(pkgAcquire::Cancelled));
    PyDict_SetItemString(PyAcquire_Type.tp_dict, "ResultContinue",
-                        Py_BuildValue("i", pkgAcquire::Continue));
+                        MkPyNumber(pkgAcquire::Continue));
    PyDict_SetItemString(PyAcquire_Type.tp_dict, "ResultFailed",
-                        Py_BuildValue("i", pkgAcquire::Failed));
+                        MkPyNumber(pkgAcquire::Failed));
 #endif
     // Dependency constants
    PyDict_SetItemString(PyDependency_Type.tp_dict, "TYPE_DEPENDS",
-                        Py_BuildValue("i", pkgCache::Dep::Depends));
+                        MkPyNumber(pkgCache::Dep::Depends));
    PyDict_SetItemString(PyDependency_Type.tp_dict, "TYPE_PREDEPENDS",
-                        Py_BuildValue("i", pkgCache::Dep::PreDepends));
+                        MkPyNumber(pkgCache::Dep::PreDepends));
    PyDict_SetItemString(PyDependency_Type.tp_dict, "TYPE_SUGGESTS",
-                        Py_BuildValue("i", pkgCache::Dep::Suggests));
+                        MkPyNumber(pkgCache::Dep::Suggests));
    PyDict_SetItemString(PyDependency_Type.tp_dict, "TYPE_RECOMMENDS",
-                        Py_BuildValue("i", pkgCache::Dep::Suggests));
+                        MkPyNumber(pkgCache::Dep::Recommends));
    PyDict_SetItemString(PyDependency_Type.tp_dict, "TYPE_CONFLICTS",
-                        Py_BuildValue("i", pkgCache::Dep::Conflicts));
+                        MkPyNumber(pkgCache::Dep::Conflicts));
    PyDict_SetItemString(PyDependency_Type.tp_dict, "TYPE_REPLACES",
-                        Py_BuildValue("i", pkgCache::Dep::Replaces));
+                        MkPyNumber(pkgCache::Dep::Replaces));
    PyDict_SetItemString(PyDependency_Type.tp_dict, "TYPE_OBSOLETES",
-                        Py_BuildValue("i", pkgCache::Dep::Obsoletes));
+                        MkPyNumber(pkgCache::Dep::Obsoletes));
    PyDict_SetItemString(PyDependency_Type.tp_dict, "TYPE_DPKG_BREAKS",
-                        Py_BuildValue("i", pkgCache::Dep::DpkgBreaks));
+                        MkPyNumber(pkgCache::Dep::DpkgBreaks));
    PyDict_SetItemString(PyDependency_Type.tp_dict, "TYPE_ENHANCES",
-                        Py_BuildValue("i", pkgCache::Dep::Enhances));
+                        MkPyNumber(pkgCache::Dep::Enhances));
 
 
    // PackageManager constants
    PyDict_SetItemString(PyPackageManager_Type.tp_dict, "RESULT_COMPLETED",
-                        Py_BuildValue("i", pkgPackageManager::Completed));
+                        MkPyNumber(pkgPackageManager::Completed));
    PyDict_SetItemString(PyPackageManager_Type.tp_dict, "RESULT_FAILED",
-                        Py_BuildValue("i", pkgPackageManager::Failed));
+                        MkPyNumber(pkgPackageManager::Failed));
    PyDict_SetItemString(PyPackageManager_Type.tp_dict, "RESULT_INCOMPLETE",
-                        Py_BuildValue("i", pkgPackageManager::Incomplete));
+                        MkPyNumber(pkgPackageManager::Incomplete));
 
 #ifdef COMPAT_0_7
    PyDict_SetItemString(PyPackageManager_Type.tp_dict, "ResultCompleted",
-                        Py_BuildValue("i", pkgPackageManager::Completed));
+                        MkPyNumber(pkgPackageManager::Completed));
    PyDict_SetItemString(PyPackageManager_Type.tp_dict, "ResultFailed",
-                        Py_BuildValue("i", pkgPackageManager::Failed));
+                        MkPyNumber(pkgPackageManager::Failed));
    PyDict_SetItemString(PyPackageManager_Type.tp_dict, "ResultIncomplete",
-                        Py_BuildValue("i", pkgPackageManager::Incomplete));
+                        MkPyNumber(pkgPackageManager::Incomplete));
 #endif
 
+   PyDict_SetItemString(PyVersion_Type.tp_dict, "MULTI_ARCH_NONE",
+                        MkPyNumber(pkgCache::Version::None));
+   PyDict_SetItemString(PyVersion_Type.tp_dict, "MULTI_ARCH_ALL",
+                        MkPyNumber(pkgCache::Version::All));
+   PyDict_SetItemString(PyVersion_Type.tp_dict, "MULTI_ARCH_FOREIGN",
+                        MkPyNumber(pkgCache::Version::Foreign));
+   PyDict_SetItemString(PyVersion_Type.tp_dict, "MULTI_ARCH_SAME",
+                        MkPyNumber(pkgCache::Version::Same));
+   PyDict_SetItemString(PyVersion_Type.tp_dict, "MULTI_ARCH_ALLOWED",
+                        MkPyNumber(pkgCache::Version::Allowed));
+   PyDict_SetItemString(PyVersion_Type.tp_dict, "MULTI_ARCH_ALL_FOREIGN",
+                        MkPyNumber(pkgCache::Version::AllForeign));
+   PyDict_SetItemString(PyVersion_Type.tp_dict, "MULTI_ARCH_ALL_ALLOWED",
+                        MkPyNumber(pkgCache::Version::AllAllowed));
    // AcquireItem Constants.
    PyDict_SetItemString(PyAcquireItem_Type.tp_dict, "STAT_IDLE",
-                        Py_BuildValue("i", pkgAcquire::Item::StatIdle));
+                        MkPyNumber(pkgAcquire::Item::StatIdle));
    PyDict_SetItemString(PyAcquireItem_Type.tp_dict, "STAT_FETCHING",
-                        Py_BuildValue("i", pkgAcquire::Item::StatFetching));
+                        MkPyNumber(pkgAcquire::Item::StatFetching));
    PyDict_SetItemString(PyAcquireItem_Type.tp_dict, "STAT_DONE",
-                        Py_BuildValue("i", pkgAcquire::Item::StatDone));
+                        MkPyNumber(pkgAcquire::Item::StatDone));
    PyDict_SetItemString(PyAcquireItem_Type.tp_dict, "STAT_TRANSIENT_NETWORK_ERROR",
-                        Py_BuildValue("i", pkgAcquire::Item::StatTransientNetworkError));
+                        MkPyNumber(pkgAcquire::Item::StatTransientNetworkError));
    PyDict_SetItemString(PyAcquireItem_Type.tp_dict, "STAT_ERROR",
-                        Py_BuildValue("i", pkgAcquire::Item::StatError));
+                        MkPyNumber(pkgAcquire::Item::StatError));
    PyDict_SetItemString(PyAcquireItem_Type.tp_dict, "STAT_AUTH_ERROR",
-                        Py_BuildValue("i", pkgAcquire::Item::StatAuthError));
+                        MkPyNumber(pkgAcquire::Item::StatAuthError));
 
 #ifdef COMPAT_0_7
    PyDict_SetItemString(PyAcquireItem_Type.tp_dict, "StatIdle",
-                        Py_BuildValue("i", pkgAcquire::Item::StatIdle));
+                        MkPyNumber(pkgAcquire::Item::StatIdle));
    PyDict_SetItemString(PyAcquireItem_Type.tp_dict, "StatFetching",
-                        Py_BuildValue("i", pkgAcquire::Item::StatFetching));
+                        MkPyNumber(pkgAcquire::Item::StatFetching));
    PyDict_SetItemString(PyAcquireItem_Type.tp_dict, "StatDone",
-                        Py_BuildValue("i", pkgAcquire::Item::StatDone));
+                        MkPyNumber(pkgAcquire::Item::StatDone));
    PyDict_SetItemString(PyAcquireItem_Type.tp_dict, "StatError",
-                        Py_BuildValue("i", pkgAcquire::Item::StatError));
+                        MkPyNumber(pkgAcquire::Item::StatError));
    PyDict_SetItemString(PyAcquireItem_Type.tp_dict, "StatAuthError",
-                        Py_BuildValue("i", pkgAcquire::Item::StatAuthError));
+                        MkPyNumber(pkgAcquire::Item::StatAuthError));
 #endif
 
 #if PY_MAJOR_VERSION >= 3 && PY_MINOR_VERSION >= 1
@@ -963,6 +1027,7 @@ extern "C" void initapt_pkg()
    PyModule_AddIntConstant(Module,"INSTSTATE_REINSTREQ",pkgCache::State::ReInstReq);
    PyModule_AddIntConstant(Module,"INSTSTATE_HOLD",pkgCache::State::Hold);
    PyModule_AddIntConstant(Module,"INSTSTATE_HOLD_REINSTREQ",pkgCache::State::HoldReInstReq);
+
 
    // DEPRECATED API
    #ifdef COMPAT_0_7

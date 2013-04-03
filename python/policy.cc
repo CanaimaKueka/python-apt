@@ -45,9 +45,12 @@ PyObject *policy_get_priority(PyObject *self, PyObject *arg) {
     pkgPolicy *policy = GetCpp<pkgPolicy *>(self);
     if (PyObject_TypeCheck(arg, &PyPackage_Type)) {
         pkgCache::PkgIterator pkg = GetCpp<pkgCache::PkgIterator>(arg);
-        return Py_BuildValue("i", policy->GetPriority(pkg));
+        return MkPyNumber(policy->GetPriority(pkg));
+    } else if (PyObject_TypeCheck(arg, &PyPackageFile_Type)) {
+        pkgCache::PkgFileIterator pkgfile = GetCpp<pkgCache::PkgFileIterator>(arg);
+        return MkPyNumber(policy->GetPriority(pkgfile));
     } else {
-        PyErr_SetString(PyExc_TypeError,"Argument must be of Package().");
+        PyErr_SetString(PyExc_TypeError,"Argument must be of Package() or PackageFile().");
         return 0;
     }
 }

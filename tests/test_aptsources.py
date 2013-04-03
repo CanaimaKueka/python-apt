@@ -3,6 +3,7 @@
 import unittest
 import os
 import copy
+import tempfile
 
 import apt_pkg
 import aptsources.sourceslist
@@ -17,7 +18,7 @@ class TestAptSources(unittest.TestCase):
         if apt_pkg.config["APT::Architecture"] not in ('i386', 'amd64'):
             apt_pkg.config.set("APT::Architecture", "i386")
         apt_pkg.config.set("Dir::Etc", os.getcwd())
-        apt_pkg.config.set("Dir::Etc::sourceparts", "/xxx")
+        apt_pkg.config.set("Dir::Etc::sourceparts", tempfile.mkdtemp())
         if os.path.exists("./build/data/templates"):
             self.templates = os.path.abspath("./build/data/templates")
         elif os.path.exists("../build/data/templates"):
@@ -39,11 +40,11 @@ class TestAptSources(unittest.TestCase):
         apt_pkg.config.set("Dir::Etc::sourcelist", "data/aptsources/"
                                                    "sources.list")
         sources = aptsources.sourceslist.SourcesList(True, self.templates)
-        self.assertEqual(len(sources.list), 6)
+        self.assertEqual(len(sources.list), 9)
         # test load
         sources.list = []
         sources.load("data/aptsources/sources.list")
-        self.assertEqual(len(sources.list), 6)
+        self.assertEqual(len(sources.list), 9)
 
     def testSourcesListAdding(self):
         """aptsources: Test additions to sources.list"""
@@ -62,6 +63,14 @@ class TestAptSources(unittest.TestCase):
                     "edgy",
                     ["restricted"])
         self.assertTrue(sources.list == before.list)
+
+        before = copy.deepcopy(sources)
+        sources.add("deb", "http://de.archive.ubuntu.com/ubuntu/",
+                    "natty",
+                    ["main"], architectures=["amd64", "i386"])
+        self.assertTrue(sources.list == before.list)
+
+        
         # test to add something new: multiverse
         sources.add("deb", "http://de.archive.ubuntu.com/ubuntu/",
                     "edgy",
@@ -72,6 +81,34 @@ class TestAptSources(unittest.TestCase):
                 entry.uri == "http://de.archive.ubuntu.com/ubuntu/" and
                 entry.dist == "edgy" and
                 "multiverse" in entry.comps):
+                found = True
+        self.assertTrue(found)
+
+        # add a new natty entry without architecture specification
+        sources.add("deb", "http://de.archive.ubuntu.com/ubuntu/",
+                    "natty",
+                    ["multiverse"])
+        found = False
+        for entry in sources:
+            if (entry.type == "deb" and
+                entry.uri == "http://de.archive.ubuntu.com/ubuntu/" and
+                entry.dist == "natty" and
+                entry.architectures == [] and
+                "multiverse" in entry.comps):
+                found = True
+        self.assertTrue(found)
+
+        # Add universe to existing multi-arch line
+        sources.add("deb", "http://de.archive.ubuntu.com/ubuntu/",
+                    "natty",
+                    ["universe"], architectures=["i386", "amd64"])
+        found = False
+        for entry in sources:
+            if (entry.type == "deb" and
+                entry.uri == "http://de.archive.ubuntu.com/ubuntu/" and
+                entry.dist == "natty" and
+                set(entry.architectures) == set(["amd64", "i386"]) and
+                set(entry.comps) == set(["main", "universe"])):
                 found = True
         self.assertTrue(found)
         # test to add something new: multiverse *and*
@@ -108,6 +145,44 @@ class TestAptSources(unittest.TestCase):
             if not s.template:
                 self.fail("source entry '%s' has no matcher" % s)
 
+    def testMultiArch(self):
+        """aptsources: Test multi-arch parsing"""
+
+        apt_pkg.config.set("Dir::Etc::sourcelist", "data/aptsources/"
+                           "sources.list")
+        sources = aptsources.sourceslist.SourcesList(True, self.templates)
+
+        assert sources.list[8].invalid == False
+        assert sources.list[8].type == "deb"
+        assert sources.list[8].architectures == ["amd64", "i386"]
+        assert sources.list[8].uri == "http://de.archive.ubuntu.com/ubuntu/"
+        assert sources.list[8].dist == "natty"
+        assert sources.list[8].comps == ["main"]
+        assert sources.list[8].line.strip() == str(sources.list[8])
+
+    def test_enable_component(self):
+        from subprocess import Popen, PIPE
+        target = "./data/aptsources/sources.list.enable_comps"
+        line = "deb http://archive.ubuntu.com/ubuntu lucid main\n"
+        open(target, "w").write(line)
+        apt_pkg.config.set("Dir::Etc::sourcelist", target)
+        sources = aptsources.sourceslist.SourcesList(True, self.templates)
+        distro = aptsources.distro.get_distro(id="Ubuntu")
+        # make sure we are using the right distro
+        distro.codename = "lucid"
+        distro.id = "Ubuntu"
+        distro.release = "10.04"
+        # and get the sources
+        distro.get_sources(sources)
+        # test enable_component
+        comp = "multiverse"
+        distro.enable_component(comp)
+        comps = set()
+        for entry in sources:
+            comps = comps.union(set(entry.comps))
+        self.assertTrue("multiverse" in comps)
+        self.assertTrue("universe" in comps)
+        
     def testDistribution(self):
         """aptsources: Test distribution detection."""
         apt_pkg.config.set("Dir::Etc::sourcelist", "data/aptsources/"
@@ -158,6 +233,20 @@ class TestAptSources(unittest.TestCase):
         for key in found:
             self.assertEqual(found[key], 1)
 
+    def test_enable_disabled(self):
+        """LP: #1042916: Test enabling disabled entry."""
+        apt_pkg.config.set("Dir::Etc::sourcelist", "data/aptsources/"
+                           "sources.list")
+        sources = aptsources.sourceslist.SourcesList(True, self.templates)
+        disabled = sources.add("deb", "http://fi.archive.ubuntu.com/ubuntu/",
+                    "precise",
+                    ["main"])
+        disabled.set_enabled(False)
+        enabled = sources.add("deb", "http://fi.archive.ubuntu.com/ubuntu/",
+                    "precise",
+                    ["main"])
+        self.assertEqual(disabled, enabled)
+        self.assertFalse(disabled.disabled)
 
 if __name__ == "__main__":
     os.chdir(os.path.dirname(__file__))

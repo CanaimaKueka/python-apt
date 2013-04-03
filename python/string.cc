@@ -28,11 +28,11 @@ PyObject *Python(PyObject *Self,PyObject *Args) \
    return CppPyString(CFunc(Str)); \
 }
 
-#define MkInt(Python,CFunc) \
+#define MkInt(Python,CFunc, ctype, pytype) \
 PyObject *Python(PyObject *Self,PyObject *Args) \
 { \
-   int Val = 0; \
-   if (PyArg_ParseTuple(Args,"i",&Val) == 0) \
+   ctype Val = 0; \
+   if (PyArg_ParseTuple(Args,pytype,&Val) == 0) \
       return 0; \
    return CppPyString(CFunc(Val)); \
 }
@@ -56,25 +56,37 @@ PyObject *StrBase64Encode(PyObject *Self,PyObject *Args) {
 MkStr(StrURItoFileName,URItoFileName);
 
 //MkFloat(StrSizeToStr,SizeToStr);
-MkInt(StrTimeToStr,TimeToStr);
-MkInt(StrTimeRFC1123,TimeRFC1123);
+MkInt(StrTimeToStr,TimeToStr, unsigned long, "k");
+MkInt(StrTimeRFC1123,TimeRFC1123, long long, "L");
 									/*}}}*/
 
 // Other String functions						/*{{{*/
 PyObject *StrSizeToStr(PyObject *Self,PyObject *Args)
 {
    PyObject *Obj;
+   double value;
+
    if (PyArg_ParseTuple(Args,"O",&Obj) == 0)
       return 0;
-   if (PyInt_Check(Obj))
-      return CppPyString(SizeToStr(PyInt_AsLong(Obj)));
+   // In Python 3, PyInt_Check is aliased to PyLong_Check and PyInt_AsLong is
+   // aliased to PyLong_AsLong.  Therefore we do the actual long checks first
+   // so that if it is a long in Python 3, the value will be converted to a
+   // double rather than a long.  This avoids OverflowError regressions in
+   // Python 3.  LP: #1030278
    if (PyLong_Check(Obj))
-      return CppPyString(SizeToStr(PyLong_AsDouble(Obj)));
-   if (PyFloat_Check(Obj))
-      return CppPyString(SizeToStr(PyFloat_AsDouble(Obj)));
-
-   PyErr_SetString(PyExc_TypeError,"Only understand integers and floats");
-   return 0;
+      value = PyLong_AsDouble(Obj);
+   else if (PyInt_Check(Obj))
+      value = PyInt_AsLong(Obj);
+   else if (PyFloat_Check(Obj))
+      value = PyFloat_AsDouble(Obj);
+   else {
+      PyErr_SetString(PyExc_TypeError,"Only understand integers and floats");
+      return 0;
+   }
+   // Check for OverflowErrors or other exceptions during conversion.
+   if (PyErr_Occurred())
+      return 0;
+   return CppPyString(SizeToStr(value));
 }
 
 PyObject *StrQuoteString(PyObject *Self,PyObject *Args)
@@ -91,7 +103,7 @@ PyObject *StrStringToBool(PyObject *Self,PyObject *Args)
    char *Str = 0;
    if (PyArg_ParseTuple(Args,"s",&Str) == 0)
       return 0;
-   return Py_BuildValue("i",StringToBool(Str));
+   return MkPyNumber(StringToBool(Str));
 }
 
 PyObject *StrStrToTime(PyObject *Self,PyObject *Args)
@@ -107,7 +119,7 @@ PyObject *StrStrToTime(PyObject *Self,PyObject *Args)
       return Py_None;
    }
 
-   return Py_BuildValue("i",Result);
+   return MkPyNumber(Result);
 }
 
 PyObject *StrCheckDomainList(PyObject *Self,PyObject *Args)
