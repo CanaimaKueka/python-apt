@@ -1,11 +1,11 @@
 _ChangelogURI: http://packages.debian.org/changelogs/pool/%s/%s/%s/%s_%s/changelog
 
-Suite: kepakupai
+Suite: kerepakupai
 RepositoryType: deb
 BaseURI: http://paquetes.canaima.softwarelibre.gob.ve/
 MatchURI: paquetes.canaima.softwarelibre.gob.ve
 MirrorsFile: Canaima.mirrors
-_Description: Canaima 4.0 (kepakupai)
+_Description: Canaima 4.0 (kerepakupai)
 Component: usuarios
 _CompDescription: Distribución para usuarios
 
